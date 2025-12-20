@@ -3,7 +3,7 @@
 import { useRef } from 'react'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import Link from 'next/link'
-import { ArrowDownRight, Star } from 'lucide-react'
+import { ArrowDownRight, Leaf } from 'lucide-react'
 
 export default function Hero() {
     const ref = useRef<HTMLElement>(null)
@@ -34,17 +34,17 @@ export default function Hero() {
                 <div className="absolute inset-0 bg-gradient-to-b from-gray-900/40 via-gray-900/30 to-gray-900/80" />
             </motion.div>
 
-            {/* Award Badge */}
+            {/* Badge */}
             <motion.div
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 1.2 }}
                 className="absolute top-28 left-6 md:left-12 z-20"
             >
-                <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-sm border border-white/20">
-                    <Star size={12} className="text-amber-400 fill-amber-400" />
-                    <span className="text-white text-[10px] tracking-[0.15em] uppercase">
-                        Award Winning Villas
+                <div className="inline-flex items-center gap-2 px-4 py-2 bg-olive-900/20 backdrop-blur-sm border border-olive-400/30">
+                    <Leaf size={12} className="text-olive-400" />
+                    <span className="text-olive-100 text-[10px] tracking-[0.15em] uppercase">
+                        Eco Luxury Villas
                     </span>
                 </div>
             </motion.div>
@@ -60,12 +60,12 @@ export default function Hero() {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.6, delay: 0.3 }}
-                        className="text-amber-400 text-xs tracking-[0.25em] uppercase mb-6"
+                        className="text-olive-400 text-xs tracking-[0.25em] uppercase mb-6"
                     >
                         Curated Luxury Villas in Ubud, Bali
                     </motion.p>
 
-                    {/* Main Heading - Fixed */}
+                    {/* Main Heading */}
                     <motion.div
                         initial={{ opacity: 0, y: 40 }}
                         animate={{ opacity: 1, y: 0 }}
@@ -76,7 +76,7 @@ export default function Hero() {
                             <span className="block text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl">
                                 Redefining
                             </span>
-                            <span className="block text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl text-amber-400 italic mt-2">
+                            <span className="block text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl text-olive-400 italic mt-2">
                                 Spaces
                             </span>
                         </h1>
@@ -105,14 +105,14 @@ export default function Hero() {
                                 <span className="text-white text-xs tracking-[0.2em] uppercase">
                                     Explore Collection
                                 </span>
-                                <div className="w-12 h-12 md:w-14 md:h-14 border border-white/30 flex items-center justify-center group-hover:bg-amber-500 group-hover:border-amber-500 transition-all duration-300">
-                                    <ArrowDownRight size={18} className="text-white group-hover:text-gray-900 transition-colors" />
+                                <div className="w-12 h-12 md:w-14 md:h-14 border border-white/30 flex items-center justify-center group-hover:bg-olive-600 group-hover:border-olive-600 transition-all duration-300">
+                                    <ArrowDownRight size={18} className="text-white transition-colors" />
                                 </div>
                             </Link>
                         </motion.div>
                     </div>
 
-                    {/* Stats Row - Desktop Only */}
+                    {/* Stats Row */}
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
@@ -146,11 +146,11 @@ export default function Hero() {
                 <motion.div
                     animate={{ y: [0, 6, 0] }}
                     transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-                    className="w-px h-10 bg-gradient-to-b from-amber-400 to-transparent"
+                    className="w-px h-10 bg-gradient-to-b from-olive-400 to-transparent"
                 />
             </motion.div>
 
-            {/* Side Text - XL screens only */}
+            {/* Side Text */}
             <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}

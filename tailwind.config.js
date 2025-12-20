@@ -8,22 +8,28 @@ module.exports = {
     theme: {
         extend: {
             colors: {
-                // Minimalist Luxury Palette
-                'primary': '#0A0A0A',        // Deep black
-                'secondary': '#1A1A1A',       // Soft black
-                'accent': '#C9A962',          // Luxury gold
-                'accent-light': '#DFC88A',    // Light gold
-                'muted': '#6B6B6B',           // Muted gray
-                'light': '#F5F5F5',           // Off white
-                'cream': '#FAFAFA',           // Pure cream
-                // Legacy colors for compatibility
-                'sage': '#8B9D83',
-                'sage-light': '#A8B8A0',
-                'sage-dark': '#6B7D63',
-                'olive': '#4A5240',
+                // Organic Green Palette
+                'primary': '#0A0A0A',           // Deep black
+                'secondary': '#1A1A1A',          // Soft black
+                'olive': {
+                    900: '#5D8736',              // Dark olive - primary accent
+                    700: '#6B9340',
+                    600: '#809D3C',              // Medium olive
+                    500: '#8EAB4A',
+                    400: '#A9C46C',              // Light olive
+                    300: '#B8CF82',
+                    200: '#D4E4AA',
+                    100: '#F4FFC3',              // Cream lime - light accent
+                    50: '#FAFFEB',
+                },
+                'muted': '#6B6B6B',              // Muted gray
+                'light': '#F5F5F5',              // Off white
+                'cream': '#FAFAFA',              // Pure cream
+                // Alias for easier use
+                'accent': '#5D8736',
+                'accent-light': '#A9C46C',
             },
             fontFamily: {
-                // Swiss-style typography
                 'display': ['var(--font-display)', 'system-ui', 'sans-serif'],
                 'body': ['var(--font-body)', 'system-ui', 'sans-serif'],
                 'mono': ['JetBrains Mono', 'monospace'],
