@@ -1,6 +1,5 @@
-import type { Config } from "tailwindcss";
-
-const config: Config = {
+/** @type {import('tailwindcss').Config} */
+module.exports = {
     content: [
         "./pages/**/*.{js,ts,jsx,tsx,mdx}",
         "./components/**/*.{js,ts,jsx,tsx,mdx}",
@@ -11,9 +10,9 @@ const config: Config = {
             colors: {
                 cream: '#F1F3E0',
                 sage: '#A1BC98',
-                olive: '#778873',
                 'sage-light': '#B8CCAD',
                 'sage-dark': '#8AAA7E',
+                olive: '#778873',
             },
             fontFamily: {
                 knewave: ['Knewave', 'cursive'],
@@ -47,5 +46,3 @@ const config: Config = {
     },
     plugins: [],
 };
-
-export default config;

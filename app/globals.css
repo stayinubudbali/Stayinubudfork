@@ -1,16 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Knewave&family=Inter:wght@300;400;500;600;700&display=swap');
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 :root {
   --background: #F1F3E0;
   --foreground: #2C3E2E;
   --sage: #A1BC98;
   --olive: #778873;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
 }
 
 * {
@@ -66,6 +63,7 @@ body {
   0% {
     background-position: -200px 0;
   }
+
   100% {
     background-position: calc(200px + 100%) 0;
   }
@@ -73,12 +71,10 @@ body {
 
 .skeleton {
   background-color: #E5E7D0;
-  background-image: linear-gradient(
-    90deg,
-    #E5E7D0 0px,
-    #F1F3E0 40px,
-    #E5E7D0 80px
-  );
+  background-image: linear-gradient(90deg,
+      #E5E7D0 0px,
+      #F1F3E0 40px,
+      #E5E7D0 80px);
   background-size: 200px 100%;
   animation: skeleton-loading 1.4s ease-in-out infinite;
 }
@@ -147,15 +143,6 @@ body {
 .parallax {
   transform: translateZ(0);
   will-change: transform;
-}
-
-/* Form focus states */
-input:focus,
-textarea:focus,
-select:focus {
-  outline: none;
-  ring: 2px;
-  ring-color: var(--sage);
 }
 
 /* Smooth image loading */
