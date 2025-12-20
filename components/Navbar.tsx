@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
 import { useState, useEffect } from 'react'
 import { Menu, X, Phone } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
@@ -13,7 +14,7 @@ export default function Navbar() {
 
     useEffect(() => {
         const handleScroll = () => {
-            setIsScrolled(window.scrollY > 50)
+            setIsScrolled(window.scrollY > 80)
         }
         window.addEventListener('scroll', handleScroll, { passive: true })
         return () => window.removeEventListener('scroll', handleScroll)
@@ -43,8 +44,8 @@ export default function Navbar() {
                 transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
                 className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]
                     ${isTransparent
-                        ? 'bg-transparent py-6'
-                        : 'bg-white/95 backdrop-blur-md py-4 border-b border-gray-100'
+                        ? 'bg-transparent py-4'
+                        : 'bg-white/95 backdrop-blur-md py-3 border-b border-gray-100 shadow-sm'
                     }
                 `}
             >
@@ -52,11 +53,40 @@ export default function Navbar() {
                     <div className="flex items-center justify-between">
                         {/* Logo */}
                         <Link href="/" className="relative z-10">
-                            <span className={`font-display text-2xl md:text-3xl tracking-tight transition-colors duration-300
-                                ${isTransparent ? 'text-white' : 'text-gray-900'}
-                            `}>
-                                Stayin<span className="text-olive-600">UBUD</span>
-                            </span>
+                            <AnimatePresence mode="wait">
+                                {isTransparent ? (
+                                    /* Image Logo - When at top */
+                                    <motion.div
+                                        key="image-logo"
+                                        initial={{ opacity: 0, scale: 0.8 }}
+                                        animate={{ opacity: 1, scale: 1 }}
+                                        exit={{ opacity: 0, scale: 0.8 }}
+                                        transition={{ duration: 0.3 }}
+                                        className="relative"
+                                    >
+                                        <Image
+                                            src="/images/logo.png"
+                                            alt="StayinUBUD"
+                                            width={120}
+                                            height={80}
+                                            className="h-16 md:h-20 w-auto object-contain brightness-0 invert"
+                                            priority
+                                        />
+                                    </motion.div>
+                                ) : (
+                                    /* Text Logo - When scrolled */
+                                    <motion.span
+                                        key="text-logo"
+                                        initial={{ opacity: 0, y: -10 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        exit={{ opacity: 0, y: 10 }}
+                                        transition={{ duration: 0.3 }}
+                                        className="font-display text-2xl md:text-3xl tracking-tight text-gray-900"
+                                    >
+                                        Stayin<span className="text-olive-600">UBUD</span>
+                                    </motion.span>
+                                )}
+                            </AnimatePresence>
                         </Link>
 
                         {/* Desktop Menu */}
@@ -141,10 +171,14 @@ export default function Navbar() {
                         >
                             <div className="h-full flex flex-col p-8">
                                 {/* Header */}
-                                <div className="flex items-center justify-between mb-16">
-                                    <span className="font-display text-xl text-gray-900">
-                                        Stayin<span className="text-olive-600">UBUD</span>
-                                    </span>
+                                <div className="flex items-center justify-between mb-12">
+                                    <Image
+                                        src="/images/logo.png"
+                                        alt="StayinUBUD"
+                                        width={100}
+                                        height={60}
+                                        className="h-12 w-auto object-contain"
+                                    />
                                     <button
                                         onClick={() => setIsMobileMenuOpen(false)}
                                         className="p-2 text-gray-900"
