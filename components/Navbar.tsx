@@ -20,6 +20,7 @@ export default function Navbar() {
     const navLinks = [
         { href: '/', label: 'Home' },
         { href: '/villas', label: 'Villas' },
+        { href: '/blog', label: 'Blog' },
         { href: '/about', label: 'About' },
         { href: '/contact', label: 'Contact' },
     ]
@@ -30,8 +31,8 @@ export default function Navbar() {
                 initial={{ y: -100 }}
                 animate={{ y: 0 }}
                 className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled
-                        ? 'glass shadow-lg py-3'
-                        : 'bg-transparent py-5'
+                    ? 'glass shadow-lg py-3'
+                    : 'bg-transparent py-5'
                     }`}
             >
                 <div className="container mx-auto px-4">
