@@ -1,7 +1,6 @@
 'use client'
 
 import Link from 'next/link'
-import Image from 'next/image'
 import { useState, useEffect } from 'react'
 import { Menu, X, Phone } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
@@ -50,6 +49,9 @@ export default function Navbar() {
 
     const isActive = (href: string) => pathname === href
 
+    // Determine if navbar should be transparent (at top of page)
+    const isTransparent = scrollY < 50
+
     return (
         <>
             {/* Desktop Navbar */}
@@ -58,11 +60,10 @@ export default function Navbar() {
                 animate={{ y: 0 }}
                 transition={{ duration: 0.5, ease: 'easeOut' }}
                 className={`
-                    hidden lg:block w-full z-50 transition-all duration-300 ease-[cubic-bezier(0.4,0,0.2,1)]
-                    ${scrollY > 100
-                        ? 'sticky top-0 h-[70px] bg-cream/95 shadow-[0_4px_20px_rgba(0,0,0,0.08)]'
-                        : 'relative h-[90px] bg-cream/80'}
-                    backdrop-blur-md
+                    hidden lg:block fixed top-0 left-0 right-0 w-full z-50 transition-all duration-300 ease-[cubic-bezier(0.4,0,0.2,1)]
+                    ${isTransparent
+                        ? 'h-[90px] bg-transparent'
+                        : 'h-[70px] bg-cream/95 shadow-[0_4px_20px_rgba(0,0,0,0.08)] backdrop-blur-md'}
                 `}
             >
                 <div className="max-w-7xl mx-auto h-full px-6">
@@ -78,14 +79,15 @@ export default function Navbar() {
                                     <span className={`
                                         font-inter font-medium text-[15px] transition-colors duration-200
                                         ${isActive(item.href)
-                                            ? 'text-sage font-semibold'
-                                            : 'text-olive hover:text-sage'}
+                                            ? isTransparent ? 'text-white font-semibold' : 'text-sage font-semibold'
+                                            : isTransparent ? 'text-white/90 hover:text-white' : 'text-olive hover:text-sage'}
                                     `}>
                                         {item.label}
                                     </span>
                                     {/* Underline animation */}
                                     <span className={`
-                                        absolute -bottom-1 left-0 h-0.5 bg-sage transition-all duration-200 ease-out
+                                        absolute -bottom-1 left-0 h-0.5 transition-all duration-200 ease-out
+                                        ${isTransparent ? 'bg-white' : 'bg-sage'}
                                         ${isActive(item.href)
                                             ? 'w-full'
                                             : 'w-0 group-hover:w-full'}
@@ -97,7 +99,7 @@ export default function Navbar() {
                         {/* Center Logo */}
                         <Link href="/" className="group relative">
                             <AnimatePresence mode="wait">
-                                {scrollY < 50 ? (
+                                {isTransparent ? (
                                     <motion.h1
                                         key="text-logo"
                                         initial={{ opacity: 0, scale: 0.8 }}
@@ -105,7 +107,7 @@ export default function Navbar() {
                                         exit={{ opacity: 0, scale: 0.8 }}
                                         transition={{ duration: 0.4, ease: 'easeOut' }}
                                         whileHover={{ scale: 1.02 }}
-                                        className="font-knewave text-[32px] text-sage tracking-wide cursor-pointer"
+                                        className="font-knewave text-[32px] text-white tracking-wide cursor-pointer drop-shadow-lg"
                                     >
                                         StayinUBUD
                                     </motion.h1>
@@ -139,13 +141,14 @@ export default function Navbar() {
                                     <span className={`
                                         font-inter font-medium text-[15px] transition-colors duration-200
                                         ${isActive(item.href)
-                                            ? 'text-sage font-semibold'
-                                            : 'text-olive hover:text-sage'}
+                                            ? isTransparent ? 'text-white font-semibold' : 'text-sage font-semibold'
+                                            : isTransparent ? 'text-white/90 hover:text-white' : 'text-olive hover:text-sage'}
                                     `}>
                                         {item.label}
                                     </span>
                                     <span className={`
-                                        absolute -bottom-1 left-0 h-0.5 bg-sage transition-all duration-200 ease-out
+                                        absolute -bottom-1 left-0 h-0.5 transition-all duration-200 ease-out
+                                        ${isTransparent ? 'bg-white' : 'bg-sage'}
                                         ${isActive(item.href)
                                             ? 'w-full'
                                             : 'w-0 group-hover:w-full'}
@@ -166,9 +169,11 @@ export default function Navbar() {
                             >
                                 <Link
                                     href="/villas"
-                                    className="bg-sage text-white font-semibold text-[15px] px-7 py-3 rounded-full
-                                        hover:bg-sage-dark hover:scale-105 hover:shadow-lg
-                                        transition-all duration-150 ease-out"
+                                    className={`font-semibold text-[15px] px-7 py-3 rounded-full transition-all duration-150 ease-out
+                                        ${isTransparent
+                                            ? 'bg-white/20 text-white border-2 border-white/50 hover:bg-white hover:text-sage backdrop-blur-sm'
+                                            : 'bg-sage text-white hover:bg-sage-dark hover:scale-105 hover:shadow-lg'}
+                                    `}
                                 >
                                     Book Now
                                 </Link>
@@ -178,42 +183,41 @@ export default function Navbar() {
                 </div>
             </motion.nav>
 
-            {/* Mobile/Tablet Navbar - Floating */}
+            {/* Mobile/Tablet Navbar - Fixed at top */}
             <motion.nav
                 initial={{ y: -100 }}
                 animate={{ y: 0 }}
                 transition={{ duration: 0.5, ease: 'easeOut' }}
-                className="lg:hidden fixed top-0 left-0 right-0 z-50 h-[70px]"
-                style={{
-                    background: 'rgba(241, 243, 224, 0.92)',
-                    backdropFilter: 'blur(12px)',
-                    WebkitBackdropFilter: 'blur(12px)',
-                    borderBottom: '1px solid rgba(161, 188, 152, 0.2)',
-                    boxShadow: '0 8px 32px rgba(0, 0, 0, 0.08)',
-                }}
+                className={`lg:hidden fixed top-0 left-0 right-0 z-50 h-[70px] transition-all duration-300
+                    ${isTransparent
+                        ? 'bg-transparent'
+                        : 'bg-cream/95 backdrop-blur-md shadow-[0_4px_20px_rgba(0,0,0,0.08)]'}
+                `}
             >
                 <div className="h-full px-4 flex items-center justify-between">
                     {/* Hamburger Menu */}
                     <motion.button
                         onClick={() => setIsMobileMenuOpen(true)}
-                        className="w-11 h-11 flex items-center justify-center rounded-full hover:bg-sage/10 transition-colors"
+                        className={`w-11 h-11 flex items-center justify-center rounded-full transition-colors
+                            ${isTransparent ? 'hover:bg-white/20' : 'hover:bg-sage/10'}
+                        `}
                         aria-label="Open menu"
                         whileTap={{ scale: 0.95 }}
                     >
-                        <Menu size={24} className="text-olive" />
+                        <Menu size={24} className={isTransparent ? 'text-white' : 'text-olive'} />
                     </motion.button>
 
                     {/* Center Logo */}
                     <Link href="/" className="absolute left-1/2 -translate-x-1/2">
                         <AnimatePresence mode="wait">
-                            {scrollY < 50 ? (
+                            {isTransparent ? (
                                 <motion.h1
                                     key="mobile-text-logo"
                                     initial={{ opacity: 0, scale: 0.8 }}
                                     animate={{ opacity: 1, scale: 1 }}
                                     exit={{ opacity: 0, scale: 0.8 }}
                                     transition={{ duration: 0.3 }}
-                                    className="font-knewave text-[24px] text-sage tracking-wide"
+                                    className="font-knewave text-[24px] text-white tracking-wide drop-shadow-lg"
                                 >
                                     StayinUBUD
                                 </motion.h1>
@@ -235,7 +239,11 @@ export default function Navbar() {
                     {/* Phone Icon / CTA */}
                     <motion.a
                         href="tel:+6281234567890"
-                        className="w-11 h-11 flex items-center justify-center rounded-full bg-sage text-white hover:bg-sage-dark transition-colors"
+                        className={`w-11 h-11 flex items-center justify-center rounded-full transition-colors
+                            ${isTransparent
+                                ? 'bg-white/20 text-white hover:bg-white/30 backdrop-blur-sm'
+                                : 'bg-sage text-white hover:bg-sage-dark'}
+                        `}
                         whileTap={{ scale: 0.95 }}
                         aria-label="Call us"
                     >
@@ -348,9 +356,6 @@ export default function Navbar() {
                     </>
                 )}
             </AnimatePresence>
-
-            {/* Spacer for mobile fixed navbar */}
-            <div className="lg:hidden h-[70px]" />
         </>
     )
 }

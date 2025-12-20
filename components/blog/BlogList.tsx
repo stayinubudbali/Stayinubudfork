@@ -49,18 +49,6 @@ export default function BlogList() {
 
     return (
         <div className="container mx-auto px-4">
-            {/* Header */}
-            <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="text-center mb-16"
-            >
-                <h1 className="text-4xl md:text-5xl font-bold text-olive mb-4">Journal</h1>
-                <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-                    Tips, panduan, dan cerita inspiratif seputar liburan di Bali
-                </p>
-            </motion.div>
-
             {posts.length === 0 ? (
                 <div className="text-center py-20">
                     <p className="text-gray-600">Belum ada artikel</p>

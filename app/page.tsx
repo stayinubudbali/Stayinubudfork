@@ -5,6 +5,8 @@ import Features from '@/components/home/Features'
 import Testimonials from '@/components/home/Testimonials'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
+import WhatsAppButton from '@/components/WhatsAppButton'
+import BackToTop from '@/components/BackToTop'
 
 export const metadata: Metadata = {
   title: 'StayinUBUD - Luxury Villa Rentals in Ubud, Bali',
@@ -20,6 +22,8 @@ export default function HomePage() {
       <Features />
       <Testimonials />
       <Footer />
+      <WhatsAppButton />
+      <BackToTop />
     </main>
   )
 }

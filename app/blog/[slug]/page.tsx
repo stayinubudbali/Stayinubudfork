@@ -3,6 +3,8 @@ import { notFound } from 'next/navigation'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import BlogPostContent from '@/components/blog/BlogPostContent'
+import WhatsAppButton from '@/components/WhatsAppButton'
+import BackToTop from '@/components/BackToTop'
 import { Metadata } from 'next'
 
 interface Props {
@@ -48,10 +50,12 @@ export default async function BlogPostPage({ params }: Props) {
     return (
         <>
             <Navbar />
-            <main className="min-h-screen pt-24 pb-20 bg-cream">
+            <main className="min-h-screen pt-[90px] lg:pt-[100px] pb-20 bg-cream">
                 <BlogPostContent post={post} />
             </main>
             <Footer />
+            <WhatsAppButton />
+            <BackToTop />
         </>
     )
 }

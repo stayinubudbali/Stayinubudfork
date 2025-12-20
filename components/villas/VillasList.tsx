@@ -78,20 +78,6 @@ export default function VillasList() {
 
     return (
         <div className="container mx-auto px-4">
-            {/* Header */}
-            <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="mb-12 text-center"
-            >
-                <h1 className="text-4xl md:text-5xl font-bold text-olive mb-4">
-                    Our Luxury Villas
-                </h1>
-                <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-                    Discover your perfect sanctuary in the heart of Ubud
-                </p>
-            </motion.div>
-
             {/* Filters Bar */}
             <motion.div
                 initial={{ opacity: 0, y: 20 }}
