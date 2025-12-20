@@ -156,3 +156,53 @@ img {
     display: none !important;
   }
 }
+
+/* Font utilities */
+.font-inter {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.font-knewave {
+  font-family: 'Knewave', cursive;
+}
+
+/* Navbar specific styles */
+.nav-link-underline {
+  position: relative;
+}
+
+.nav-link-underline::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: #A1BC98;
+  transition: width 0.2s ease-out;
+}
+
+.nav-link-underline:hover::after {
+  width: 100%;
+}
+
+.nav-link-underline.active::after {
+  width: 100%;
+}
+
+/* Book Now button pulse */
+@keyframes subtle-pulse {
+
+  0%,
+  100% {
+    box-shadow: 0 4px 15px rgba(161, 188, 152, 0.3);
+  }
+
+  50% {
+    box-shadow: 0 4px 25px rgba(161, 188, 152, 0.5);
+  }
+}
+
+.btn-pulse {
+  animation: subtle-pulse 3s ease-in-out infinite;
+}
