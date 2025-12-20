@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { Villa } from '@/types'
 import { formatCurrency } from '@/lib/utils'
-import { ArrowUpRight, Bed, Users, Star } from 'lucide-react'
+import { ArrowUpRight, Bed, Users, Leaf } from 'lucide-react'
 
 interface VillaCardProps {
     villa: Villa
@@ -36,7 +36,7 @@ export default function VillaCard({ villa, index = 0, featured = false }: VillaC
                     {/* Featured Badge */}
                     {featured && (
                         <div className="absolute top-4 left-4 flex items-center gap-1.5 px-3 py-1.5 bg-white/95 backdrop-blur-sm">
-                            <Star size={10} className="text-amber-500 fill-amber-500" />
+                            <Leaf size={10} className="text-olive-600" />
                             <span className="text-gray-900 text-[9px] tracking-[0.15em] uppercase font-medium">Featured</span>
                         </div>
                     )}
@@ -58,7 +58,7 @@ export default function VillaCard({ villa, index = 0, featured = false }: VillaC
                 {/* Content */}
                 <div className="space-y-3">
                     {/* Title */}
-                    <h3 className="font-display text-xl md:text-2xl text-gray-900 group-hover:text-amber-700 transition-colors">
+                    <h3 className="font-display text-xl md:text-2xl text-gray-900 group-hover:text-olive-600 transition-colors">
                         {villa.name}
                     </h3>
 

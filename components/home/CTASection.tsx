@@ -32,9 +32,9 @@ export default function CTASection() {
                 <div className="absolute inset-0 bg-gray-900/80" />
             </motion.div>
 
-            {/* Decorative Elements */}
-            <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-amber-500/30 to-transparent" />
-            <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-amber-500/30 to-transparent" />
+            {/* Decorative Lines */}
+            <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-olive-400/30 to-transparent" />
+            <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-olive-400/30 to-transparent" />
 
             {/* Content */}
             <div className="relative z-10 max-w-[1400px] mx-auto px-6 md:px-12">
@@ -49,7 +49,7 @@ export default function CTASection() {
                         >
                             <div className="flex items-center gap-1">
                                 {[...Array(5)].map((_, i) => (
-                                    <Star key={i} size={14} className="text-amber-400 fill-amber-400" />
+                                    <Star key={i} size={14} className="text-olive-400 fill-olive-400" />
                                 ))}
                             </div>
                             <span className="text-white/50 text-sm">Rated 4.9/5 by our guests</span>
@@ -62,7 +62,7 @@ export default function CTASection() {
                             className="font-display text-4xl md:text-5xl lg:text-6xl text-white mb-6"
                         >
                             Begin Your <br />
-                            <span className="italic text-amber-400">Extraordinary</span> Stay
+                            <span className="italic text-olive-400">Extraordinary</span> Stay
                         </motion.h2>
 
                         <motion.p
@@ -83,7 +83,7 @@ export default function CTASection() {
                         >
                             <Link
                                 href="/villas"
-                                className="group inline-flex items-center justify-center gap-3 px-8 py-4 bg-amber-500 text-gray-900 font-medium text-sm tracking-[0.1em] uppercase hover:bg-amber-400 transition-colors"
+                                className="group inline-flex items-center justify-center gap-3 px-8 py-4 bg-olive-600 text-white font-medium text-sm tracking-[0.1em] uppercase hover:bg-olive-400 transition-colors"
                             >
                                 <span>Browse Villas</span>
                                 <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
@@ -107,19 +107,19 @@ export default function CTASection() {
                     >
                         <div className="grid grid-cols-2 gap-6">
                             <div className="p-8 border border-white/10 bg-white/5 backdrop-blur-sm">
-                                <p className="font-display text-5xl text-amber-400 mb-2">24/7</p>
+                                <p className="font-display text-5xl text-olive-400 mb-2">24/7</p>
                                 <p className="text-white/40 text-sm tracking-wide">Concierge Service</p>
                             </div>
                             <div className="p-8 border border-white/10 bg-white/5 backdrop-blur-sm">
-                                <p className="font-display text-5xl text-amber-400 mb-2">Free</p>
+                                <p className="font-display text-5xl text-olive-400 mb-2">Free</p>
                                 <p className="text-white/40 text-sm tracking-wide">Airport Transfer</p>
                             </div>
                             <div className="p-8 border border-white/10 bg-white/5 backdrop-blur-sm">
-                                <p className="font-display text-5xl text-amber-400 mb-2">VIP</p>
+                                <p className="font-display text-5xl text-olive-400 mb-2">VIP</p>
                                 <p className="text-white/40 text-sm tracking-wide">Welcome Package</p>
                             </div>
                             <div className="p-8 border border-white/10 bg-white/5 backdrop-blur-sm">
-                                <p className="font-display text-5xl text-amber-400 mb-2">100%</p>
+                                <p className="font-display text-5xl text-olive-400 mb-2">100%</p>
                                 <p className="text-white/40 text-sm tracking-wide">Privacy Guaranteed</p>
                             </div>
                         </div>

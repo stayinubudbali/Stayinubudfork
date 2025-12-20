@@ -6,7 +6,7 @@ import { createClient } from '@/lib/supabase/client'
 import { Villa } from '@/types'
 import Image from 'next/image'
 import Link from 'next/link'
-import { ArrowUpRight, Star, Award } from 'lucide-react'
+import { ArrowUpRight, Leaf } from 'lucide-react'
 import { formatCurrency } from '@/lib/utils'
 
 // Fallback data
@@ -19,8 +19,7 @@ const fallbackVillas = [
         bathrooms: 3,
         max_guests: 6,
         images: ['https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=80'],
-        location: 'Ubud, Bali',
-        featured: true
+        location: 'Ubud, Bali'
     },
     {
         id: '2',
@@ -50,8 +49,7 @@ const fallbackVillas = [
         bathrooms: 5,
         max_guests: 10,
         images: ['https://images.unsplash.com/photo-1540541338287-41700207dee6?w=800&q=80'],
-        location: 'Ubud, Bali',
-        featured: true
+        location: 'Ubud, Bali'
     },
     {
         id: '5',
@@ -98,7 +96,7 @@ export default function FeaturedVillas() {
     return (
         <section ref={ref} className="py-24 md:py-32 bg-white relative overflow-hidden">
             {/* Decorative Elements */}
-            <div className="absolute top-0 right-0 w-1/3 h-1/3 bg-gradient-to-bl from-accent/5 to-transparent pointer-events-none" />
+            <div className="absolute top-0 right-0 w-1/3 h-1/3 bg-gradient-to-bl from-olive-100/50 to-transparent pointer-events-none" />
             <div className="absolute bottom-0 left-0 w-1/4 h-1/2 bg-gradient-to-tr from-gray-50 to-transparent pointer-events-none" />
 
             <div className="max-w-[1400px] mx-auto px-6 md:px-12 relative z-10">
@@ -111,9 +109,9 @@ export default function FeaturedVillas() {
                             transition={{ duration: 0.6 }}
                             className="flex items-center gap-3 mb-6"
                         >
-                            <div className="flex items-center gap-2 px-3 py-1.5 bg-gray-900">
-                                <Award size={12} className="text-amber-400" />
-                                <span className="text-white text-[10px] tracking-[0.2em] uppercase">Curated Selection</span>
+                            <div className="flex items-center gap-2 px-3 py-1.5 bg-olive-900 text-white">
+                                <Leaf size={12} />
+                                <span className="text-[10px] tracking-[0.2em] uppercase">Curated Selection</span>
                             </div>
                         </motion.div>
 
@@ -123,7 +121,7 @@ export default function FeaturedVillas() {
                             transition={{ duration: 0.8, delay: 0.1 }}
                             className="font-display text-4xl md:text-5xl lg:text-6xl text-gray-900 mb-6"
                         >
-                            Selected <span className="italic text-amber-700">Villas</span>
+                            Selected <span className="italic text-olive-600">Villas</span>
                         </motion.h2>
 
                         <motion.p
@@ -144,7 +142,7 @@ export default function FeaturedVillas() {
                     >
                         <Link
                             href="/villas"
-                            className="group inline-flex items-center gap-3 px-6 py-4 border border-gray-200 hover:bg-gray-900 hover:border-gray-900 hover:text-white transition-all duration-500"
+                            className="group inline-flex items-center gap-3 px-6 py-4 border border-gray-200 hover:bg-olive-900 hover:border-olive-900 hover:text-white transition-all duration-300"
                         >
                             <span className="text-xs tracking-[0.2em] uppercase">View All Properties</span>
                             <ArrowUpRight size={16} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
@@ -183,7 +181,6 @@ export default function FeaturedVillas() {
                                 'aspect-square',
                             ]
 
-                            // Mark first and last as featured
                             const isFeatured = index === 0 || index === 3
 
                             return (
@@ -207,7 +204,7 @@ export default function FeaturedVillas() {
                                             {/* Featured Badge */}
                                             {isFeatured && (
                                                 <div className="absolute top-4 left-4 z-10 flex items-center gap-1.5 px-3 py-1.5 bg-white/90 backdrop-blur-sm">
-                                                    <Star size={10} className="text-amber-500 fill-amber-500" />
+                                                    <Leaf size={10} className="text-olive-600" />
                                                     <span className="text-gray-900 text-[9px] tracking-[0.15em] uppercase font-medium">Featured</span>
                                                 </div>
                                             )}
@@ -242,14 +239,14 @@ export default function FeaturedVillas() {
                     </div>
                 )}
 
-                {/* Bottom Stats with Gold Divider */}
+                {/* Bottom Stats */}
                 <motion.div
                     initial={{ opacity: 0, y: 30 }}
                     animate={isInView ? { opacity: 1, y: 0 } : {}}
                     transition={{ duration: 0.8, delay: 0.8 }}
                     className="mt-20"
                 >
-                    <div className="h-px bg-gradient-to-r from-transparent via-amber-400/50 to-transparent mb-12" />
+                    <div className="h-px bg-gradient-to-r from-transparent via-olive-400/50 to-transparent mb-12" />
 
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
                         <div className="text-center">

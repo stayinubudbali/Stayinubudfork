@@ -3,7 +3,7 @@
 import { motion, useInView } from 'framer-motion'
 import { useRef } from 'react'
 import Link from 'next/link'
-import { ArrowUpRight, MapPin, Phone, Mail, Instagram, Star } from 'lucide-react'
+import { ArrowUpRight, MapPin, Phone, Mail, Instagram, Leaf } from 'lucide-react'
 
 export default function Footer() {
     const ref = useRef(null)
@@ -21,15 +21,12 @@ export default function Footer() {
             { label: 'Terms of Service', href: '/terms' },
             { label: 'Booking Policy', href: '/booking-policy' },
         ],
-        social: [
-            { label: 'Instagram', href: 'https://instagram.com', icon: Instagram },
-        ],
     }
 
     return (
         <footer ref={ref} className="bg-gray-900 text-white relative overflow-hidden">
-            {/* Decorative Gold Line */}
-            <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-amber-500/50 to-transparent" />
+            {/* Decorative Line */}
+            <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-olive-400/50 to-transparent" />
 
             {/* Newsletter Section */}
             <div className="border-b border-white/10">
@@ -41,7 +38,7 @@ export default function Footer() {
                             transition={{ duration: 0.6 }}
                             className="max-w-xl"
                         >
-                            <p className="text-amber-400 text-xs tracking-[0.3em] uppercase mb-4">Stay Updated</p>
+                            <p className="text-olive-400 text-xs tracking-[0.3em] uppercase mb-4">Stay Updated</p>
                             <h3 className="font-display text-3xl md:text-4xl mb-4">
                                 Get Exclusive <span className="italic">Offers</span>
                             </h3>
@@ -60,11 +57,11 @@ export default function Footer() {
                             <input
                                 type="email"
                                 placeholder="Enter your email"
-                                className="flex-1 lg:w-80 px-6 py-4 bg-white/5 border border-white/10 text-white placeholder-white/30 focus:outline-none focus:border-amber-500/50 transition-colors"
+                                className="flex-1 lg:w-80 px-6 py-4 bg-white/5 border border-white/10 text-white placeholder-white/30 focus:outline-none focus:border-olive-400/50 transition-colors"
                             />
                             <button
                                 type="submit"
-                                className="px-8 py-4 bg-amber-500 text-gray-900 font-medium text-sm tracking-[0.1em] uppercase hover:bg-amber-400 transition-colors"
+                                className="px-8 py-4 bg-olive-600 text-white font-medium text-sm tracking-[0.1em] uppercase hover:bg-olive-400 transition-colors"
                             >
                                 Subscribe
                             </button>
@@ -84,23 +81,19 @@ export default function Footer() {
                         className="lg:col-span-5"
                     >
                         <Link href="/" className="inline-block mb-6">
-                            <span className="font-display text-3xl md:text-4xl">StayinUBUD</span>
+                            <span className="font-display text-3xl md:text-4xl">
+                                Stayin<span className="text-olive-400">UBUD</span>
+                            </span>
                         </Link>
                         <p className="text-white/40 max-w-sm leading-relaxed mb-8 text-sm">
                             Curating exceptional villa experiences in Ubud, Bali.
                             Where architectural excellence meets Balinese tranquility.
                         </p>
 
-                        {/* Awards/Recognition */}
-                        <div className="flex items-center gap-4 p-4 bg-white/5 border border-white/10 inline-flex">
-                            <div className="flex items-center gap-1">
-                                <Star size={14} className="text-amber-400 fill-amber-400" />
-                                <Star size={14} className="text-amber-400 fill-amber-400" />
-                                <Star size={14} className="text-amber-400 fill-amber-400" />
-                                <Star size={14} className="text-amber-400 fill-amber-400" />
-                                <Star size={14} className="text-amber-400 fill-amber-400" />
-                            </div>
-                            <span className="text-white/60 text-xs">4.9 Rating on TripAdvisor</span>
+                        {/* Eco Badge */}
+                        <div className="flex items-center gap-3 p-4 bg-white/5 border border-white/10 inline-flex">
+                            <Leaf size={16} className="text-olive-400" />
+                            <span className="text-white/60 text-xs">Eco-Friendly Luxury</span>
                         </div>
                     </motion.div>
 
@@ -119,7 +112,7 @@ export default function Footer() {
                                 <li key={link.href}>
                                     <Link
                                         href={link.href}
-                                        className="text-white/60 hover:text-amber-400 transition-colors text-sm inline-flex items-center gap-1 group"
+                                        className="text-white/60 hover:text-olive-400 transition-colors text-sm inline-flex items-center gap-1 group"
                                     >
                                         {link.label}
                                         <ArrowUpRight size={12} className="opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -144,7 +137,7 @@ export default function Footer() {
                                 <li key={link.href}>
                                     <Link
                                         href={link.href}
-                                        className="text-white/60 hover:text-amber-400 transition-colors text-sm"
+                                        className="text-white/60 hover:text-olive-400 transition-colors text-sm"
                                     >
                                         {link.label}
                                     </Link>
@@ -167,23 +160,23 @@ export default function Footer() {
                             <li>
                                 <a
                                     href="mailto:hello@stayinubud.com"
-                                    className="flex items-center gap-3 text-white/60 hover:text-amber-400 transition-colors text-sm"
+                                    className="flex items-center gap-3 text-white/60 hover:text-olive-400 transition-colors text-sm"
                                 >
-                                    <Mail size={16} className="text-amber-400/50" />
+                                    <Mail size={16} className="text-olive-400/50" />
                                     hello@stayinubud.com
                                 </a>
                             </li>
                             <li>
                                 <a
                                     href="tel:+6281234567890"
-                                    className="flex items-center gap-3 text-white/60 hover:text-amber-400 transition-colors text-sm"
+                                    className="flex items-center gap-3 text-white/60 hover:text-olive-400 transition-colors text-sm"
                                 >
-                                    <Phone size={16} className="text-amber-400/50" />
+                                    <Phone size={16} className="text-olive-400/50" />
                                     +62 812 3456 7890
                                 </a>
                             </li>
                             <li className="flex items-start gap-3 text-white/60 text-sm">
-                                <MapPin size={16} className="text-amber-400/50 flex-shrink-0 mt-0.5" />
+                                <MapPin size={16} className="text-olive-400/50 flex-shrink-0 mt-0.5" />
                                 <span>Jl. Raya Ubud No. 88<br />Ubud, Bali 80571</span>
                             </li>
                         </ul>
@@ -194,7 +187,7 @@ export default function Footer() {
                                 href="https://instagram.com"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="w-10 h-10 flex items-center justify-center border border-white/10 text-white/40 hover:text-amber-400 hover:border-amber-400/50 transition-all"
+                                className="w-10 h-10 flex items-center justify-center border border-white/10 text-white/40 hover:text-olive-400 hover:border-olive-400/50 transition-all"
                             >
                                 <Instagram size={18} />
                             </a>

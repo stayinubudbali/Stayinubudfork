@@ -37,13 +37,6 @@ export default function Features() {
 
     return (
         <section ref={ref} className="py-24 md:py-32 bg-white relative overflow-hidden">
-            {/* Background Pattern */}
-            <div className="absolute inset-0 opacity-[0.02]">
-                <div className="absolute inset-0" style={{
-                    backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23000000' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
-                }} />
-            </div>
-
             <div className="max-w-[1400px] mx-auto px-6 md:px-12 relative z-10">
                 {/* Header */}
                 <div className="max-w-2xl mb-16 md:mb-20">
@@ -51,7 +44,7 @@ export default function Features() {
                         initial={{ opacity: 0, y: 20 }}
                         animate={isInView ? { opacity: 1, y: 0 } : {}}
                         transition={{ duration: 0.6 }}
-                        className="text-amber-600 text-xs tracking-[0.3em] uppercase mb-4"
+                        className="text-olive-600 text-xs tracking-[0.3em] uppercase mb-4"
                     >
                         Why Choose Us
                     </motion.p>
@@ -61,7 +54,7 @@ export default function Features() {
                         transition={{ duration: 0.8, delay: 0.1 }}
                         className="font-display text-4xl md:text-5xl lg:text-6xl text-gray-900 mb-6"
                     >
-                        The <span className="italic text-amber-700">StayinUBUD</span> Difference
+                        The <span className="italic text-olive-900">StayinUBUD</span> Difference
                     </motion.h2>
                     <motion.p
                         initial={{ opacity: 0, y: 20 }}
@@ -84,14 +77,14 @@ export default function Features() {
                                 initial={{ opacity: 0, y: 30 }}
                                 animate={isInView ? { opacity: 1, y: 0 } : {}}
                                 transition={{ duration: 0.6, delay: 0.2 + index * 0.1 }}
-                                className="bg-white p-8 md:p-10 group hover:bg-gray-50 transition-colors duration-500"
+                                className="bg-white p-8 md:p-10 group hover:bg-olive-100/30 transition-colors duration-500"
                             >
                                 {/* Number */}
                                 <div className="flex items-center justify-between mb-8">
-                                    <span className="text-amber-400 text-xs tracking-[0.2em] font-medium">
+                                    <span className="text-olive-600 text-xs tracking-[0.2em] font-medium">
                                         {feature.number}
                                     </span>
-                                    <Icon size={24} className="text-gray-300 group-hover:text-amber-500 transition-colors duration-500" />
+                                    <Icon size={24} className="text-gray-300 group-hover:text-olive-600 transition-colors duration-500" />
                                 </div>
 
                                 {/* Content */}
@@ -103,7 +96,7 @@ export default function Features() {
                                 </p>
 
                                 {/* Hover Line */}
-                                <div className="mt-8 h-px w-0 group-hover:w-full bg-amber-400 transition-all duration-500" />
+                                <div className="mt-8 h-px w-0 group-hover:w-full bg-olive-600 transition-all duration-500" />
                             </motion.div>
                         )
                     })}

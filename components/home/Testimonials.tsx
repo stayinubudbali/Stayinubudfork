@@ -44,10 +44,10 @@ export default function Testimonials() {
     const prev = () => setCurrent((prev) => (prev - 1 + testimonials.length) % testimonials.length)
 
     return (
-        <section ref={ref} className="py-24 md:py-32 bg-gray-50 relative overflow-hidden">
+        <section ref={ref} className="py-24 md:py-32 bg-olive-100/30 relative overflow-hidden">
             {/* Decorative Quote */}
             <div className="absolute top-20 left-10 md:left-20 opacity-[0.03] pointer-events-none">
-                <Quote size={300} className="text-gray-900" />
+                <Quote size={300} className="text-olive-900" />
             </div>
 
             <div className="max-w-[1400px] mx-auto px-6 md:px-12 relative z-10">
@@ -58,7 +58,7 @@ export default function Testimonials() {
                         animate={isInView ? { opacity: 1, y: 0 } : {}}
                         transition={{ duration: 0.8 }}
                     >
-                        <p className="text-amber-600 text-xs tracking-[0.3em] uppercase mb-4">
+                        <p className="text-olive-600 text-xs tracking-[0.3em] uppercase mb-4">
                             Guest Experiences
                         </p>
                         <h2 className="font-display text-4xl md:text-5xl lg:text-6xl text-gray-900">
@@ -75,13 +75,13 @@ export default function Testimonials() {
                     >
                         <button
                             onClick={prev}
-                            className="w-12 h-12 flex items-center justify-center border border-gray-200 hover:bg-gray-900 hover:border-gray-900 hover:text-white transition-all"
+                            className="w-12 h-12 flex items-center justify-center border border-gray-300 hover:bg-olive-900 hover:border-olive-900 hover:text-white transition-all"
                         >
                             <ChevronLeft size={20} />
                         </button>
                         <button
                             onClick={next}
-                            className="w-12 h-12 flex items-center justify-center border border-gray-200 hover:bg-gray-900 hover:border-gray-900 hover:text-white transition-all"
+                            className="w-12 h-12 flex items-center justify-center border border-gray-300 hover:bg-olive-900 hover:border-olive-900 hover:text-white transition-all"
                         >
                             <ChevronRight size={20} />
                         </button>
@@ -111,7 +111,7 @@ export default function Testimonials() {
                                         />
                                     </div>
                                     {/* Decorative ring */}
-                                    <div className="absolute -inset-3 border border-amber-400/30 rounded-full" />
+                                    <div className="absolute -inset-3 border border-olive-400/50 rounded-full" />
                                 </div>
                             </div>
 
@@ -120,7 +120,7 @@ export default function Testimonials() {
                                 {/* Rating */}
                                 <div className="flex items-center gap-1 mb-6">
                                     {[...Array(5)].map((_, i) => (
-                                        <Star key={i} size={16} className="text-amber-400 fill-amber-400" />
+                                        <Star key={i} size={16} className="text-olive-600 fill-olive-600" />
                                     ))}
                                 </div>
 
@@ -135,10 +135,10 @@ export default function Testimonials() {
                                         <p className="text-gray-900 font-medium">{testimonials[current].author}</p>
                                         <p className="text-gray-400 text-sm">{testimonials[current].location}</p>
                                     </div>
-                                    <div className="hidden md:block w-px h-8 bg-gray-200" />
+                                    <div className="hidden md:block w-px h-8 bg-gray-300" />
                                     <div>
                                         <p className="text-gray-400 text-xs uppercase tracking-wider">Stayed at</p>
-                                        <p className="text-amber-600 text-sm">{testimonials[current].villa}</p>
+                                        <p className="text-olive-600 text-sm">{testimonials[current].villa}</p>
                                     </div>
                                 </div>
                             </div>
@@ -158,8 +158,8 @@ export default function Testimonials() {
                             key={index}
                             onClick={() => setCurrent(index)}
                             className={`transition-all duration-300 ${index === current
-                                    ? 'w-12 h-1 bg-amber-500'
-                                    : 'w-6 h-1 bg-gray-300 hover:bg-gray-400'
+                                    ? 'w-12 h-1 bg-olive-600'
+                                    : 'w-6 h-1 bg-gray-300 hover:bg-olive-400'
                                 }`}
                         />
                     ))}

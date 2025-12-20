@@ -15,7 +15,7 @@ import {
     Phone,
     Mail,
     MapPin,
-    Sparkles,
+    Leaf,
     X
 } from 'lucide-react'
 import { format, parseISO, differenceInDays } from 'date-fns'
@@ -201,7 +201,7 @@ Please confirm villa availability. Thank you! 🙏
                 className="relative bg-white w-full max-w-lg max-h-[90vh] overflow-hidden flex flex-col"
             >
                 {/* Header */}
-                <div className="bg-gray-900 p-6 text-white flex-shrink-0">
+                <div className="bg-olive-900 p-6 text-white flex-shrink-0">
                     <div className="flex items-center justify-between mb-4">
                         <h2 className="font-display text-xl md:text-2xl">Book {villa.name}</h2>
                         {onClose && (
@@ -226,14 +226,14 @@ Please confirm villa availability. Thank you! 🙏
                                     <div key={step.id} className="flex items-center">
                                         <div className={`
                                             flex items-center justify-center w-10 h-10 transition-all
-                                            ${isActive ? 'bg-white text-gray-900' : ''}
-                                            ${isCompleted ? 'bg-white/30 text-white' : ''}
+                                            ${isActive ? 'bg-white text-olive-900' : ''}
+                                            ${isCompleted ? 'bg-olive-400/30 text-white' : ''}
                                             ${!isActive && !isCompleted ? 'bg-white/10 text-white/50' : ''}
                                         `}>
                                             {isCompleted ? <Check size={16} /> : <Icon size={16} />}
                                         </div>
                                         {index < steps.length - 1 && (
-                                            <div className={`w-8 md:w-12 h-px mx-1 ${isCompleted ? 'bg-white/50' : 'bg-white/10'}`} />
+                                            <div className={`w-8 md:w-12 h-px mx-1 ${isCompleted ? 'bg-olive-400/50' : 'bg-white/10'}`} />
                                         )}
                                     </div>
                                 )
@@ -272,7 +272,7 @@ Please confirm villa availability. Thank you! 🙏
                                                 }
                                             }}
                                             min={minDate}
-                                            className="w-full px-4 py-3 border border-gray-200 focus:border-gray-900 outline-none transition-colors text-gray-900"
+                                            className="w-full px-4 py-3 border border-gray-200 focus:border-olive-600 outline-none transition-colors text-gray-900"
                                         />
                                     </div>
                                     <div>
@@ -282,7 +282,7 @@ Please confirm villa availability. Thank you! 🙏
                                             value={checkOut}
                                             onChange={(e) => setCheckOut(e.target.value)}
                                             min={checkIn || minDate}
-                                            className="w-full px-4 py-3 border border-gray-200 focus:border-gray-900 outline-none transition-colors text-gray-900"
+                                            className="w-full px-4 py-3 border border-gray-200 focus:border-olive-600 outline-none transition-colors text-gray-900"
                                         />
                                     </div>
                                 </div>
@@ -292,14 +292,14 @@ Please confirm villa availability. Thank you! 🙏
                                     <div className="flex items-center justify-center gap-6">
                                         <button
                                             onClick={() => setGuests(Math.max(1, guests - 1))}
-                                            className="w-12 h-12 border border-gray-200 flex items-center justify-center hover:bg-gray-900 hover:text-white hover:border-gray-900 transition-all text-xl"
+                                            className="w-12 h-12 border border-gray-200 flex items-center justify-center hover:bg-olive-600 hover:text-white hover:border-olive-600 transition-all text-xl"
                                         >
                                             −
                                         </button>
                                         <span className="text-3xl font-display text-gray-900 w-12 text-center">{guests}</span>
                                         <button
                                             onClick={() => setGuests(Math.min(villa.max_guests, guests + 1))}
-                                            className="w-12 h-12 border border-gray-200 flex items-center justify-center hover:bg-gray-900 hover:text-white hover:border-gray-900 transition-all text-xl"
+                                            className="w-12 h-12 border border-gray-200 flex items-center justify-center hover:bg-olive-600 hover:text-white hover:border-olive-600 transition-all text-xl"
                                         >
                                             +
                                         </button>
@@ -311,10 +311,10 @@ Please confirm villa availability. Thank you! 🙏
                                     <motion.div
                                         initial={{ opacity: 0, y: 10 }}
                                         animate={{ opacity: 1, y: 0 }}
-                                        className="bg-gray-50 p-4 text-center"
+                                        className="bg-olive-100 p-4 text-center"
                                     >
-                                        <p className="text-gray-500 text-sm">Duration</p>
-                                        <p className="text-2xl font-display text-gray-900">{nights} Night{nights > 1 ? 's' : ''}</p>
+                                        <p className="text-olive-600 text-sm">Duration</p>
+                                        <p className="text-2xl font-display text-olive-900">{nights} Night{nights > 1 ? 's' : ''}</p>
                                     </motion.div>
                                 )}
                             </motion.div>
@@ -344,7 +344,7 @@ Please confirm villa availability. Thank you! 🙏
                                                 value={guestName}
                                                 onChange={(e) => setGuestName(e.target.value)}
                                                 placeholder="Enter your full name"
-                                                className="w-full pl-12 pr-4 py-3 border border-gray-200 focus:border-gray-900 outline-none transition-colors"
+                                                className="w-full pl-12 pr-4 py-3 border border-gray-200 focus:border-olive-600 outline-none transition-colors"
                                             />
                                         </div>
                                     </div>
@@ -358,7 +358,7 @@ Please confirm villa availability. Thank you! 🙏
                                                 value={guestEmail}
                                                 onChange={(e) => setGuestEmail(e.target.value)}
                                                 placeholder="email@example.com"
-                                                className="w-full pl-12 pr-4 py-3 border border-gray-200 focus:border-gray-900 outline-none transition-colors"
+                                                className="w-full pl-12 pr-4 py-3 border border-gray-200 focus:border-olive-600 outline-none transition-colors"
                                             />
                                         </div>
                                     </div>
@@ -372,7 +372,7 @@ Please confirm villa availability. Thank you! 🙏
                                                 value={guestPhone}
                                                 onChange={(e) => setGuestPhone(e.target.value)}
                                                 placeholder="+62 812 3456 7890"
-                                                className="w-full pl-12 pr-4 py-3 border border-gray-200 focus:border-gray-900 outline-none transition-colors"
+                                                className="w-full pl-12 pr-4 py-3 border border-gray-200 focus:border-olive-600 outline-none transition-colors"
                                             />
                                         </div>
                                     </div>
@@ -384,7 +384,7 @@ Please confirm villa availability. Thank you! 🙏
                                             onChange={(e) => setSpecialRequests(e.target.value)}
                                             placeholder="E.g., Early check-in, dietary restrictions..."
                                             rows={3}
-                                            className="w-full px-4 py-3 border border-gray-200 focus:border-gray-900 outline-none transition-colors resize-none"
+                                            className="w-full px-4 py-3 border border-gray-200 focus:border-olive-600 outline-none transition-colors resize-none"
                                         />
                                     </div>
                                 </div>
@@ -405,7 +405,7 @@ Please confirm villa availability. Thank you! 🙏
                                     <p className="text-gray-500 text-sm">Please verify your details</p>
                                 </div>
 
-                                <div className="bg-gray-50 p-5 space-y-4">
+                                <div className="bg-olive-100/50 p-5 space-y-4">
                                     <div>
                                         <p className="font-display text-lg text-gray-900">{villa.name}</p>
                                         <p className="text-gray-500 text-sm flex items-center gap-1">
@@ -413,7 +413,7 @@ Please confirm villa availability. Thank you! 🙏
                                         </p>
                                     </div>
 
-                                    <div className="border-t border-gray-200 pt-4 grid grid-cols-2 gap-4 text-sm">
+                                    <div className="border-t border-olive-200/50 pt-4 grid grid-cols-2 gap-4 text-sm">
                                         <div>
                                             <p className="text-gray-400">Check-in</p>
                                             <p className="text-gray-900 font-medium">
@@ -436,7 +436,7 @@ Please confirm villa availability. Thank you! 🙏
                                         </div>
                                     </div>
 
-                                    <div className="border-t border-gray-200 pt-4 text-sm">
+                                    <div className="border-t border-olive-200/50 pt-4 text-sm">
                                         <p className="text-gray-400 mb-1">Guest Name</p>
                                         <p className="text-gray-900 font-medium">{guestName}</p>
                                         <p className="text-gray-500 text-xs">{guestEmail} • {guestPhone}</p>
@@ -444,7 +444,7 @@ Please confirm villa availability. Thank you! 🙏
                                 </div>
 
                                 {/* Price Breakdown */}
-                                <div className="border border-gray-200 p-5 space-y-3">
+                                <div className="border border-olive-200 p-5 space-y-3">
                                     <div className="flex justify-between text-gray-600 text-sm">
                                         <span>{formatCurrency(villa.price_per_night)} × {nights} night{nights > 1 ? 's' : ''}</span>
                                         <span>{formatCurrency(subtotal)}</span>
@@ -453,9 +453,9 @@ Please confirm villa availability. Thank you! 🙏
                                         <span>Service fee (5%)</span>
                                         <span>{formatCurrency(serviceFee)}</span>
                                     </div>
-                                    <div className="border-t border-gray-200 pt-3 flex justify-between text-lg">
+                                    <div className="border-t border-olive-200 pt-3 flex justify-between text-lg">
                                         <span className="text-gray-900 font-medium">Total</span>
-                                        <span className="font-display text-gray-900">{formatCurrency(totalPrice)}</span>
+                                        <span className="font-display text-olive-900">{formatCurrency(totalPrice)}</span>
                                     </div>
                                 </div>
                             </motion.div>
@@ -476,7 +476,7 @@ Please confirm villa availability. Thank you! 🙏
                                 </div>
 
                                 <div className="space-y-3">
-                                    <label className={`block p-5 border-2 cursor-pointer transition-all ${paymentMethod === 'whatsapp' ? 'border-gray-900 bg-gray-50' : 'border-gray-200 hover:border-gray-400'
+                                    <label className={`block p-5 border-2 cursor-pointer transition-all ${paymentMethod === 'whatsapp' ? 'border-olive-600 bg-olive-100/30' : 'border-gray-200 hover:border-olive-400'
                                         }`}>
                                         <input
                                             type="radio"
@@ -496,14 +496,14 @@ Please confirm villa availability. Thank you! 🙏
                                                 <p className="text-sm text-gray-500">Continue booking via admin</p>
                                             </div>
                                             {paymentMethod === 'whatsapp' && (
-                                                <div className="w-6 h-6 bg-gray-900 flex items-center justify-center">
+                                                <div className="w-6 h-6 bg-olive-600 flex items-center justify-center">
                                                     <Check size={14} className="text-white" />
                                                 </div>
                                             )}
                                         </div>
                                     </label>
 
-                                    <label className={`block p-5 border-2 cursor-pointer transition-all ${paymentMethod === 'transfer' ? 'border-gray-900 bg-gray-50' : 'border-gray-200 hover:border-gray-400'
+                                    <label className={`block p-5 border-2 cursor-pointer transition-all ${paymentMethod === 'transfer' ? 'border-olive-600 bg-olive-100/30' : 'border-gray-200 hover:border-olive-400'
                                         }`}>
                                         <input
                                             type="radio"
@@ -523,7 +523,7 @@ Please confirm villa availability. Thank you! 🙏
                                                 <p className="text-sm text-gray-500">BCA, Mandiri, BNI, BRI</p>
                                             </div>
                                             {paymentMethod === 'transfer' && (
-                                                <div className="w-6 h-6 bg-gray-900 flex items-center justify-center">
+                                                <div className="w-6 h-6 bg-olive-600 flex items-center justify-center">
                                                     <Check size={14} className="text-white" />
                                                 </div>
                                             )}
@@ -531,9 +531,9 @@ Please confirm villa availability. Thank you! 🙏
                                     </label>
                                 </div>
 
-                                <div className="bg-gray-50 p-4 text-center">
-                                    <p className="text-2xl font-display text-gray-900">{formatCurrency(totalPrice)}</p>
-                                    <p className="text-gray-500 text-sm">Total Payment</p>
+                                <div className="bg-olive-100 p-4 text-center">
+                                    <p className="text-2xl font-display text-olive-900">{formatCurrency(totalPrice)}</p>
+                                    <p className="text-olive-600 text-sm">Total Payment</p>
                                 </div>
                             </motion.div>
                         )}
@@ -550,9 +550,9 @@ Please confirm villa availability. Thank you! 🙏
                                     initial={{ scale: 0 }}
                                     animate={{ scale: 1 }}
                                     transition={{ delay: 0.2, type: 'spring' }}
-                                    className="inline-flex p-5 bg-green-100 mb-6"
+                                    className="inline-flex p-5 bg-olive-100 mb-6"
                                 >
-                                    <Sparkles size={32} className="text-green-600" />
+                                    <Leaf size={32} className="text-olive-600" />
                                 </motion.div>
 
                                 <h3 className="font-display text-2xl text-gray-900 mb-2">Booking Successful!</h3>
@@ -560,13 +560,13 @@ Please confirm villa availability. Thank you! 🙏
                                     ID: <span className="font-mono font-bold text-gray-900">{bookingId?.substring(0, 8).toUpperCase()}</span>
                                 </p>
 
-                                <div className="bg-gray-50 p-5 mb-6 text-left">
+                                <div className="bg-olive-100/50 p-5 mb-6 text-left">
                                     <p className="font-display text-lg text-gray-900 mb-2">{villa.name}</p>
                                     <p className="text-sm text-gray-600">
                                         {checkIn && format(parseISO(checkIn), 'dd MMM')} - {checkOut && format(parseISO(checkOut), 'dd MMM yyyy')}
                                     </p>
                                     <p className="text-sm text-gray-600">{guests} guest{guests > 1 ? 's' : ''} • {nights} night{nights > 1 ? 's' : ''}</p>
-                                    <p className="font-display text-xl text-gray-900 mt-3">{formatCurrency(totalPrice)}</p>
+                                    <p className="font-display text-xl text-olive-900 mt-3">{formatCurrency(totalPrice)}</p>
                                 </div>
 
                                 {paymentMethod === 'whatsapp' && (
@@ -629,7 +629,7 @@ Please confirm villa availability. Thank you! 🙏
                                 onClick={nextStep}
                                 disabled={!canProceed() || isLoading}
                                 className={`flex items-center gap-2 px-6 py-3 font-medium transition-all ${canProceed()
-                                        ? 'bg-gray-900 text-white hover:bg-gray-800'
+                                        ? 'bg-olive-900 text-white hover:bg-olive-600'
                                         : 'bg-gray-200 text-gray-400 cursor-not-allowed'
                                     }`}
                             >

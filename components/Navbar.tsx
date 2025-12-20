@@ -55,7 +55,7 @@ export default function Navbar() {
                             <span className={`font-display text-2xl md:text-3xl tracking-tight transition-colors duration-300
                                 ${isTransparent ? 'text-white' : 'text-gray-900'}
                             `}>
-                                Stayin<span className="text-amber-500">UBUD</span>
+                                Stayin<span className="text-olive-600">UBUD</span>
                             </span>
                         </Link>
 
@@ -69,14 +69,14 @@ export default function Navbar() {
                                 >
                                     <span className={`text-xs tracking-[0.2em] uppercase transition-colors duration-300
                                         ${isActive(item.href)
-                                            ? isTransparent ? 'text-amber-400' : 'text-amber-600'
+                                            ? isTransparent ? 'text-olive-400' : 'text-olive-600'
                                             : isTransparent ? 'text-white/70 hover:text-white' : 'text-gray-500 hover:text-gray-900'
                                         }
                                     `}>
                                         {item.label}
                                     </span>
                                     <span className={`absolute -bottom-1 left-0 h-px transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]
-                                        ${isTransparent ? 'bg-amber-400' : 'bg-amber-500'}
+                                        ${isTransparent ? 'bg-olive-400' : 'bg-olive-600'}
                                         ${isActive(item.href) ? 'w-full' : 'w-0 group-hover:w-full'}
                                     `} />
                                 </Link>
@@ -98,8 +98,8 @@ export default function Navbar() {
                                 href="/villas"
                                 className={`text-xs tracking-[0.15em] uppercase px-6 py-3 transition-all duration-300
                                     ${isTransparent
-                                        ? 'bg-white/10 backdrop-blur-sm text-white border border-white/20 hover:bg-amber-500 hover:border-amber-500 hover:text-gray-900'
-                                        : 'bg-gray-900 text-white hover:bg-amber-500 hover:text-gray-900'
+                                        ? 'bg-white/10 backdrop-blur-sm text-white border border-white/20 hover:bg-olive-600 hover:border-olive-600'
+                                        : 'bg-olive-900 text-white hover:bg-olive-600'
                                     }
                                 `}
                             >
@@ -143,7 +143,7 @@ export default function Navbar() {
                                 {/* Header */}
                                 <div className="flex items-center justify-between mb-16">
                                     <span className="font-display text-xl text-gray-900">
-                                        Stayin<span className="text-amber-500">UBUD</span>
+                                        Stayin<span className="text-olive-600">UBUD</span>
                                     </span>
                                     <button
                                         onClick={() => setIsMobileMenuOpen(false)}
@@ -167,7 +167,7 @@ export default function Navbar() {
                                                 href={item.href}
                                                 onClick={() => setIsMobileMenuOpen(false)}
                                                 className={`block py-4 text-3xl font-display border-b border-gray-100 transition-colors
-                                                    ${isActive(item.href) ? 'text-amber-600' : 'text-gray-900 hover:text-amber-600'}
+                                                    ${isActive(item.href) ? 'text-olive-600' : 'text-gray-900 hover:text-olive-600'}
                                                 `}
                                             >
                                                 {item.label}
@@ -181,7 +181,7 @@ export default function Navbar() {
                                     <Link
                                         href="/villas"
                                         onClick={() => setIsMobileMenuOpen(false)}
-                                        className="block w-full py-4 bg-gray-900 text-white text-center text-sm tracking-[0.15em] uppercase hover:bg-amber-500 hover:text-gray-900 transition-colors"
+                                        className="block w-full py-4 bg-olive-900 text-white text-center text-sm tracking-[0.15em] uppercase hover:bg-olive-600 transition-colors"
                                     >
                                         Book Your Stay
                                     </Link>
