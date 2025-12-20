@@ -1,7 +1,7 @@
 'use client'
 
 import { motion, useInView } from 'framer-motion'
-import { useRef, useEffect, useState } from 'react'
+import { useRef, useEffect, useState, useMemo } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { Villa } from '@/types'
 import Image from 'next/image'
@@ -9,46 +9,112 @@ import Link from 'next/link'
 import { ArrowUpRight } from 'lucide-react'
 import { formatCurrency } from '@/lib/utils'
 
+// Fallback data jika database kosong
+const fallbackVillas = [
+    {
+        id: '1',
+        name: 'Villa Taman Surga',
+        price_per_night: 4500000,
+        bedrooms: 3,
+        bathrooms: 3,
+        max_guests: 6,
+        images: ['https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=80'],
+        location: 'Ubud, Bali'
+    },
+    {
+        id: '2',
+        name: 'Villa Lotus Dream',
+        price_per_night: 5500000,
+        bedrooms: 4,
+        bathrooms: 4,
+        max_guests: 8,
+        images: ['https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800&q=80'],
+        location: 'Ubud, Bali'
+    },
+    {
+        id: '3',
+        name: 'Villa Bambu Retreat',
+        price_per_night: 3800000,
+        bedrooms: 2,
+        bathrooms: 2,
+        max_guests: 4,
+        images: ['https://images.unsplash.com/photo-1602002418082-a4443e081dd1?w=800&q=80'],
+        location: 'Ubud, Bali'
+    },
+    {
+        id: '4',
+        name: 'Villa Sawah Indah',
+        price_per_night: 6200000,
+        bedrooms: 5,
+        bathrooms: 5,
+        max_guests: 10,
+        images: ['https://images.unsplash.com/photo-1540541338287-41700207dee6?w=800&q=80'],
+        location: 'Ubud, Bali'
+    },
+    {
+        id: '5',
+        name: 'Villa Harmony',
+        price_per_night: 4200000,
+        bedrooms: 3,
+        bathrooms: 3,
+        max_guests: 6,
+        images: ['https://images.unsplash.com/photo-1582719508461-905c673771fd?w=800&q=80'],
+        location: 'Ubud, Bali'
+    },
+]
+
 export default function FeaturedVillas() {
     const ref = useRef(null)
     const isInView = useInView(ref, { once: true, margin: "-100px" })
     const [villas, setVillas] = useState<Villa[]>([])
     const [loading, setLoading] = useState(true)
 
+    // Memoize supabase client to prevent re-creation
+    const supabase = useMemo(() => createClient(), [])
+
     useEffect(() => {
         async function fetchVillas() {
-            const supabase = createClient()
-            const { data, error } = await supabase
-                .from('villas')
-                .select('*')
-                .limit(5)
-                .order('created_at', { ascending: false })
+            try {
+                const { data, error } = await supabase
+                    .from('villas')
+                    .select('*')
+                    .limit(5)
+                    .order('created_at', { ascending: false })
 
-            if (!error && data) {
-                setVillas(data)
+                if (!error && data && data.length > 0) {
+                    setVillas(data)
+                } else {
+                    setVillas(fallbackVillas as Villa[])
+                }
+            } catch {
+                setVillas(fallbackVillas as Villa[])
             }
             setLoading(false)
         }
         fetchVillas()
-    }, [])
+    }, [supabase])
 
     if (loading) {
         return (
             <section className="py-32 bg-cream">
                 <div className="max-w-[1400px] mx-auto px-6 md:px-12">
-                    <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
-                        {[...Array(5)].map((_, i) => (
-                            <div key={i} className={`${i === 0 ? 'col-span-2 row-span-2' : ''} aspect-square bg-light animate-pulse`} />
-                        ))}
+                    <div className="mb-16">
+                        <div className="h-8 w-48 bg-light animate-pulse mb-4" />
+                        <div className="h-16 w-96 bg-light animate-pulse" />
+                    </div>
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-3">
+                        <div className="col-span-2 row-span-2 aspect-square bg-light animate-pulse" />
+                        <div className="aspect-square bg-light animate-pulse" />
+                        <div className="aspect-square bg-light animate-pulse" />
+                        <div className="row-span-2 aspect-[1/2] bg-light animate-pulse" />
+                        <div className="aspect-square bg-light animate-pulse" />
                     </div>
                 </div>
             </section>
         )
     }
 
-    if (!villas || villas.length === 0) {
-        return null
-    }
+    const displayVillas = villas.length > 0 ? villas : fallbackVillas
 
     return (
         <section ref={ref} className="py-32 bg-cream">
@@ -85,14 +151,13 @@ export default function FeaturedVillas() {
 
                 {/* Bento Grid */}
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-3">
-                    {villas.map((villa, index) => {
-                        // Bento grid layout patterns
+                    {displayVillas.slice(0, 5).map((villa, index) => {
                         const gridClasses = [
-                            'col-span-2 row-span-2', // Large featured
-                            'col-span-1 row-span-1', // Small
-                            'col-span-1 row-span-1', // Small
-                            'col-span-1 row-span-2', // Tall
-                            'col-span-1 row-span-1', // Small
+                            'col-span-2 row-span-2',
+                            'col-span-1 row-span-1',
+                            'col-span-1 row-span-1',
+                            'col-span-1 row-span-2',
+                            'col-span-1 row-span-1',
                         ]
 
                         const aspectClasses = [
