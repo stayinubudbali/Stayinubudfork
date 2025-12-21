@@ -1,7 +1,18 @@
 import { Resend } from 'resend'
 
-// Initialize Resend with API key
-const resend = new Resend(process.env.RESEND_API_KEY)
+// Lazy initialization of Resend - only when needed
+let resend: Resend | null = null
+
+function getResend(): Resend {
+    if (!resend) {
+        const apiKey = process.env.RESEND_API_KEY
+        if (!apiKey) {
+            throw new Error('RESEND_API_KEY is not configured')
+        }
+        resend = new Resend(apiKey)
+    }
+    return resend
+}
 
 interface SendEmailOptions {
     to: string | string[]
@@ -23,7 +34,8 @@ interface SendEmailResult {
  */
 export async function sendEmail(options: SendEmailOptions): Promise<SendEmailResult> {
     try {
-        const { data, error } = await resend.emails.send({
+        const resendClient = getResend()
+        const { data, error } = await resendClient.emails.send({
             from: options.from || process.env.EMAIL_FROM || 'StayinUBUD <noreply@stayinubud.com>',
             to: Array.isArray(options.to) ? options.to : [options.to],
             subject: options.subject,
