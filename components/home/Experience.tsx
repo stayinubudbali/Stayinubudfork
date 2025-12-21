@@ -1,207 +1,234 @@
 'use client'
 
-import { motion, useInView } from 'framer-motion'
 import { useRef } from 'react'
+import { motion, useScroll, useTransform, useInView } from 'framer-motion'
 import Image from 'next/image'
-import { Leaf, Sparkles, Heart, Mountain, Utensils, Palette, ArrowRight } from 'lucide-react'
+import { ArrowRight } from 'lucide-react'
+import Link from 'next/link'
 
 const experiences = [
     {
-        id: 1,
-        title: 'Yoga & Meditation',
-        description: 'Start your day with sunrise yoga sessions overlooking rice terraces.',
-        image: 'https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=800&q=80',
-        icon: Heart,
-        duration: '2-3 hours',
-        color: 'from-rose-500/20',
+        title: 'Sunrise Yoga',
+        description: 'Start your day with rejuvenating yoga sessions overlooking rice terraces',
+        image: 'https://images.unsplash.com/photo-1545389336-cf090694435e?w=800',
+        category: 'Wellness'
     },
     {
-        id: 2,
         title: 'Balinese Spa',
-        description: 'Traditional massage and healing treatments using organic ingredients.',
-        image: 'https://images.unsplash.com/photo-1544161515-4ab6ce6db874?w=800&q=80',
-        icon: Sparkles,
-        duration: '1-2 hours',
-        color: 'from-purple-500/20',
+        description: 'Traditional healing treatments using ancient techniques and local herbs',
+        image: 'https://images.unsplash.com/photo-1600334129128-685c5582fd35?w=800',
+        category: 'Relaxation'
     },
     {
-        id: 3,
-        title: 'Rice Terrace Trek',
-        description: 'Explore Tegalalang with a private guide.',
-        image: 'https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=800&q=80',
-        icon: Mountain,
-        duration: 'Half day',
-        color: 'from-emerald-500/20',
+        title: 'Rice Field Trek',
+        description: 'Guided walks through emerald terraces and hidden waterfalls',
+        image: 'https://images.unsplash.com/photo-1526772662000-3f88f10405ff?w=800',
+        category: 'Adventure'
     },
     {
-        id: 4,
         title: 'Cooking Class',
-        description: 'Master Balinese cuisine from market visit to cooking.',
-        image: 'https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=800&q=80',
-        icon: Utensils,
-        duration: '4-5 hours',
-        color: 'from-orange-500/20',
+        description: 'Master authentic Balinese recipes with local culinary experts',
+        image: 'https://images.unsplash.com/photo-1507048331197-7d4ac70811cf?w=800',
+        category: 'Culture'
     },
     {
-        id: 5,
-        title: 'Art & Culture',
-        description: 'Galleries, traditional dance, and ancient temples.',
-        image: 'https://images.unsplash.com/photo-1558862107-d49ef2a04d72?w=800&q=80',
-        icon: Palette,
-        duration: 'Full day',
-        color: 'from-blue-500/20',
+        title: 'Temple Ceremony',
+        description: 'Experience sacred rituals and ancient spiritual traditions',
+        image: 'https://images.unsplash.com/photo-1555400038-63f5ba517a47?w=800',
+        category: 'Spiritual'
     },
     {
-        id: 6,
-        title: 'Nature Walks',
-        description: 'Hidden waterfalls and scenic paths around Ubud.',
-        image: 'https://images.unsplash.com/photo-1512100356356-de1b84283e18?w=800&q=80',
-        icon: Leaf,
-        duration: '3-4 hours',
-        color: 'from-teal-500/20',
+        title: 'Art Workshop',
+        description: 'Learn traditional Balinese painting and craft techniques',
+        image: 'https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?w=800',
+        category: 'Creative'
     },
 ]
 
-export default function Experience() {
+// Text reveal component
+function TextReveal({ children, delay = 0 }: { children: React.ReactNode, delay?: number }) {
     const ref = useRef(null)
-    const isInView = useInView(ref, { once: true, margin: "-100px" })
+    const isInView = useInView(ref, { once: true, margin: "-50px" })
 
     return (
-        <section ref={ref} className="py-24 md:py-32 bg-olive-100/30 relative overflow-hidden">
-            {/* Decorative */}
-            <div className="absolute top-0 right-0 w-1/2 h-1/2 bg-gradient-to-bl from-olive-200/30 to-transparent pointer-events-none" />
+        <div className="overflow-hidden" ref={ref}>
+            <motion.div
+                initial={{ y: '100%' }}
+                animate={isInView ? { y: 0 } : {}}
+                transition={{ duration: 0.6, delay, ease: [0.16, 1, 0.3, 1] }}
+            >
+                {children}
+            </motion.div>
+        </div>
+    )
+}
 
-            <div className="max-w-[1400px] mx-auto px-6 md:px-12 relative z-10">
+// Scroll reveal component
+function ScrollReveal({ children, delay = 0 }: { children: React.ReactNode, delay?: number }) {
+    const ref = useRef(null)
+    const isInView = useInView(ref, { once: true, margin: "-80px" })
+
+    return (
+        <motion.div
+            ref={ref}
+            initial={{ opacity: 0, y: 60 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.8, delay, ease: [0.16, 1, 0.3, 1] }}
+        >
+            {children}
+        </motion.div>
+    )
+}
+
+export default function Experience() {
+    const containerRef = useRef<HTMLElement>(null)
+    const horizontalRef = useRef<HTMLDivElement>(null)
+
+    const { scrollYProgress } = useScroll({
+        target: containerRef,
+        offset: ["start end", "end start"]
+    })
+
+    const backgroundY = useTransform(scrollYProgress, [0, 1], ['0%', '30%'])
+
+    return (
+        <section ref={containerRef} className="relative py-32 md:py-40 bg-olive-900 overflow-hidden">
+            {/* Parallax Background Elements */}
+            <motion.div
+                style={{ y: backgroundY }}
+                className="absolute inset-0 pointer-events-none"
+            >
+                <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-olive-800/50 to-transparent" />
+                <div className="absolute bottom-0 left-0 w-full h-1/2 bg-gradient-to-t from-black/20 to-transparent" />
+
+                {/* Decorative circles */}
+                <div className="absolute top-20 left-20 w-64 h-64 border border-olive-700/30 rounded-full" />
+                <div className="absolute bottom-40 right-40 w-96 h-96 border border-olive-700/20 rounded-full" />
+            </motion.div>
+
+            <div className="relative z-10 max-w-[1400px] mx-auto px-6 md:px-12">
                 {/* Header */}
-                <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between mb-16 gap-8">
+                <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8 mb-16 md:mb-20">
                     <div className="max-w-2xl">
-                        <motion.div
-                            initial={{ opacity: 0, x: -20 }}
-                            animate={isInView ? { opacity: 1, x: 0 } : {}}
-                            transition={{ duration: 0.5 }}
-                            className="flex items-center gap-3 mb-6"
-                        >
-                            <div className="flex items-center gap-2 px-3 py-1.5 bg-olive-900 text-white">
-                                <Leaf size={12} />
-                                <span className="text-[10px] tracking-[0.2em] uppercase">Curated Experiences</span>
-                            </div>
-                        </motion.div>
+                        <ScrollReveal>
+                            <p className="text-olive-400 text-xs tracking-[0.3em] uppercase mb-4">
+                                Beyond Accommodation
+                            </p>
+                        </ScrollReveal>
 
-                        <div className="overflow-hidden">
-                            <motion.h2
-                                initial={{ y: 80 }}
-                                animate={isInView ? { y: 0 } : {}}
-                                transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-                                className="font-display text-4xl md:text-5xl lg:text-6xl text-gray-900 mb-6"
-                            >
-                                Discover <span className="italic text-olive-600">Ubud</span>
-                            </motion.h2>
-                        </div>
+                        <TextReveal delay={0.1}>
+                            <h2 className="font-display text-4xl md:text-5xl lg:text-6xl text-white mb-6">
+                                Curated <span className="italic text-olive-400">Experiences</span>
+                            </h2>
+                        </TextReveal>
 
-                        <motion.p
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={isInView ? { opacity: 1, y: 0 } : {}}
-                            transition={{ duration: 0.5, delay: 0.2 }}
-                            className="text-gray-500 max-w-lg leading-relaxed"
-                        >
-                            Beyond your villa, Ubud offers a world of authentic experiences.
-                            Let us arrange unforgettable activities during your stay.
-                        </motion.p>
+                        <ScrollReveal delay={0.2}>
+                            <p className="text-white/60 text-lg leading-relaxed">
+                                Immerse yourself in the magic of Ubud with our carefully crafted experiences,
+                                designed to connect you with the soul of Bali.
+                            </p>
+                        </ScrollReveal>
                     </div>
+
+                    <ScrollReveal delay={0.3}>
+                        <Link
+                            href="/experiences"
+                            className="group inline-flex items-center gap-3 px-8 py-4 border border-white/30 text-white text-sm tracking-[0.15em] uppercase hover:bg-white hover:text-olive-900 transition-all"
+                        >
+                            <span>View All</span>
+                            <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+                        </Link>
+                    </ScrollReveal>
                 </div>
 
-                {/* Grid */}
-                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
-                    {experiences.map((exp, index) => {
-                        const Icon = exp.icon
-                        return (
+                {/* Experience Grid */}
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {experiences.map((experience, index) => (
+                        <ScrollReveal key={index} delay={0.1 * index}>
                             <motion.div
-                                key={exp.id}
-                                initial={{ opacity: 0, y: 40 }}
-                                animate={isInView ? { opacity: 1, y: 0 } : {}}
-                                transition={{
-                                    duration: 0.5,
-                                    delay: 0.1 + index * 0.08,
-                                    ease: [0.16, 1, 0.3, 1]
-                                }}
-                                whileHover={{ y: -8 }}
-                                className="group bg-white overflow-hidden shadow-sm hover:shadow-xl transition-shadow duration-300 cursor-pointer"
+                                whileHover={{ y: -10 }}
+                                className="group relative cursor-pointer"
                             >
-                                {/* Image */}
-                                <div className="relative h-48 md:h-56 overflow-hidden">
-                                    <Image
-                                        src={exp.image}
-                                        alt={exp.title}
-                                        fill
-                                        className="object-cover transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-110"
-                                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                                    />
-
-                                    {/* Gradient Overlay */}
-                                    <div className={`absolute inset-0 bg-gradient-to-t ${exp.color} to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300`} />
-
-                                    {/* Duration */}
+                                {/* Image Container */}
+                                <div className="relative aspect-[4/5] overflow-hidden mb-6">
                                     <motion.div
-                                        className="absolute top-4 right-4 px-3 py-1.5 bg-white/95 backdrop-blur-sm"
-                                        whileHover={{ scale: 1.05 }}
+                                        whileHover={{ scale: 1.1 }}
+                                        transition={{ duration: 0.6 }}
+                                        className="absolute inset-0"
                                     >
-                                        <span className="text-gray-900 text-[10px] tracking-[0.1em] uppercase font-medium">{exp.duration}</span>
+                                        <Image
+                                            src={experience.image}
+                                            alt={experience.title}
+                                            fill
+                                            className="object-cover"
+                                        />
+                                    </motion.div>
+
+                                    {/* Overlay */}
+                                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+
+                                    {/* Category Badge */}
+                                    <motion.div
+                                        initial={{ opacity: 0, y: -20 }}
+                                        whileHover={{ opacity: 1, y: 0 }}
+                                        className="absolute top-4 left-4 px-3 py-1 bg-white/90 text-olive-900 text-xs tracking-wider uppercase"
+                                    >
+                                        {experience.category}
                                     </motion.div>
 
                                     {/* Explore Button */}
                                     <motion.div
-                                        className="absolute bottom-4 left-4 px-4 py-2 bg-white/95 backdrop-blur-sm flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-all duration-300"
-                                        initial={{ y: 10 }}
-                                        whileHover={{ scale: 1.02 }}
+                                        initial={{ opacity: 0, y: 20 }}
+                                        whileHover={{ opacity: 1, y: 0 }}
+                                        className="absolute bottom-4 right-4"
                                     >
-                                        <span className="text-gray-900 text-xs font-medium">Explore</span>
-                                        <ArrowRight size={12} className="text-olive-600" />
+                                        <div className="w-12 h-12 bg-olive-600 text-white flex items-center justify-center group-hover:bg-olive-400 transition-colors">
+                                            <ArrowRight size={18} />
+                                        </div>
                                     </motion.div>
                                 </div>
 
                                 {/* Content */}
-                                <div className="p-5 md:p-6">
-                                    <div className="flex items-start gap-4">
-                                        <motion.div
-                                            className="w-10 h-10 flex items-center justify-center bg-olive-100 text-olive-600 flex-shrink-0"
-                                            whileHover={{ rotate: 15, scale: 1.1 }}
-                                            transition={{ type: 'spring', stiffness: 300 }}
-                                        >
-                                            <Icon size={18} />
-                                        </motion.div>
-                                        <div className="flex-1 min-w-0">
-                                            <h3 className="font-display text-lg md:text-xl text-gray-900 mb-1 group-hover:text-olive-600 transition-colors truncate">
-                                                {exp.title}
-                                            </h3>
-                                            <p className="text-gray-500 text-sm leading-relaxed line-clamp-2">
-                                                {exp.description}
-                                            </p>
-                                        </div>
-                                    </div>
+                                <div>
+                                    <h3 className="font-display text-2xl text-white mb-2 group-hover:text-olive-400 transition-colors">
+                                        {experience.title}
+                                    </h3>
+                                    <p className="text-white/50 text-sm leading-relaxed">
+                                        {experience.description}
+                                    </p>
                                 </div>
+
+                                {/* Hover line */}
+                                <motion.div
+                                    className="absolute bottom-0 left-0 h-0.5 bg-olive-400"
+                                    initial={{ width: 0 }}
+                                    whileHover={{ width: '50%' }}
+                                    transition={{ duration: 0.3 }}
+                                />
                             </motion.div>
-                        )
-                    })}
+                        </ScrollReveal>
+                    ))}
                 </div>
 
-                {/* Bottom CTA */}
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={isInView ? { opacity: 1, y: 0 } : {}}
-                    transition={{ duration: 0.5, delay: 0.6 }}
-                    className="mt-12 md:mt-16 text-center"
-                >
-                    <motion.div
-                        className="inline-flex items-center gap-4 px-6 py-4 bg-white border border-olive-200 cursor-pointer"
-                        whileHover={{ scale: 1.02, borderColor: '#5D8736' }}
-                        transition={{ duration: 0.2 }}
-                    >
-                        <Sparkles size={16} className="text-olive-600" />
-                        <p className="text-gray-600 text-sm">
-                            <span className="font-medium text-gray-900">Complimentary concierge</span> service for all villa bookings
-                        </p>
-                    </motion.div>
-                </motion.div>
+                {/* Bottom Quote */}
+                <ScrollReveal delay={0.5}>
+                    <div className="mt-24 text-center">
+                        <motion.blockquote
+                            initial={{ opacity: 0 }}
+                            whileInView={{ opacity: 1 }}
+                            transition={{ duration: 1 }}
+                            viewport={{ once: true }}
+                            className="max-w-3xl mx-auto"
+                        >
+                            <p className="font-display text-2xl md:text-3xl text-white/80 italic leading-relaxed mb-6">
+                                "A journey of a thousand miles begins with a single step into the heart of Bali."
+                            </p>
+                            <cite className="text-olive-400 text-sm tracking-wider uppercase not-italic">
+                                — The StayinUBUD Philosophy
+                            </cite>
+                        </motion.blockquote>
+                    </div>
+                </ScrollReveal>
             </div>
         </section>
     )
