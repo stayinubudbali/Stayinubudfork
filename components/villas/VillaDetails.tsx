@@ -222,166 +222,88 @@ export default function VillaDetails({ villa }: VillaDetailsProps) {
                 </motion.div>
             </section>
 
-            {/* Executive Split Section - Premium Design */}
-            <section className="relative overflow-hidden">
-                <div className="grid lg:grid-cols-2">
-                    {/* Left - Immersive Image */}
-                    <div className="relative h-[50vh] sm:h-[60vh] lg:h-auto lg:min-h-[800px]">
-                        <motion.div
-                            initial={{ scale: 1.1 }}
-                            whileInView={{ scale: 1 }}
-                            transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
-                            viewport={{ once: true }}
-                            className="absolute inset-0"
-                        >
-                            <Image
-                                src={villa.images[1] || villa.images[0]}
-                                alt={villa.name}
-                                fill
-                                className="object-cover"
-                                sizes="(max-width: 1024px) 100vw, 50vw"
-                            />
-                        </motion.div>
+            {/* Story Section - About */}
+            <section className="py-16 sm:py-24 md:py-32 bg-cream relative overflow-hidden">
+                {/* Decorative */}
+                <div className="absolute top-0 right-0 w-1/2 h-1/2 bg-gradient-to-bl from-olive-100/30 to-transparent pointer-events-none" />
 
-                        {/* Overlay Gradient */}
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent lg:bg-gradient-to-l lg:from-transparent lg:to-black/20" />
-
-                        {/* Floating Stats Card - Hidden on small mobile, shown on larger screens */}
-                        <motion.div
-                            initial={{ opacity: 0, x: -30 }}
-                            whileInView={{ opacity: 1, x: 0 }}
-                            transition={{ delay: 0.5, duration: 0.8 }}
-                            viewport={{ once: true }}
-                            className="hidden sm:block absolute bottom-4 sm:bottom-8 left-4 sm:left-8 right-4 sm:right-8 lg:bottom-12 lg:left-12 lg:right-auto lg:w-72"
-                        >
-                            <div className="backdrop-blur-xl bg-white/90 p-4 sm:p-6 shadow-2xl border border-white/20">
-                                <p className="text-[10px] tracking-[0.3em] text-olive-600 uppercase mb-3 sm:mb-4">Villa Highlights</p>
-                                <div className="space-y-3 sm:space-y-4">
-                                    <div className="flex items-center justify-between border-b border-gray-100 pb-2 sm:pb-3">
-                                        <span className="text-gray-500 text-xs sm:text-sm">Bedrooms</span>
-                                        <span className="font-display text-xl sm:text-2xl text-gray-900">{villa.bedrooms}</span>
-                                    </div>
-                                    <div className="flex items-center justify-between border-b border-gray-100 pb-2 sm:pb-3">
-                                        <span className="text-gray-500 text-xs sm:text-sm">Bathrooms</span>
-                                        <span className="font-display text-xl sm:text-2xl text-gray-900">{villa.bathrooms}</span>
-                                    </div>
-                                    <div className="flex items-center justify-between">
-                                        <span className="text-gray-500 text-xs sm:text-sm">Max Guests</span>
-                                        <span className="font-display text-xl sm:text-2xl text-gray-900">{villa.max_guests}</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </motion.div>
-                    </div>
-
-                    {/* Right - Content */}
-                    <div className="relative bg-cream py-12 sm:py-16 lg:py-24 xl:py-32 px-4 sm:px-8 lg:px-16 xl:px-24 flex items-center">
-                        {/* Decorative Elements - Hidden on mobile */}
-                        <div className="hidden sm:block absolute top-0 right-0 w-64 h-64 bg-gradient-to-bl from-olive-100/50 to-transparent pointer-events-none" />
-                        <div className="hidden sm:block absolute bottom-0 left-0 w-48 h-48 bg-gradient-to-tr from-olive-100/30 to-transparent pointer-events-none" />
-
-                        <div className="relative z-10 max-w-xl w-full">
+                <div className="max-w-[1400px] mx-auto px-4 sm:px-6 md:px-12">
+                    <div className="grid lg:grid-cols-2 gap-12 lg:gap-24 items-center">
+                        {/* Left - Text */}
+                        <div>
                             <ScrollReveal>
-                                <div className="inline-flex items-center gap-2 sm:gap-3 mb-4 sm:mb-6">
-                                    <div className="w-8 sm:w-12 h-[1px] bg-olive-600" />
-                                    <span className="text-olive-600 text-[10px] sm:text-xs tracking-[0.2em] sm:tracking-[0.3em] uppercase">The Experience</span>
-                                </div>
+                                <p className="text-olive-600 text-xs tracking-[0.3em] uppercase mb-4 flex items-center gap-2">
+                                    <Sparkles size={12} />
+                                    The Experience
+                                </p>
                             </ScrollReveal>
 
                             <TextReveal delay={0.1}>
-                                <h2 className="font-display text-3xl sm:text-4xl md:text-5xl xl:text-6xl text-gray-900 mb-4 sm:mb-8 leading-[1.1]">
-                                    Your Private<br />
-                                    <span className="italic text-olive-600">Sanctuary</span>
+                                <h2 className="font-display text-3xl sm:text-4xl md:text-5xl text-gray-900 mb-6 sm:mb-8">
+                                    Your Private <span className="italic text-olive-600">Sanctuary</span>
                                 </h2>
                             </TextReveal>
 
                             <ScrollReveal delay={0.2}>
-                                <p className="text-gray-600 leading-relaxed text-base sm:text-lg mb-6 sm:mb-8 whitespace-pre-line line-clamp-4 sm:line-clamp-none">
+                                <p className="text-gray-600 leading-relaxed text-base sm:text-lg mb-6 sm:mb-8 whitespace-pre-line">
                                     {villa.description}
                                 </p>
                             </ScrollReveal>
 
-                            {/* Features Grid */}
                             <ScrollReveal delay={0.3}>
-                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-4 mb-6 sm:mb-10">
-                                    {villa.amenities.slice(0, 4).map((amenity, index) => (
-                                        <motion.div
-                                            key={index}
-                                            whileHover={{ x: 5 }}
-                                            className="flex items-center gap-2 sm:gap-3 py-2 sm:py-3 px-3 sm:px-4 bg-white/60 border border-gray-100"
-                                        >
-                                            <div className="w-1.5 sm:w-2 h-1.5 sm:h-2 bg-olive-600 rounded-full flex-shrink-0" />
-                                            <span className="text-gray-700 text-xs sm:text-sm">{amenity}</span>
-                                        </motion.div>
-                                    ))}
-                                </div>
-                            </ScrollReveal>
-
-                            {/* CTA */}
-                            <ScrollReveal delay={0.4}>
-                                <div className="flex flex-col gap-3 sm:gap-4">
-                                    <button
-                                        onClick={() => setShowBookingModal(true)}
-                                        className="group w-full sm:w-auto inline-flex items-center justify-center sm:justify-start gap-2 sm:gap-3 px-6 sm:px-8 py-3 sm:py-4 bg-olive-900 text-white text-xs sm:text-sm tracking-[0.1em] uppercase hover:bg-olive-600 transition-all duration-300"
+                                <button
+                                    onClick={() => setShowBookingModal(true)}
+                                    className="group inline-flex items-center gap-3 px-6 sm:px-8 py-3 sm:py-4 bg-olive-900 text-white text-xs sm:text-sm tracking-[0.1em] uppercase hover:bg-olive-600 transition-colors"
+                                >
+                                    <span>Book Your Stay</span>
+                                    <motion.span
+                                        className="group-hover:translate-x-1 transition-transform"
                                     >
-                                        <Calendar size={14} className="sm:w-4 sm:h-4" />
-                                        <span>Book Your Stay</span>
-                                        <motion.span
-                                            className="group-hover:translate-x-1 transition-transform"
-                                        >
-                                            →
-                                        </motion.span>
-                                    </button>
-
-                                    <div className="text-center sm:text-left">
-                                        <p className="text-[10px] sm:text-xs text-gray-400 uppercase tracking-wider">Starting from</p>
-                                        <p className="font-display text-xl sm:text-2xl text-olive-900">{formatCurrency(villa.price_per_night)}<span className="text-xs sm:text-sm text-gray-400 ml-1">/night</span></p>
-                                    </div>
-                                </div>
+                                        →
+                                    </motion.span>
+                                </button>
                             </ScrollReveal>
+                        </div>
+
+                        {/* Right - Key Features */}
+                        <div className="grid grid-cols-3 gap-3 sm:gap-4">
+                            {[
+                                { icon: Bed, value: villa.bedrooms, label: 'Bedrooms' },
+                                { icon: Bath, value: villa.bathrooms, label: 'Bathrooms' },
+                                { icon: Users, value: villa.max_guests, label: 'Max Guests' },
+                            ].map((stat, index) => (
+                                <ScrollReveal key={stat.label} delay={0.2 + index * 0.1}>
+                                    <motion.div
+                                        whileHover={{ y: -5 }}
+                                        className="p-4 sm:p-6 md:p-8 bg-white border border-gray-100 text-center"
+                                    >
+                                        <stat.icon size={20} className="sm:w-6 sm:h-6 mx-auto text-olive-600 mb-3 sm:mb-4" />
+                                        <CountUp
+                                            end={stat.value}
+                                            duration={2}
+                                            className="font-display text-2xl sm:text-3xl md:text-4xl text-gray-900 block mb-1 sm:mb-2"
+                                        />
+                                        <p className="text-gray-500 text-xs sm:text-sm">{stat.label}</p>
+                                    </motion.div>
+                                </ScrollReveal>
+                            ))}
                         </div>
                     </div>
                 </div>
             </section>
 
-            {/* Horizontal Features Bar */}
-            <section className="bg-olive-900 py-6">
-                <div className="max-w-[1400px] mx-auto px-6 md:px-12">
-                    <div className="flex flex-wrap justify-center lg:justify-between items-center gap-6 lg:gap-0">
-                        {[
-                            { icon: Bed, label: `${villa.bedrooms} Bedrooms` },
-                            { icon: Bath, label: `${villa.bathrooms} Bathrooms` },
-                            { icon: Users, label: `Up to ${villa.max_guests} Guests` },
-                            { icon: MapPin, label: villa.location },
-                            { icon: Star, label: 'Premium Villa' },
-                        ].map((item, index) => (
-                            <motion.div
-                                key={index}
-                                initial={{ opacity: 0, y: 10 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                transition={{ delay: index * 0.1 }}
-                                viewport={{ once: true }}
-                                className="flex items-center gap-2 text-white/70"
-                            >
-                                <item.icon size={16} className="text-olive-400" />
-                                <span className="text-sm">{item.label}</span>
-                            </motion.div>
-                        ))}
-                    </div>
-                </div>
-            </section>
-
-            {/* Parallax Gallery Section */}
-            <section ref={containerRef} className="relative py-16 sm:py-24 md:py-32 bg-gray-900 overflow-hidden">
-                <motion.div
-                    style={{ y: galleryY }}
-                    className="max-w-[1400px] mx-auto px-4 sm:px-6 md:px-12"
-                >
-                    <div className="grid md:grid-cols-2 gap-3 sm:gap-4 md:gap-8">
+            {/* Split Screen Gallery Section */}
+            <section ref={containerRef} className="relative bg-gray-900 overflow-hidden">
+                <div className="grid lg:grid-cols-2 min-h-[600px] lg:min-h-[800px]">
+                    {/* Left - Gallery */}
+                    <div className="relative">
                         {/* Main Image */}
-                        <ScrollReveal>
+                        <motion.div
+                            style={{ y: galleryY }}
+                            className="relative h-[50vh] lg:h-full"
+                        >
                             <div
-                                className="relative aspect-[4/5] overflow-hidden cursor-pointer group"
+                                className="relative h-full overflow-hidden cursor-pointer group"
                                 onClick={() => setShowLightbox(true)}
                             >
                                 <Image
@@ -389,38 +311,119 @@ export default function VillaDetails({ villa }: VillaDetailsProps) {
                                     alt={`${villa.name} - Image ${selectedImage + 1}`}
                                     fill
                                     className="object-cover transition-transform duration-700 group-hover:scale-105"
+                                    sizes="(max-width: 1024px) 100vw, 50vw"
                                 />
                                 <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors" />
-                                <div className="absolute bottom-4 left-4 right-4 flex justify-between items-center opacity-0 group-hover:opacity-100 transition-opacity">
-                                    <span className="text-white text-sm">{selectedImage + 1} / {villa.images.length}</span>
-                                    <span className="text-white/60 text-sm">Click to expand</span>
+
+                                {/* Image Counter */}
+                                <div className="absolute bottom-4 left-4 right-4 flex justify-between items-center">
+                                    <span className="px-3 py-1 bg-black/50 backdrop-blur-sm text-white text-xs sm:text-sm">
+                                        {selectedImage + 1} / {villa.images.length}
+                                    </span>
+                                    <span className="px-3 py-1 bg-black/50 backdrop-blur-sm text-white/80 text-xs hidden sm:block">
+                                        Click to expand
+                                    </span>
                                 </div>
                             </div>
-                        </ScrollReveal>
+                        </motion.div>
 
-                        {/* Thumbnail Grid */}
-                        <div className="grid grid-cols-2 gap-4">
-                            {villa.images.slice(1, 5).map((image, index) => (
-                                <ScrollReveal key={index} delay={0.1 * (index + 1)}>
-                                    <motion.button
-                                        onClick={() => setSelectedImage(index + 1)}
-                                        whileHover={{ scale: 0.98 }}
-                                        className={`relative aspect-square overflow-hidden ${selectedImage === index + 1 ? 'ring-2 ring-olive-400' : ''
+                        {/* Thumbnail Strip - Horizontal at bottom on mobile, visible on all sizes */}
+                        <div className="absolute bottom-0 left-0 right-0 p-3 sm:p-4 bg-gradient-to-t from-black/80 to-transparent">
+                            <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
+                                {villa.images.map((image, index) => (
+                                    <button
+                                        key={index}
+                                        onClick={() => setSelectedImage(index)}
+                                        className={`relative flex-shrink-0 w-14 h-14 sm:w-16 sm:h-16 overflow-hidden transition-all ${selectedImage === index
+                                                ? 'ring-2 ring-olive-400 opacity-100'
+                                                : 'opacity-60 hover:opacity-100'
                                             }`}
                                     >
                                         <Image
                                             src={image}
-                                            alt={`${villa.name} thumbnail ${index + 2}`}
+                                            alt={`Thumbnail ${index + 1}`}
                                             fill
                                             className="object-cover"
                                         />
-                                        <div className="absolute inset-0 bg-black/30 hover:bg-black/10 transition-colors" />
-                                    </motion.button>
-                                </ScrollReveal>
-                            ))}
+                                    </button>
+                                ))}
+                            </div>
                         </div>
                     </div>
-                </motion.div>
+
+                    {/* Right - Content */}
+                    <div className="bg-gray-900 py-12 sm:py-16 lg:py-0 px-6 sm:px-10 lg:px-16 flex items-center">
+                        <div className="w-full max-w-lg mx-auto lg:mx-0">
+                            <ScrollReveal>
+                                <div className="inline-flex items-center gap-3 mb-6">
+                                    <div className="w-10 h-[1px] bg-olive-400" />
+                                    <span className="text-olive-400 text-xs tracking-[0.3em] uppercase">Gallery</span>
+                                </div>
+                            </ScrollReveal>
+
+                            <TextReveal delay={0.1}>
+                                <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl text-white mb-6 leading-tight">
+                                    Explore Every<br />
+                                    <span className="italic text-olive-400">Detail</span>
+                                </h2>
+                            </TextReveal>
+
+                            <ScrollReveal delay={0.2}>
+                                <p className="text-white/60 text-base sm:text-lg mb-8 leading-relaxed">
+                                    Browse through our carefully curated gallery showcasing the beauty and elegance of {villa.name}.
+                                    Every corner is designed for your comfort and pleasure.
+                                </p>
+                            </ScrollReveal>
+
+                            {/* Quick Features */}
+                            <ScrollReveal delay={0.3}>
+                                <div className="grid grid-cols-3 gap-4 mb-8">
+                                    {[
+                                        { icon: Bed, value: villa.bedrooms, label: 'Beds' },
+                                        { icon: Bath, value: villa.bathrooms, label: 'Baths' },
+                                        { icon: Users, value: villa.max_guests, label: 'Guests' },
+                                    ].map((stat, index) => (
+                                        <div key={index} className="text-center p-3 sm:p-4 bg-white/5 border border-white/10">
+                                            <stat.icon size={18} className="mx-auto text-olive-400 mb-2" />
+                                            <p className="font-display text-xl sm:text-2xl text-white">{stat.value}</p>
+                                            <p className="text-white/50 text-xs">{stat.label}</p>
+                                        </div>
+                                    ))}
+                                </div>
+                            </ScrollReveal>
+
+                            {/* CTA */}
+                            <ScrollReveal delay={0.4}>
+                                <div className="flex flex-col sm:flex-row gap-3">
+                                    <button
+                                        onClick={() => setShowBookingModal(true)}
+                                        className="flex-1 sm:flex-none inline-flex items-center justify-center gap-2 px-6 py-3 bg-olive-600 text-white text-xs sm:text-sm tracking-wider uppercase hover:bg-olive-500 transition-colors"
+                                    >
+                                        <Calendar size={16} />
+                                        <span>Book Now</span>
+                                    </button>
+                                    <button
+                                        onClick={() => setShowLightbox(true)}
+                                        className="flex-1 sm:flex-none inline-flex items-center justify-center gap-2 px-6 py-3 border border-white/30 text-white text-xs sm:text-sm tracking-wider uppercase hover:bg-white/10 transition-colors"
+                                    >
+                                        <span>View All Photos</span>
+                                    </button>
+                                </div>
+                            </ScrollReveal>
+
+                            {/* Price Tag */}
+                            <ScrollReveal delay={0.5}>
+                                <div className="mt-8 pt-6 border-t border-white/10">
+                                    <p className="text-white/40 text-xs uppercase tracking-wider mb-1">Starting from</p>
+                                    <p className="font-display text-2xl sm:text-3xl text-olive-400">
+                                        {formatCurrency(villa.price_per_night)}
+                                        <span className="text-white/50 text-sm ml-2">/ night</span>
+                                    </p>
+                                </div>
+                            </ScrollReveal>
+                        </div>
+                    </div>
+                </div>
             </section>
 
             {/* Amenities Section */}
