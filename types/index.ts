@@ -72,3 +72,16 @@ export interface BlogPost {
     created_at: string
     updated_at: string
 }
+
+export interface Testimonial {
+    id: string
+    guest_name: string
+    guest_location: string | null
+    quote: string
+    rating: number
+    villa_name: string | null
+    guest_image: string | null
+    featured: boolean
+    created_at: string
+    updated_at: string
+}

@@ -10,7 +10,8 @@ import {
     FileText,
     Users,
     ExternalLink,
-    Leaf
+    Leaf,
+    MessageSquare
 } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
 
@@ -18,6 +19,7 @@ const menuItems = [
     { href: '/admin/dashboard', icon: TrendingUp, label: 'Dashboard' },
     { href: '/admin/villas', icon: Home, label: 'Kelola Villa' },
     { href: '/admin/bookings', icon: Calendar, label: 'Kelola Booking' },
+    { href: '/admin/testimonials', icon: MessageSquare, label: 'Testimonials' },
     { href: '/admin/blog', icon: FileText, label: 'Kelola Blog' },
     { href: '/admin/users', icon: Users, label: 'Admin Users' },
 ]
