@@ -364,39 +364,140 @@ export default function AnalyticsPage() {
                     <div className="grid lg:grid-cols-3 gap-8 mb-8">
                         {/* Chart Area */}
                         <div className="lg:col-span-2 bg-white border border-gray-100 p-6">
-                            <h3 className="font-display text-lg text-gray-900 mb-6">Traffic Overview</h3>
-                            <div className="h-64 flex items-end gap-2">
-                                {dailyData.length > 0 ? (
-                                    dailyData.map((day, i) => {
-                                        const maxViews = Math.max(...dailyData.map(d => d.views))
-                                        const height = maxViews > 0 ? (day.views / maxViews) * 100 : 0
-                                        return (
-                                            <div key={day.date} className="flex-1 flex flex-col items-center group">
-                                                <div className="w-full relative">
+                            <div className="flex items-center justify-between mb-6">
+                                <h3 className="font-display text-lg text-gray-900">Traffic Overview</h3>
+                                <div className="flex items-center gap-4">
+                                    <div className="flex items-center gap-2">
+                                        <div className="w-3 h-3 bg-olive-600 rounded-sm" />
+                                        <span className="text-xs text-gray-500">Page Views</span>
+                                    </div>
+                                    <div className="flex items-center gap-2">
+                                        <div className="w-3 h-3 bg-olive-300 rounded-sm" />
+                                        <span className="text-xs text-gray-500">Visitors</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {dailyData.length > 0 ? (
+                                <div className="relative">
+                                    {/* Y-Axis Labels */}
+                                    <div className="absolute left-0 top-0 bottom-8 w-10 flex flex-col justify-between text-right pr-2">
+                                        {(() => {
+                                            const maxViews = Math.max(...dailyData.map(d => d.views), 1)
+                                            return [maxViews, Math.round(maxViews * 0.75), Math.round(maxViews * 0.5), Math.round(maxViews * 0.25), 0].map((val, i) => (
+                                                <span key={i} className="text-[10px] text-gray-400">{formatNumber(val)}</span>
+                                            ))
+                                        })()}
+                                    </div>
+
+                                    {/* Chart Container */}
+                                    <div className="ml-12">
+                                        {/* Grid Lines */}
+                                        <div className="absolute left-12 right-0 top-0 bottom-8 flex flex-col justify-between pointer-events-none">
+                                            {[0, 1, 2, 3, 4].map((_, i) => (
+                                                <div key={i} className="border-t border-gray-100 w-full" />
+                                            ))}
+                                        </div>
+
+                                        {/* Bars */}
+                                        <div className="h-52 flex items-end gap-1 relative">
+                                            {dailyData.map((day, i) => {
+                                                const maxViews = Math.max(...dailyData.map(d => d.views), 1)
+                                                const viewsHeight = (day.views / maxViews) * 100
+                                                const visitorsHeight = (day.visitors / maxViews) * 100
+
+                                                return (
                                                     <div
-                                                        className="w-full bg-olive-600 hover:bg-olive-400 transition-colors rounded-t"
-                                                        style={{ height: `${Math.max(height * 2, 4)}px` }}
-                                                    />
-                                                    {/* Tooltip */}
-                                                    <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 hidden group-hover:block z-10">
-                                                        <div className="bg-gray-900 text-white text-xs px-2 py-1 rounded whitespace-nowrap">
-                                                            {day.views} views<br />
-                                                            {day.visitors} visitors
+                                                        key={day.date}
+                                                        className="flex-1 flex flex-col items-center group cursor-pointer"
+                                                    >
+                                                        {/* Tooltip */}
+                                                        <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 opacity-0 group-hover:opacity-100 transition-opacity z-20 pointer-events-none"
+                                                            style={{ left: `${((i + 0.5) / dailyData.length) * 100}%` }}
+                                                        >
+                                                            <div className="bg-gray-900 text-white text-xs px-3 py-2 rounded-lg shadow-lg whitespace-nowrap">
+                                                                <p className="font-medium mb-1">
+                                                                    {new Date(day.date).toLocaleDateString('id-ID', { weekday: 'short', day: 'numeric', month: 'short' })}
+                                                                </p>
+                                                                <div className="flex items-center gap-2 mb-1">
+                                                                    <div className="w-2 h-2 bg-olive-400 rounded-full" />
+                                                                    <span>{day.views.toLocaleString()} views</span>
+                                                                </div>
+                                                                <div className="flex items-center gap-2">
+                                                                    <div className="w-2 h-2 bg-olive-200 rounded-full" />
+                                                                    <span>{day.visitors.toLocaleString()} visitors</span>
+                                                                </div>
+                                                            </div>
+                                                            <div className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-gray-900" />
+                                                        </div>
+
+                                                        {/* Bar Group */}
+                                                        <div className="w-full flex items-end justify-center gap-[2px] h-full">
+                                                            {/* Views Bar */}
+                                                            <div
+                                                                className="w-[45%] bg-gradient-to-t from-olive-700 to-olive-500 rounded-t transition-all duration-300 group-hover:from-olive-600 group-hover:to-olive-400"
+                                                                style={{ height: `${Math.max(viewsHeight, 2)}%` }}
+                                                            />
+                                                            {/* Visitors Bar */}
+                                                            <div
+                                                                className="w-[45%] bg-gradient-to-t from-olive-400 to-olive-300 rounded-t transition-all duration-300 group-hover:from-olive-300 group-hover:to-olive-200"
+                                                                style={{ height: `${Math.max(visitorsHeight, 2)}%` }}
+                                                            />
                                                         </div>
                                                     </div>
+                                                )
+                                            })}
+                                        </div>
+
+                                        {/* X-Axis Labels */}
+                                        <div className="flex mt-2 h-6">
+                                            {dailyData.map((day, i) => (
+                                                <div key={day.date} className="flex-1 text-center">
+                                                    <span className="text-[10px] text-gray-400">
+                                                        {dailyData.length <= 14
+                                                            ? new Date(day.date).toLocaleDateString('id-ID', { day: 'numeric', month: 'short' })
+                                                            : i % Math.ceil(dailyData.length / 7) === 0
+                                                                ? new Date(day.date).toLocaleDateString('id-ID', { day: 'numeric', month: 'short' })
+                                                                : ''
+                                                        }
+                                                    </span>
                                                 </div>
-                                                <span className="text-[10px] text-gray-400 mt-2 transform -rotate-45 origin-top-left whitespace-nowrap">
-                                                    {new Date(day.date).toLocaleDateString('id-ID', { day: 'numeric', month: 'short' })}
-                                                </span>
-                                            </div>
-                                        )
-                                    })
-                                ) : (
-                                    <div className="w-full h-full flex items-center justify-center text-gray-400">
-                                        Belum ada data
+                                            ))}
+                                        </div>
                                     </div>
-                                )}
-                            </div>
+
+                                    {/* Summary Stats */}
+                                    <div className="mt-6 pt-4 border-t border-gray-100 grid grid-cols-3 gap-4">
+                                        <div className="text-center">
+                                            <p className="text-2xl font-display text-gray-900">
+                                                {formatNumber(dailyData.reduce((sum, d) => sum + d.views, 0))}
+                                            </p>
+                                            <p className="text-xs text-gray-500">Total Views</p>
+                                        </div>
+                                        <div className="text-center">
+                                            <p className="text-2xl font-display text-gray-900">
+                                                {formatNumber(dailyData.reduce((sum, d) => sum + d.visitors, 0))}
+                                            </p>
+                                            <p className="text-xs text-gray-500">Total Visitors</p>
+                                        </div>
+                                        <div className="text-center">
+                                            <p className="text-2xl font-display text-gray-900">
+                                                {dailyData.length > 0
+                                                    ? (dailyData.reduce((sum, d) => sum + d.views, 0) / dailyData.length).toFixed(0)
+                                                    : 0
+                                                }
+                                            </p>
+                                            <p className="text-xs text-gray-500">Avg Views/Day</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            ) : (
+                                <div className="h-64 flex flex-col items-center justify-center text-gray-400 bg-gray-50 rounded-lg">
+                                    <Eye size={48} className="mb-4 opacity-30" />
+                                    <p className="text-lg font-medium mb-1">Belum ada data traffic</p>
+                                    <p className="text-sm">Data akan muncul setelah ada pengunjung</p>
+                                </div>
+                            )}
                         </div>
 
                         {/* Device Breakdown */}
