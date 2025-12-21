@@ -6,10 +6,26 @@ import { useState, useEffect } from 'react'
 import { Menu, X, Phone, Mail } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { usePathname } from 'next/navigation'
+import { createClient } from '@/lib/supabase/client'
+
+interface ContactSettings {
+    phone: string
+    email: string
+    whatsapp: string
+    address: string
+}
+
+const defaultContact: ContactSettings = {
+    phone: '+62 812 3456 7890',
+    email: 'hello@stayinubud.com',
+    whatsapp: '6281234567890',
+    address: 'Ubud, Bali, Indonesia'
+}
 
 export default function Navbar() {
     const [isScrolled, setIsScrolled] = useState(false)
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+    const [contact, setContact] = useState<ContactSettings>(defaultContact)
     const pathname = usePathname()
 
     useEffect(() => {
@@ -24,6 +40,27 @@ export default function Navbar() {
         document.body.style.overflow = isMobileMenuOpen ? 'hidden' : 'unset'
         return () => { document.body.style.overflow = 'unset' }
     }, [isMobileMenuOpen])
+
+    useEffect(() => {
+        fetchContactSettings()
+    }, [])
+
+    async function fetchContactSettings() {
+        try {
+            const supabase = createClient()
+            const { data } = await supabase
+                .from('site_settings')
+                .select('key, value')
+                .eq('key', 'contact')
+                .single()
+
+            if (data?.value) {
+                setContact(data.value as ContactSettings)
+            }
+        } catch (error) {
+            console.error('Error fetching contact settings:', error)
+        }
+    }
 
     const menuItems = [
         { href: '/villas', label: 'Villas' },
@@ -123,16 +160,16 @@ export default function Navbar() {
                         {/* CTA Buttons */}
                         <div className="hidden lg:flex items-center gap-4">
                             <a
-                                href="tel:+6281234567890"
+                                href={`tel:${contact.phone.replace(/\s/g, '')}`}
                                 className={`flex items-center gap-2 text-xs transition-colors
                                     ${isTransparent ? 'text-white/60 hover:text-white' : 'text-gray-500 hover:text-gray-900'}
                                 `}
                             >
                                 <Phone size={14} />
-                                <span className="hidden xl:inline">+62 812 3456 7890</span>
+                                <span className="hidden xl:inline">{contact.phone}</span>
                             </a>
                             <a
-                                href="mailto:info@stayinubud.com"
+                                href={`mailto:${contact.email}`}
                                 className={`flex items-center gap-2 text-xs tracking-[0.15em] uppercase px-6 py-3 transition-all duration-300
                                     ${isTransparent
                                         ? 'bg-white/10 backdrop-blur-sm text-white border border-white/20 hover:bg-olive-600 hover:border-olive-600'
@@ -141,7 +178,7 @@ export default function Navbar() {
                                 `}
                             >
                                 <Mail size={14} />
-                                <span className="hidden xl:inline">info@stayinubud.com</span>
+                                <span className="hidden xl:inline">{contact.email}</span>
                                 <span className="xl:hidden">Email Us</span>
                             </a>
                         </div>
@@ -229,11 +266,18 @@ export default function Navbar() {
                                         Book Your Stay
                                     </Link>
                                     <a
-                                        href="tel:+6281234567890"
+                                        href={`tel:${contact.phone.replace(/\s/g, '')}`}
                                         className="flex items-center justify-center gap-2 text-gray-500"
                                     >
                                         <Phone size={16} />
-                                        <span>+62 812 3456 7890</span>
+                                        <span>{contact.phone}</span>
+                                    </a>
+                                    <a
+                                        href={`mailto:${contact.email}`}
+                                        className="flex items-center justify-center gap-2 text-gray-500"
+                                    >
+                                        <Mail size={16} />
+                                        <span>{contact.email}</span>
                                     </a>
                                 </div>
                             </div>
