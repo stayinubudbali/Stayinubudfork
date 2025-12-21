@@ -23,11 +23,17 @@ ON CONFLICT (key) DO NOTHING;
 -- RLS for site_settings
 ALTER TABLE site_settings ENABLE ROW LEVEL SECURITY;
 
+-- Drop existing policies if any
+DROP POLICY IF EXISTS "Anyone can read site settings" ON site_settings;
+DROP POLICY IF EXISTS "Only admins can update site settings" ON site_settings;
+DROP POLICY IF EXISTS "Admins can manage site settings" ON site_settings;
+
+-- Create new policies
 CREATE POLICY "Anyone can read site settings" ON site_settings
     FOR SELECT USING (true);
 
-CREATE POLICY "Only admins can update site settings" ON site_settings
-    FOR UPDATE USING (
+CREATE POLICY "Admins can manage site settings" ON site_settings
+    FOR ALL USING (
         EXISTS (SELECT 1 FROM admin_users WHERE id = auth.uid())
     );
 
@@ -47,8 +53,12 @@ CREATE TABLE IF NOT EXISTS hero_slides (
 -- RLS for hero_slides
 ALTER TABLE hero_slides ENABLE ROW LEVEL SECURITY;
 
-CREATE POLICY "Anyone can read active hero slides" ON hero_slides
-    FOR SELECT USING (is_active = true);
+DROP POLICY IF EXISTS "Anyone can read active hero slides" ON hero_slides;
+DROP POLICY IF EXISTS "Admins can manage hero slides" ON hero_slides;
+DROP POLICY IF EXISTS "Anyone can read hero slides" ON hero_slides;
+
+CREATE POLICY "Anyone can read hero slides" ON hero_slides
+    FOR SELECT USING (true);
 
 CREATE POLICY "Admins can manage hero slides" ON hero_slides
     FOR ALL USING (
@@ -83,8 +93,12 @@ ON CONFLICT DO NOTHING;
 -- RLS for experiences
 ALTER TABLE experiences ENABLE ROW LEVEL SECURITY;
 
-CREATE POLICY "Anyone can read active experiences" ON experiences
-    FOR SELECT USING (is_active = true);
+DROP POLICY IF EXISTS "Anyone can read active experiences" ON experiences;
+DROP POLICY IF EXISTS "Admins can manage experiences" ON experiences;
+DROP POLICY IF EXISTS "Anyone can read experiences" ON experiences;
+
+CREATE POLICY "Anyone can read experiences" ON experiences
+    FOR SELECT USING (true);
 
 CREATE POLICY "Admins can manage experiences" ON experiences
     FOR ALL USING (
@@ -108,6 +122,9 @@ CREATE TABLE IF NOT EXISTS media (
 
 -- RLS for media
 ALTER TABLE media ENABLE ROW LEVEL SECURITY;
+
+DROP POLICY IF EXISTS "Anyone can read media" ON media;
+DROP POLICY IF EXISTS "Admins can manage media" ON media;
 
 CREATE POLICY "Anyone can read media" ON media
     FOR SELECT USING (true);

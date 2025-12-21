@@ -105,20 +105,45 @@ export default function SettingsPage() {
         try {
             // Save each settings group
             for (const [key, value] of Object.entries(settings)) {
-                const { error } = await supabase
-                    .from('site_settings')
-                    .upsert({ key, value, updated_at: new Date().toISOString() }, { onConflict: 'key' })
+                console.log(`Saving ${key}:`, value)
 
-                if (error) throw error
+                // First try to update
+                const { data: existingData } = await supabase
+                    .from('site_settings')
+                    .select('id')
+                    .eq('key', key)
+                    .single()
+
+                let error;
+                if (existingData) {
+                    // Update existing record
+                    const result = await supabase
+                        .from('site_settings')
+                        .update({ value, updated_at: new Date().toISOString() })
+                        .eq('key', key)
+                    error = result.error
+                } else {
+                    // Insert new record
+                    const result = await supabase
+                        .from('site_settings')
+                        .insert({ key, value, updated_at: new Date().toISOString() })
+                    error = result.error
+                }
+
+                if (error) {
+                    console.error(`Error saving ${key}:`, error)
+                    throw error
+                }
             }
             alert('Pengaturan berhasil disimpan!')
-        } catch (error) {
+        } catch (error: any) {
             console.error('Error saving settings:', error)
-            alert('Gagal menyimpan pengaturan')
+            alert(`Gagal menyimpan pengaturan: ${error.message || 'Unknown error'}`)
         } finally {
             setSaving(false)
         }
     }
+
 
     const tabs = [
         { id: 'general', label: 'General', icon: Settings },
@@ -165,8 +190,8 @@ export default function SettingsPage() {
                                 key={tab.id}
                                 onClick={() => setActiveTab(tab.id)}
                                 className={`flex items-center gap-2 px-4 py-2 text-sm whitespace-nowrap transition-colors ${activeTab === tab.id
-                                        ? 'bg-olive-600 text-white'
-                                        : 'bg-white text-gray-600 hover:bg-gray-100 border border-gray-200'
+                                    ? 'bg-olive-600 text-white'
+                                    : 'bg-white text-gray-600 hover:bg-gray-100 border border-gray-200'
                                     }`}
                             >
                                 <tab.icon size={16} />
