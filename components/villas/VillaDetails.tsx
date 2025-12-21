@@ -11,6 +11,7 @@ import { formatCurrency } from '@/lib/utils'
 import ModernBookingFlow from '@/components/ModernBookingFlow'
 import AvailabilityCalendar from '@/components/AvailabilityCalendar'
 import NearbyPlaces from '@/components/NearbyPlaces'
+import { CountUp } from '@/components/ui/CountUp'
 
 // Dynamic import for map (no SSR)
 const VillaMap = dynamic(() => import('@/components/VillaMap'), {
@@ -276,7 +277,11 @@ export default function VillaDetails({ villa }: VillaDetailsProps) {
                                         className="p-6 md:p-8 bg-white border border-gray-100 text-center"
                                     >
                                         <stat.icon size={24} className="mx-auto text-olive-600 mb-4" />
-                                        <p className="font-display text-4xl text-gray-900 mb-2">{stat.value}</p>
+                                        <CountUp
+                                            end={stat.value}
+                                            duration={2}
+                                            className="font-display text-4xl text-gray-900 block mb-2"
+                                        />
                                         <p className="text-gray-500 text-sm">{stat.label}</p>
                                     </motion.div>
                                 </ScrollReveal>

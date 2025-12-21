@@ -3,50 +3,65 @@
 import { useRef } from 'react'
 import { motion, useScroll, useTransform, useInView } from 'framer-motion'
 import { Shield, Sparkles, Heart, Clock, Leaf, Users, Star } from 'lucide-react'
+import { CountUp } from '@/components/ui/CountUp'
 
 const features = [
     {
         icon: Shield,
         title: 'Verified Excellence',
         description: 'Every villa is personally inspected and meets our rigorous standards for luxury.',
-        stat: '100%',
+        stat: 100,
+        statSuffix: '%',
         statLabel: 'Verified'
     },
     {
         icon: Sparkles,
         title: 'Curated Collection',
         description: 'Hand-picked properties offering unique experiences in the heart of Ubud.',
-        stat: '50+',
+        stat: 50,
+        statSuffix: '+',
         statLabel: 'Villas'
     },
     {
         icon: Heart,
         title: 'Personal Concierge',
         description: '24/7 dedicated support to craft your perfect Balinese experience.',
-        stat: '24/7',
+        stat: 24,
+        statSuffix: '/7',
         statLabel: 'Support'
     },
     {
         icon: Clock,
         title: 'Seamless Booking',
         description: 'Instant confirmation with flexible cancellation policies.',
-        stat: '< 1hr',
+        stat: 1,
+        statPrefix: '< ',
+        statSuffix: 'hr',
         statLabel: 'Response'
     },
     {
         icon: Leaf,
         title: 'Eco-Conscious',
         description: 'Partnering with sustainable properties committed to preserving Bali.',
-        stat: '80%',
+        stat: 80,
+        statSuffix: '%',
         statLabel: 'Eco Certified'
     },
     {
         icon: Users,
         title: 'Local Expertise',
         description: 'Insider knowledge from Bali residents to enhance your stay.',
-        stat: '10+',
+        stat: 10,
+        statSuffix: '+',
         statLabel: 'Years'
     },
+]
+
+const stats = [
+    { value: 5000, suffix: '+', label: 'Happy Guests' },
+    { value: 4.9, suffix: '', label: 'Average Rating', decimals: 1 },
+    { value: 50, suffix: '+', label: 'Luxury Villas' },
+    { value: 10, suffix: '+', label: 'Years Experience' },
 ]
 
 // Text reveal component
@@ -162,11 +177,15 @@ export default function Features() {
                                         {feature.description}
                                     </p>
 
-                                    {/* Stat */}
+                                    {/* Stat with CountUp */}
                                     <div className="flex items-end gap-2 pt-4 border-t border-gray-100">
-                                        <span className="font-display text-3xl text-olive-600 group-hover:text-olive-900 transition-colors">
-                                            {feature.stat}
-                                        </span>
+                                        <CountUp
+                                            end={feature.stat}
+                                            suffix={feature.statSuffix || ''}
+                                            prefix={feature.statPrefix || ''}
+                                            duration={2}
+                                            className="font-display text-3xl text-olive-600 group-hover:text-olive-900 transition-colors"
+                                        />
                                         <span className="text-gray-400 text-sm mb-1">{feature.statLabel}</span>
                                     </div>
 
@@ -182,15 +201,10 @@ export default function Features() {
                         ))}
                     </div>
 
-                    {/* Bottom Stats Bar */}
+                    {/* Bottom Stats Bar with CountUp */}
                     <ScrollReveal delay={0.4}>
                         <div className="mt-20 md:mt-24 py-12 px-8 md:px-16 bg-olive-900 grid grid-cols-2 md:grid-cols-4 gap-8">
-                            {[
-                                { value: '5,000+', label: 'Happy Guests' },
-                                { value: '4.9', label: 'Average Rating' },
-                                { value: '50+', label: 'Luxury Villas' },
-                                { value: '10+', label: 'Years Experience' },
-                            ].map((stat, index) => (
+                            {stats.map((stat, index) => (
                                 <motion.div
                                     key={index}
                                     initial={{ opacity: 0, y: 20 }}
@@ -199,16 +213,14 @@ export default function Features() {
                                     viewport={{ once: true }}
                                     className="text-center"
                                 >
-                                    <motion.p
-                                        className="font-display text-4xl md:text-5xl text-white mb-2"
-                                        initial={{ scale: 0.5 }}
-                                        whileInView={{ scale: 1 }}
-                                        transition={{ delay: 0.2 + 0.1 * index, type: "spring" }}
-                                        viewport={{ once: true }}
-                                    >
-                                        {stat.value}
-                                    </motion.p>
-                                    <p className="text-olive-300 text-sm tracking-wider uppercase">{stat.label}</p>
+                                    <CountUp
+                                        end={stat.value}
+                                        suffix={stat.suffix}
+                                        decimals={stat.decimals || 0}
+                                        duration={2.5}
+                                        className="font-display text-4xl md:text-5xl text-white"
+                                    />
+                                    <p className="text-olive-300 text-sm tracking-wider uppercase mt-2">{stat.label}</p>
                                 </motion.div>
                             ))}
                         </div>

@@ -5,6 +5,14 @@ import { motion, useScroll, useTransform, useInView } from 'framer-motion'
 import Link from 'next/link'
 import Image from 'next/image'
 import { ArrowRight, Star, Phone, Mail, MapPin } from 'lucide-react'
+import { CountUp } from '@/components/ui/CountUp'
+
+const stats = [
+    { value: 50, suffix: '+', label: 'Curated Luxury Villas', desc: 'Hand-picked for excellence' },
+    { value: 5000, suffix: '+', label: 'Happy Guests', desc: 'From around the world' },
+    { value: 24, suffix: '/7', label: 'Concierge Service', desc: 'Always here for you' },
+    { value: 100, suffix: '%', label: 'Satisfaction Rate', desc: 'Guaranteed experiences' },
+]
 
 // Text reveal component
 function TextReveal({ children, delay = 0 }: { children: React.ReactNode, delay?: number }) {
@@ -163,7 +171,7 @@ export default function CTASection() {
                             </ScrollReveal>
                         </div>
 
-                        {/* Right - Stats Card */}
+                        {/* Right - Stats Card with CountUp */}
                         <ScrollReveal delay={0.4}>
                             <motion.div
                                 whileHover={{ y: -5 }}
@@ -174,12 +182,7 @@ export default function CTASection() {
                                 </h3>
 
                                 <div className="space-y-6">
-                                    {[
-                                        { value: '50+', label: 'Curated Luxury Villas', desc: 'Hand-picked for excellence' },
-                                        { value: '5,000+', label: 'Happy Guests', desc: 'From around the world' },
-                                        { value: '24/7', label: 'Concierge Service', desc: 'Always here for you' },
-                                        { value: '100%', label: 'Satisfaction Rate', desc: 'Guaranteed experiences' },
-                                    ].map((stat, index) => (
+                                    {stats.map((stat, index) => (
                                         <motion.div
                                             key={index}
                                             initial={{ opacity: 0, x: -20 }}
@@ -188,15 +191,12 @@ export default function CTASection() {
                                             viewport={{ once: true }}
                                             className="flex items-start gap-4 pb-6 border-b border-white/10 last:border-0 last:pb-0"
                                         >
-                                            <motion.span
-                                                className="font-display text-3xl md:text-4xl text-olive-400"
-                                                initial={{ scale: 0.5 }}
-                                                whileInView={{ scale: 1 }}
-                                                transition={{ delay: 0.2 + 0.1 * index, type: "spring" }}
-                                                viewport={{ once: true }}
-                                            >
-                                                {stat.value}
-                                            </motion.span>
+                                            <CountUp
+                                                end={stat.value}
+                                                suffix={stat.suffix}
+                                                duration={2.5}
+                                                className="font-display text-3xl md:text-4xl text-olive-400 min-w-[100px]"
+                                            />
                                             <div>
                                                 <p className="text-white font-medium">{stat.label}</p>
                                                 <p className="text-white/50 text-sm">{stat.desc}</p>
