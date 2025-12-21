@@ -26,55 +26,79 @@ export default function PromoBanner({ page = 'home' }: Props) {
             const supabase = createClient()
             const now = new Date().toISOString()
 
-            const { data, error } = await supabase
+            // Simpler query - fetch all active banners first
+            const { data: banners, error } = await supabase
                 .from('promotional_banners')
                 .select('*')
                 .eq('is_active', true)
-                .lte('valid_from', now)
-                .or(`valid_until.is.null,valid_until.gte.${now}`)
-                .contains('show_on_pages', [page])
                 .order('priority', { ascending: false })
-                .limit(1)
-                .single()
 
             if (error) {
-                if (error.code !== 'PGRST116') { // No rows returned is OK
-                    console.error('Error fetching banner:', error)
-                }
+                console.error('Error fetching banners:', error)
+                return
+            }
+
+            console.log('Fetched banners:', banners) // Debug
+
+            if (!banners || banners.length === 0) {
+                console.log('No banners found')
+                return
+            }
+
+            // Filter by validity date and page manually
+            const validBanner = banners.find(b => {
+                const validFrom = new Date(b.valid_from)
+                const validUntil = b.valid_until ? new Date(b.valid_until) : null
+                const nowDate = new Date()
+
+                const isDateValid = validFrom <= nowDate && (!validUntil || validUntil >= nowDate)
+                const isPageValid = !b.show_on_pages || b.show_on_pages.length === 0 || b.show_on_pages.includes(page)
+
+                console.log('Banner:', b.title, 'Date valid:', isDateValid, 'Page valid:', isPageValid) // Debug
+
+                return isDateValid && isPageValid
+            })
+
+            if (!validBanner) {
+                console.log('No valid banner for this page')
                 return
             }
 
             // Check frequency
-            if (data) {
-                const storageKey = `promo_banner_${data.id}`
-                const lastShown = localStorage.getItem(storageKey)
+            const storageKey = `promo_banner_${validBanner.id}`
+            const lastShown = localStorage.getItem(storageKey)
 
-                if (data.show_frequency === 'once_ever' && lastShown) {
-                    return
-                }
-
-                if (data.show_frequency === 'once_per_day' && lastShown) {
-                    const lastDate = new Date(lastShown).toDateString()
-                    const today = new Date().toDateString()
-                    if (lastDate === today) return
-                }
-
-                if (data.show_frequency === 'once_per_session' && sessionStorage.getItem(storageKey)) {
-                    return
-                }
-
-                setBanner(data)
-
-                // Show after delay
-                setTimeout(() => {
-                    setIsVisible(true)
-                    // Mark as shown
-                    localStorage.setItem(storageKey, new Date().toISOString())
-                    if (data.show_frequency === 'once_per_session') {
-                        sessionStorage.setItem(storageKey, 'true')
-                    }
-                }, (data.delay_seconds || 3) * 1000)
+            if (validBanner.show_frequency === 'once_ever' && lastShown) {
+                console.log('Banner already shown (once_ever)')
+                return
             }
+
+            if (validBanner.show_frequency === 'once_per_day' && lastShown) {
+                const lastDate = new Date(lastShown).toDateString()
+                const today = new Date().toDateString()
+                if (lastDate === today) {
+                    console.log('Banner already shown today')
+                    return
+                }
+            }
+
+            if (validBanner.show_frequency === 'once_per_session' && sessionStorage.getItem(storageKey)) {
+                console.log('Banner already shown this session')
+                return
+            }
+
+            console.log('Showing banner:', validBanner.title) // Debug
+            setBanner(validBanner)
+
+            // Show after delay
+            setTimeout(() => {
+                setIsVisible(true)
+                // Mark as shown
+                localStorage.setItem(storageKey, new Date().toISOString())
+                if (validBanner.show_frequency === 'once_per_session') {
+                    sessionStorage.setItem(storageKey, 'true')
+                }
+            }, (validBanner.delay_seconds || 3) * 1000)
         } catch (error) {
             console.error('Error:', error)
         }
