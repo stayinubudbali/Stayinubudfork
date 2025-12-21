@@ -94,3 +94,70 @@ export interface Testimonial {
     created_at: string
     updated_at: string
 }
+
+// Site Settings Types
+export interface SiteSettings {
+    general: {
+        site_name: string
+        tagline: string
+    }
+    contact: {
+        phone: string
+        email: string
+        whatsapp: string
+        address: string
+    }
+    social: {
+        instagram: string
+        facebook: string
+        tiktok: string
+        youtube: string
+    }
+    seo: {
+        meta_title: string
+        meta_description: string
+        google_analytics_id: string
+    }
+    footer: {
+        copyright: string
+        show_newsletter: boolean
+    }
+}
+
+export interface HeroSlide {
+    id: string
+    villa_id: string
+    custom_tagline: string | null
+    custom_description: string | null
+    display_order: number
+    is_active: boolean
+    created_at: string
+    updated_at: string
+    villa?: Villa
+}
+
+export interface Experience {
+    id: string
+    title: string
+    description: string | null
+    image: string | null
+    category: 'wellness' | 'adventure' | 'culture' | 'relaxation' | 'spiritual' | 'creative' | 'other'
+    featured: boolean
+    display_order: number
+    is_active: boolean
+    created_at: string
+    updated_at: string
+}
+
+export interface Media {
+    id: string
+    filename: string
+    original_name: string
+    url: string
+    file_type: 'image' | 'video' | 'document'
+    file_size: number | null
+    folder: string
+    alt_text: string | null
+    uploaded_by: string | null
+    created_at: string
+}

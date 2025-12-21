@@ -4,30 +4,54 @@ import HeroClient from './HeroClient'
 export default async function Hero() {
     const supabase = await createClient()
 
-    // Fetch featured villas (4 villas with images, ordered by created_at desc)
-    const { data: villas, error } = await supabase
-        .from('villas')
-        .select('id, name, description, bedrooms, max_guests, price_per_night, images, location')
-        .order('created_at', { ascending: false })
-        .limit(4)
+    // First try to fetch hero slides from admin settings
+    const { data: heroSlides, error: slidesError } = await supabase
+        .from('hero_slides')
+        .select('*, villa:villas(*)')
+        .eq('is_active', true)
+        .order('display_order', { ascending: true })
 
-    if (error) {
-        console.error('Error fetching villas for Hero:', error)
+    let featuredVillas: any[] = []
+
+    if (heroSlides && heroSlides.length > 0) {
+        // Use hero slides from admin settings
+        featuredVillas = heroSlides
+            .filter(slide => slide.villa)
+            .map(slide => ({
+                id: slide.villa.id,
+                name: slide.villa.name,
+                tagline: slide.custom_tagline || slide.villa.location || 'Ubud, Bali',
+                description: slide.custom_description ||
+                    (slide.villa.description?.substring(0, 150) + '...' || 'Experience luxury in the heart of Ubud.'),
+                image: slide.villa.images?.[0] || `https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1920&q=80`,
+                bedrooms: slide.villa.bedrooms,
+                guests: slide.villa.max_guests,
+                price: slide.villa.price_per_night,
+            }))
+    } else {
+        // Fallback: Fetch featured villas or latest villas
+        const { data: villas, error } = await supabase
+            .from('villas')
+            .select('id, name, description, bedrooms, max_guests, price_per_night, images, location, featured')
+            .order('featured', { ascending: false })
+            .order('created_at', { ascending: false })
+            .limit(4)
+
+        if (!error && villas) {
+            featuredVillas = villas.map(villa => ({
+                id: villa.id,
+                name: villa.name,
+                tagline: villa.location || 'Ubud, Bali',
+                description: villa.description?.substring(0, 150) + '...' || 'Experience luxury in the heart of Ubud.',
+                image: villa.images?.[0] || `https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1920&q=80`,
+                bedrooms: villa.bedrooms,
+                guests: villa.max_guests,
+                price: villa.price_per_night,
+            }))
+        }
     }
 
-    // Transform data for Hero display
-    const featuredVillas = (villas || []).map((villa, index) => ({
-        id: villa.id,
-        name: villa.name,
-        tagline: villa.location || 'Ubud, Bali',
-        description: villa.description?.substring(0, 150) + '...' || 'Experience luxury in the heart of Ubud.',
-        image: villa.images?.[0] || `https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1920&q=80`,
-        bedrooms: villa.bedrooms,
-        guests: villa.max_guests,
-        price: villa.price_per_night,
-    }))
-
-    // If no villas in database, use fallback data
+    // Fallback data if no villas in database
     const fallbackVillas = [
         {
             id: '1',
