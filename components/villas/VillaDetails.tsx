@@ -105,7 +105,7 @@ export default function VillaDetails({ villa }: VillaDetailsProps) {
     return (
         <>
             {/* Full Screen Hero with Parallax */}
-            <section ref={heroRef} className="relative h-screen overflow-hidden -mt-24">
+            <section ref={heroRef} className="relative h-[100svh] min-h-[600px] overflow-hidden -mt-24">
                 {/* Parallax Background */}
                 <motion.div
                     style={{ y: heroY, scale: heroScale }}
@@ -117,6 +117,7 @@ export default function VillaDetails({ villa }: VillaDetailsProps) {
                         fill
                         className="object-cover"
                         priority
+                        sizes="100vw"
                     />
                 </motion.div>
 
@@ -127,12 +128,12 @@ export default function VillaDetails({ villa }: VillaDetailsProps) {
                 />
 
                 {/* Gradient Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/20" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-black/30" />
 
                 {/* Hero Content */}
                 <motion.div
                     style={{ y: textY, opacity: heroOpacity }}
-                    className="absolute inset-0 flex flex-col justify-end pb-24 px-6 md:px-12"
+                    className="absolute inset-0 flex flex-col justify-end pb-20 sm:pb-24 px-4 sm:px-6 md:px-12"
                 >
                     <div className="max-w-[1400px] mx-auto w-full">
                         {/* Back Button */}
@@ -161,7 +162,7 @@ export default function VillaDetails({ villa }: VillaDetailsProps) {
                                 initial={{ y: 100 }}
                                 animate={{ y: 0 }}
                                 transition={{ duration: 0.8, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
-                                className="font-display text-5xl md:text-7xl lg:text-8xl text-white"
+                                className="font-display text-3xl sm:text-5xl md:text-7xl lg:text-8xl text-white leading-tight"
                             >
                                 {villa.name}
                             </motion.h1>
@@ -172,19 +173,19 @@ export default function VillaDetails({ villa }: VillaDetailsProps) {
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: 0.6 }}
-                            className="flex items-center gap-8 mb-8"
+                            className="flex flex-wrap items-center gap-3 sm:gap-6 md:gap-8 mb-6 sm:mb-8"
                         >
-                            <div className="flex items-center gap-2 text-white/80">
-                                <Bed size={18} />
-                                <span className="text-sm">{villa.bedrooms} Bedrooms</span>
+                            <div className="flex items-center gap-1.5 sm:gap-2 text-white/80">
+                                <Bed size={16} className="sm:w-[18px] sm:h-[18px]" />
+                                <span className="text-xs sm:text-sm">{villa.bedrooms} Beds</span>
                             </div>
-                            <div className="flex items-center gap-2 text-white/80">
-                                <Bath size={18} />
-                                <span className="text-sm">{villa.bathrooms} Bathrooms</span>
+                            <div className="flex items-center gap-1.5 sm:gap-2 text-white/80">
+                                <Bath size={16} className="sm:w-[18px] sm:h-[18px]" />
+                                <span className="text-xs sm:text-sm">{villa.bathrooms} Baths</span>
                             </div>
-                            <div className="flex items-center gap-2 text-white/80">
-                                <Users size={18} />
-                                <span className="text-sm">Up to {villa.max_guests} Guests</span>
+                            <div className="flex items-center gap-1.5 sm:gap-2 text-white/80">
+                                <Users size={16} className="sm:w-[18px] sm:h-[18px]" />
+                                <span className="text-xs sm:text-sm">{villa.max_guests} Guests</span>
                             </div>
                         </motion.div>
 
@@ -193,22 +194,22 @@ export default function VillaDetails({ villa }: VillaDetailsProps) {
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: 0.7 }}
-                            className="flex items-end gap-4"
+                            className="flex items-end gap-2 sm:gap-4"
                         >
-                            <span className="font-display text-3xl md:text-4xl text-olive-400">
+                            <span className="font-display text-2xl sm:text-3xl md:text-4xl text-olive-400">
                                 {formatCurrency(villa.price_per_night)}
                             </span>
-                            <span className="text-white/50 text-sm mb-1">per night</span>
+                            <span className="text-white/50 text-xs sm:text-sm mb-0.5 sm:mb-1">per night</span>
                         </motion.div>
                     </div>
                 </motion.div>
 
-                {/* Scroll Indicator */}
+                {/* Scroll Indicator - Hidden on mobile */}
                 <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: 1 }}
-                    className="absolute bottom-8 left-1/2 -translate-x-1/2"
+                    className="absolute bottom-6 sm:bottom-8 left-1/2 -translate-x-1/2 hidden sm:block"
                 >
                     <motion.div
                         animate={{ y: [0, 10, 0] }}
@@ -221,83 +222,162 @@ export default function VillaDetails({ villa }: VillaDetailsProps) {
                 </motion.div>
             </section>
 
-            {/* Story Section - About */}
-            <section className="py-24 md:py-32 bg-cream relative overflow-hidden">
-                {/* Decorative */}
-                <div className="absolute top-0 right-0 w-1/2 h-1/2 bg-gradient-to-bl from-olive-100/30 to-transparent pointer-events-none" />
+            {/* Executive Split Section - Premium Design */}
+            <section className="relative overflow-hidden">
+                <div className="grid lg:grid-cols-2">
+                    {/* Left - Immersive Image */}
+                    <div className="relative h-[50vh] sm:h-[60vh] lg:h-auto lg:min-h-[800px]">
+                        <motion.div
+                            initial={{ scale: 1.1 }}
+                            whileInView={{ scale: 1 }}
+                            transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
+                            viewport={{ once: true }}
+                            className="absolute inset-0"
+                        >
+                            <Image
+                                src={villa.images[1] || villa.images[0]}
+                                alt={villa.name}
+                                fill
+                                className="object-cover"
+                                sizes="(max-width: 1024px) 100vw, 50vw"
+                            />
+                        </motion.div>
 
-                <div className="max-w-[1400px] mx-auto px-6 md:px-12">
-                    <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
-                        {/* Left - Text */}
-                        <div>
+                        {/* Overlay Gradient */}
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent lg:bg-gradient-to-l lg:from-transparent lg:to-black/20" />
+
+                        {/* Floating Stats Card - Hidden on small mobile, shown on larger screens */}
+                        <motion.div
+                            initial={{ opacity: 0, x: -30 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            transition={{ delay: 0.5, duration: 0.8 }}
+                            viewport={{ once: true }}
+                            className="hidden sm:block absolute bottom-4 sm:bottom-8 left-4 sm:left-8 right-4 sm:right-8 lg:bottom-12 lg:left-12 lg:right-auto lg:w-72"
+                        >
+                            <div className="backdrop-blur-xl bg-white/90 p-4 sm:p-6 shadow-2xl border border-white/20">
+                                <p className="text-[10px] tracking-[0.3em] text-olive-600 uppercase mb-3 sm:mb-4">Villa Highlights</p>
+                                <div className="space-y-3 sm:space-y-4">
+                                    <div className="flex items-center justify-between border-b border-gray-100 pb-2 sm:pb-3">
+                                        <span className="text-gray-500 text-xs sm:text-sm">Bedrooms</span>
+                                        <span className="font-display text-xl sm:text-2xl text-gray-900">{villa.bedrooms}</span>
+                                    </div>
+                                    <div className="flex items-center justify-between border-b border-gray-100 pb-2 sm:pb-3">
+                                        <span className="text-gray-500 text-xs sm:text-sm">Bathrooms</span>
+                                        <span className="font-display text-xl sm:text-2xl text-gray-900">{villa.bathrooms}</span>
+                                    </div>
+                                    <div className="flex items-center justify-between">
+                                        <span className="text-gray-500 text-xs sm:text-sm">Max Guests</span>
+                                        <span className="font-display text-xl sm:text-2xl text-gray-900">{villa.max_guests}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </motion.div>
+                    </div>
+
+                    {/* Right - Content */}
+                    <div className="relative bg-cream py-12 sm:py-16 lg:py-24 xl:py-32 px-4 sm:px-8 lg:px-16 xl:px-24 flex items-center">
+                        {/* Decorative Elements - Hidden on mobile */}
+                        <div className="hidden sm:block absolute top-0 right-0 w-64 h-64 bg-gradient-to-bl from-olive-100/50 to-transparent pointer-events-none" />
+                        <div className="hidden sm:block absolute bottom-0 left-0 w-48 h-48 bg-gradient-to-tr from-olive-100/30 to-transparent pointer-events-none" />
+
+                        <div className="relative z-10 max-w-xl w-full">
                             <ScrollReveal>
-                                <p className="text-olive-600 text-xs tracking-[0.3em] uppercase mb-4 flex items-center gap-2">
-                                    <Sparkles size={12} />
-                                    The Experience
-                                </p>
+                                <div className="inline-flex items-center gap-2 sm:gap-3 mb-4 sm:mb-6">
+                                    <div className="w-8 sm:w-12 h-[1px] bg-olive-600" />
+                                    <span className="text-olive-600 text-[10px] sm:text-xs tracking-[0.2em] sm:tracking-[0.3em] uppercase">The Experience</span>
+                                </div>
                             </ScrollReveal>
 
                             <TextReveal delay={0.1}>
-                                <h2 className="font-display text-4xl md:text-5xl text-gray-900 mb-8">
-                                    Your Private <span className="italic text-olive-600">Sanctuary</span>
+                                <h2 className="font-display text-3xl sm:text-4xl md:text-5xl xl:text-6xl text-gray-900 mb-4 sm:mb-8 leading-[1.1]">
+                                    Your Private<br />
+                                    <span className="italic text-olive-600">Sanctuary</span>
                                 </h2>
                             </TextReveal>
 
                             <ScrollReveal delay={0.2}>
-                                <p className="text-gray-600 leading-relaxed text-lg mb-8 whitespace-pre-line">
+                                <p className="text-gray-600 leading-relaxed text-base sm:text-lg mb-6 sm:mb-8 whitespace-pre-line line-clamp-4 sm:line-clamp-none">
                                     {villa.description}
                                 </p>
                             </ScrollReveal>
 
+                            {/* Features Grid */}
                             <ScrollReveal delay={0.3}>
-                                <button
-                                    onClick={() => setShowBookingModal(true)}
-                                    className="group inline-flex items-center gap-3 px-8 py-4 bg-olive-900 text-white text-sm tracking-[0.1em] uppercase hover:bg-olive-600 transition-colors"
-                                >
-                                    <span>Book Your Stay</span>
-                                    <motion.span
-                                        className="group-hover:translate-x-1 transition-transform"
-                                    >
-                                        →
-                                    </motion.span>
-                                </button>
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-4 mb-6 sm:mb-10">
+                                    {villa.amenities.slice(0, 4).map((amenity, index) => (
+                                        <motion.div
+                                            key={index}
+                                            whileHover={{ x: 5 }}
+                                            className="flex items-center gap-2 sm:gap-3 py-2 sm:py-3 px-3 sm:px-4 bg-white/60 border border-gray-100"
+                                        >
+                                            <div className="w-1.5 sm:w-2 h-1.5 sm:h-2 bg-olive-600 rounded-full flex-shrink-0" />
+                                            <span className="text-gray-700 text-xs sm:text-sm">{amenity}</span>
+                                        </motion.div>
+                                    ))}
+                                </div>
                             </ScrollReveal>
-                        </div>
 
-                        {/* Right - Key Features */}
-                        <div className="grid grid-cols-3 gap-4">
-                            {[
-                                { icon: Bed, value: villa.bedrooms, label: 'Bedrooms' },
-                                { icon: Bath, value: villa.bathrooms, label: 'Bathrooms' },
-                                { icon: Users, value: villa.max_guests, label: 'Max Guests' },
-                            ].map((stat, index) => (
-                                <ScrollReveal key={stat.label} delay={0.2 + index * 0.1}>
-                                    <motion.div
-                                        whileHover={{ y: -5 }}
-                                        className="p-6 md:p-8 bg-white border border-gray-100 text-center"
+                            {/* CTA */}
+                            <ScrollReveal delay={0.4}>
+                                <div className="flex flex-col gap-3 sm:gap-4">
+                                    <button
+                                        onClick={() => setShowBookingModal(true)}
+                                        className="group w-full sm:w-auto inline-flex items-center justify-center sm:justify-start gap-2 sm:gap-3 px-6 sm:px-8 py-3 sm:py-4 bg-olive-900 text-white text-xs sm:text-sm tracking-[0.1em] uppercase hover:bg-olive-600 transition-all duration-300"
                                     >
-                                        <stat.icon size={24} className="mx-auto text-olive-600 mb-4" />
-                                        <CountUp
-                                            end={stat.value}
-                                            duration={2}
-                                            className="font-display text-4xl text-gray-900 block mb-2"
-                                        />
-                                        <p className="text-gray-500 text-sm">{stat.label}</p>
-                                    </motion.div>
-                                </ScrollReveal>
-                            ))}
+                                        <Calendar size={14} className="sm:w-4 sm:h-4" />
+                                        <span>Book Your Stay</span>
+                                        <motion.span
+                                            className="group-hover:translate-x-1 transition-transform"
+                                        >
+                                            →
+                                        </motion.span>
+                                    </button>
+
+                                    <div className="text-center sm:text-left">
+                                        <p className="text-[10px] sm:text-xs text-gray-400 uppercase tracking-wider">Starting from</p>
+                                        <p className="font-display text-xl sm:text-2xl text-olive-900">{formatCurrency(villa.price_per_night)}<span className="text-xs sm:text-sm text-gray-400 ml-1">/night</span></p>
+                                    </div>
+                                </div>
+                            </ScrollReveal>
                         </div>
                     </div>
                 </div>
             </section>
 
+            {/* Horizontal Features Bar */}
+            <section className="bg-olive-900 py-6">
+                <div className="max-w-[1400px] mx-auto px-6 md:px-12">
+                    <div className="flex flex-wrap justify-center lg:justify-between items-center gap-6 lg:gap-0">
+                        {[
+                            { icon: Bed, label: `${villa.bedrooms} Bedrooms` },
+                            { icon: Bath, label: `${villa.bathrooms} Bathrooms` },
+                            { icon: Users, label: `Up to ${villa.max_guests} Guests` },
+                            { icon: MapPin, label: villa.location },
+                            { icon: Star, label: 'Premium Villa' },
+                        ].map((item, index) => (
+                            <motion.div
+                                key={index}
+                                initial={{ opacity: 0, y: 10 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                transition={{ delay: index * 0.1 }}
+                                viewport={{ once: true }}
+                                className="flex items-center gap-2 text-white/70"
+                            >
+                                <item.icon size={16} className="text-olive-400" />
+                                <span className="text-sm">{item.label}</span>
+                            </motion.div>
+                        ))}
+                    </div>
+                </div>
+            </section>
+
             {/* Parallax Gallery Section */}
-            <section ref={containerRef} className="relative py-32 bg-gray-900 overflow-hidden">
+            <section ref={containerRef} className="relative py-16 sm:py-24 md:py-32 bg-gray-900 overflow-hidden">
                 <motion.div
                     style={{ y: galleryY }}
-                    className="max-w-[1400px] mx-auto px-6 md:px-12"
+                    className="max-w-[1400px] mx-auto px-4 sm:px-6 md:px-12"
                 >
-                    <div className="grid md:grid-cols-2 gap-4 md:gap-8">
+                    <div className="grid md:grid-cols-2 gap-3 sm:gap-4 md:gap-8">
                         {/* Main Image */}
                         <ScrollReveal>
                             <div
@@ -344,24 +424,24 @@ export default function VillaDetails({ villa }: VillaDetailsProps) {
             </section>
 
             {/* Amenities Section */}
-            <section className="py-24 md:py-32 bg-white relative">
-                <div className="max-w-[1400px] mx-auto px-6 md:px-12">
-                    <div className="grid lg:grid-cols-2 gap-16 items-start">
+            <section className="py-16 sm:py-24 md:py-32 bg-white relative">
+                <div className="max-w-[1400px] mx-auto px-4 sm:px-6 md:px-12">
+                    <div className="grid lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-16 items-start">
                         {/* Left - Amenities */}
                         <div>
                             <ScrollReveal>
-                                <p className="text-olive-600 text-xs tracking-[0.3em] uppercase mb-4">
+                                <p className="text-olive-600 text-xs tracking-[0.3em] uppercase mb-3 sm:mb-4">
                                     Premium Amenities
                                 </p>
                             </ScrollReveal>
 
                             <TextReveal delay={0.1}>
-                                <h2 className="font-display text-4xl md:text-5xl text-gray-900 mb-12">
+                                <h2 className="font-display text-3xl sm:text-4xl md:text-5xl text-gray-900 mb-8 sm:mb-12">
                                     Every Detail <span className="italic text-olive-600">Considered</span>
                                 </h2>
                             </TextReveal>
 
-                            <div className="grid grid-cols-2 gap-x-8 gap-y-6">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 sm:gap-x-8 gap-y-4 sm:gap-y-6">
                                 {villa.amenities.map((amenity, index) => (
                                     <ScrollReveal key={index} delay={0.05 * index}>
                                         <motion.div
@@ -388,23 +468,23 @@ export default function VillaDetails({ villa }: VillaDetailsProps) {
 
             {/* Location & Nearby Places */}
             {(villa.latitude && villa.longitude) && (
-                <section className="py-24 md:py-32 bg-olive-100/30 relative overflow-hidden">
-                    <div className="max-w-[1400px] mx-auto px-6 md:px-12">
-                        <div className="text-center mb-16">
+                <section className="py-16 sm:py-24 md:py-32 bg-olive-100/30 relative overflow-hidden">
+                    <div className="max-w-[1400px] mx-auto px-4 sm:px-6 md:px-12">
+                        <div className="text-center mb-8 sm:mb-12 md:mb-16">
                             <ScrollReveal>
-                                <p className="text-olive-600 text-xs tracking-[0.3em] uppercase mb-4">
+                                <p className="text-olive-600 text-xs tracking-[0.2em] sm:tracking-[0.3em] uppercase mb-3 sm:mb-4">
                                     Location
                                 </p>
                             </ScrollReveal>
 
                             <TextReveal delay={0.1}>
-                                <h2 className="font-display text-4xl md:text-5xl text-gray-900">
+                                <h2 className="font-display text-3xl sm:text-4xl md:text-5xl text-gray-900">
                                     Discover the <span className="italic text-olive-600">Surroundings</span>
                                 </h2>
                             </TextReveal>
                         </div>
 
-                        <div className="grid lg:grid-cols-2 gap-12 items-start">
+                        <div className="grid lg:grid-cols-2 gap-8 sm:gap-10 lg:gap-12 items-start">
                             {/* Map */}
                             <ScrollReveal>
                                 <div className="relative">
@@ -418,7 +498,7 @@ export default function VillaDetails({ villa }: VillaDetailsProps) {
                                         href={`https://www.google.com/maps/dir/?api=1&destination=${villa.latitude},${villa.longitude}`}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="mt-4 inline-flex items-center gap-2 text-olive-600 hover:text-olive-900 transition-colors text-sm"
+                                        className="mt-3 sm:mt-4 inline-flex items-center gap-2 text-olive-600 hover:text-olive-900 transition-colors text-xs sm:text-sm"
                                     >
                                         <Navigation size={14} />
                                         <span>Get Directions</span>
@@ -438,7 +518,7 @@ export default function VillaDetails({ villa }: VillaDetailsProps) {
             )}
 
             {/* Final CTA Section */}
-            <section className="relative py-32 md:py-48 overflow-hidden">
+            <section className="relative py-20 sm:py-32 md:py-48 overflow-hidden">
                 {/* Parallax Background */}
                 <div className="absolute inset-0">
                     <Image
@@ -446,46 +526,47 @@ export default function VillaDetails({ villa }: VillaDetailsProps) {
                         alt="Villa ambiance"
                         fill
                         className="object-cover"
+                        sizes="100vw"
                     />
                     <div className="absolute inset-0 bg-black/70" />
                 </div>
 
                 {/* Content */}
-                <div className="relative z-10 max-w-[1400px] mx-auto px-6 md:px-12 text-center">
+                <div className="relative z-10 max-w-[1400px] mx-auto px-4 sm:px-6 md:px-12 text-center">
                     <ScrollReveal>
-                        <div className="flex items-center justify-center gap-2 mb-6">
+                        <div className="flex items-center justify-center gap-1.5 sm:gap-2 mb-4 sm:mb-6">
                             {[...Array(5)].map((_, i) => (
-                                <Star key={i} size={16} className="text-olive-400 fill-olive-400" />
+                                <Star key={i} size={14} className="sm:w-4 sm:h-4 text-olive-400 fill-olive-400" />
                             ))}
                         </div>
                     </ScrollReveal>
 
                     <TextReveal delay={0.1}>
-                        <h2 className="font-display text-4xl md:text-6xl lg:text-7xl text-white mb-8">
+                        <h2 className="font-display text-3xl sm:text-4xl md:text-6xl lg:text-7xl text-white mb-4 sm:mb-8 leading-tight">
                             Ready to <span className="italic text-olive-400">Experience</span> Paradise?
                         </h2>
                     </TextReveal>
 
                     <ScrollReveal delay={0.2}>
-                        <p className="text-white/60 text-lg max-w-2xl mx-auto mb-12">
+                        <p className="text-white/60 text-base sm:text-lg max-w-2xl mx-auto mb-8 sm:mb-12 px-4">
                             Book your stay at {villa.name} and discover the perfect blend of luxury and tranquility in the heart of Bali.
                         </p>
                     </ScrollReveal>
 
                     <ScrollReveal delay={0.3}>
-                        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                        <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
                             <button
                                 onClick={() => setShowBookingModal(true)}
-                                className="group inline-flex items-center gap-3 px-10 py-5 bg-olive-600 text-white text-sm tracking-[0.15em] uppercase hover:bg-olive-400 transition-colors"
+                                className="group w-full sm:w-auto inline-flex items-center justify-center gap-2 sm:gap-3 px-6 sm:px-10 py-4 sm:py-5 bg-olive-600 text-white text-xs sm:text-sm tracking-[0.1em] sm:tracking-[0.15em] uppercase hover:bg-olive-400 transition-colors"
                             >
-                                <Calendar size={18} />
+                                <Calendar size={16} className="sm:w-[18px] sm:h-[18px]" />
                                 <span>Check Availability</span>
                             </button>
                             <a
                                 href={`https://wa.me/6281234567890?text=Hi, I'm interested in ${villa.name}`}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="inline-flex items-center gap-3 px-10 py-5 border border-white/30 text-white text-sm tracking-[0.15em] uppercase hover:bg-white/10 transition-colors"
+                                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 sm:gap-3 px-6 sm:px-10 py-4 sm:py-5 border border-white/30 text-white text-xs sm:text-sm tracking-[0.1em] sm:tracking-[0.15em] uppercase hover:bg-white/10 transition-colors"
                             >
                                 <span>Contact Us</span>
                             </a>
@@ -493,8 +574,8 @@ export default function VillaDetails({ villa }: VillaDetailsProps) {
                     </ScrollReveal>
 
                     <ScrollReveal delay={0.4}>
-                        <p className="mt-12 text-white/40 text-sm">
-                            Starting from <span className="text-olive-400 font-display text-2xl">{formatCurrency(villa.price_per_night)}</span> per night
+                        <p className="mt-8 sm:mt-12 text-white/40 text-xs sm:text-sm">
+                            Starting from <span className="text-olive-400 font-display text-xl sm:text-2xl">{formatCurrency(villa.price_per_night)}</span> per night
                         </p>
                     </ScrollReveal>
                 </div>
