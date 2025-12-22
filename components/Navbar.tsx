@@ -24,31 +24,39 @@ const defaultContact: ContactSettings = {
 
 export default function Navbar() {
     const [isScrolled, setIsScrolled] = useState(false)
+    const [showNavbar, setShowNavbar] = useState(true)
+    const [lastScrollY, setLastScrollY] = useState(0)
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
     const [contact, setContact] = useState<ContactSettings>(defaultContact)
     const pathname = usePathname()
 
+    // Smart scroll detection
     useEffect(() => {
         const handleScroll = () => {
-            const scrollPosition = window.scrollY
+            const currentScrollY = window.scrollY
 
-            // Use functional update to avoid stale closure
-            setIsScrolled(currentScrolled => {
-                if (scrollPosition > 80 && !currentScrolled) {
-                    return true
-                } else if (scrollPosition < 60 && currentScrolled) {
-                    return false
-                }
-                return currentScrolled
-            })
+            // Update scrolled state (for styling)
+            setIsScrolled(currentScrollY > 80)
+
+            // Smart navbar visibility
+            if (currentScrollY < 80) {
+                // Always show at top
+                setShowNavbar(true)
+            } else if (currentScrollY > lastScrollY) {
+                // Scrolling DOWN - hide navbar
+                setShowNavbar(false)
+            } else {
+                // Scrolling UP - show navbar
+                setShowNavbar(true)
+            }
+
+            setLastScrollY(currentScrollY)
         }
 
-        // Initial check
-        handleScroll()
-
+        handleScroll() // Initial check
         window.addEventListener('scroll', handleScroll, { passive: true })
         return () => window.removeEventListener('scroll', handleScroll)
-    }, [])
+    }, [lastScrollY])
 
     useEffect(() => {
         document.body.style.overflow = isMobileMenuOpen ? 'hidden' : 'unset'
@@ -88,17 +96,20 @@ export default function Navbar() {
 
     return (
         <>
-            {/* Desktop Navbar */}
+            {/* Desktop Navbar - Smart hide/show on scroll */}
             <motion.nav
                 initial={{ y: -100, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], type: 'tween' }}
+                animate={{
+                    y: showNavbar ? 0 : -100,  // Hide by sliding up
+                    opacity: showNavbar ? 1 : 0
+                }}
+                transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1], type: 'tween' }}
                 style={{
-                    position: 'absolute',  // ABSOLUTE - navbar scrolls with page (NOT sticky)
+                    position: 'fixed',  // FIXED - but hides on scroll down
                     top: 0,
                     left: 0,
                     right: 0,
-                    willChange: 'auto',
+                    willChange: 'transform',
                     backgroundColor: isScrolled ? 'rgba(255, 255, 255, 0.95)' : 'transparent'
                 }}
                 className={`z-[9999] transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]
@@ -108,6 +119,7 @@ export default function Navbar() {
                     }
                 `}
             >
+
 
 
 
