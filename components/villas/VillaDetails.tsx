@@ -11,7 +11,6 @@ import { formatCurrency } from '@/lib/utils'
 import ModernBookingFlow from '@/components/ModernBookingFlow'
 import AvailabilityCalendar from '@/components/AvailabilityCalendar'
 import NearbyPlaces from '@/components/NearbyPlaces'
-import { CountUp } from '@/components/ui/CountUp'
 
 // Dynamic import for map (no SSR)
 const VillaMap = dynamic(() => import('@/components/VillaMap'), {

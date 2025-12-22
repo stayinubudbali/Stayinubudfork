@@ -3,7 +3,6 @@
 import { useRef } from 'react'
 import { motion, useScroll, useTransform, useInView } from 'framer-motion'
 import { Shield, Sparkles, Heart, Clock, Leaf, Users, Star } from 'lucide-react'
-import { CountUp } from '@/components/ui/CountUp'
 
 const features = [
     {
@@ -177,15 +176,11 @@ export default function Features() {
                                         {feature.description}
                                     </p>
 
-                                    {/* Stat with CountUp */}
+                                    {/* Static numbers - lightweight */}
                                     <div className="flex items-end gap-2 pt-4 border-t border-gray-100">
-                                        <CountUp
-                                            end={feature.stat}
-                                            suffix={feature.statSuffix || ''}
-                                            prefix={feature.statPrefix || ''}
-                                            duration={2}
-                                            className="font-display text-3xl text-olive-600 group-hover:text-olive-900 transition-colors"
-                                        />
+                                        <span className="font-display text-3xl text-olive-600 group-hover:text-olive-900 transition-colors">
+                                            {feature.statPrefix}{feature.stat}{feature.statSuffix}
+                                        </span>
                                         <span className="text-gray-400 text-sm mb-1">{feature.statLabel}</span>
                                     </div>
 
@@ -211,15 +206,10 @@ export default function Features() {
                                     whileInView={{ opacity: 1, y: 0 }}
                                     transition={{ delay: 0.1 * index }}
                                     viewport={{ once: true }}
-                                    className="text-center"
                                 >
-                                    <CountUp
-                                        end={stat.value}
-                                        suffix={stat.suffix}
-                                        decimals={stat.decimals || 0}
-                                        duration={2.5}
-                                        className="font-display text-4xl md:text-5xl text-white"
-                                    />
+                                    <span className="font-display text-4xl md:text-5xl text-white">
+                                        {stat.value}{stat.suffix}
+                                    </span>
                                     <p className="text-olive-300 text-sm tracking-wider uppercase mt-2">{stat.label}</p>
                                 </motion.div>
                             ))}
