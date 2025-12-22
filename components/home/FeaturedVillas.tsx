@@ -1,13 +1,12 @@
 'use client'
 
-import { motion, useInView } from 'framer-motion'
 import { useRef, useEffect, useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { Villa } from '@/types'
-import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowUpRight, Leaf } from 'lucide-react'
 import { formatCurrency } from '@/lib/utils'
+import OptimizedImage from '@/components/OptimizedImage'
 
 // Fallback data
 const fallbackVillas = [
@@ -64,10 +63,25 @@ const fallbackVillas = [
 ]
 
 export default function FeaturedVillas() {
-    const ref = useRef(null)
-    const isInView = useInView(ref, { once: true, margin: "-100px" })
+    const ref = useRef<HTMLElement>(null)
+    const [isInView, setIsInView] = useState(false)
     const [villas, setVillas] = useState<Villa[]>(fallbackVillas as Villa[])
     const [loading, setLoading] = useState(true)
+
+    // Intersection Observer for viewport detection
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (entry.isIntersecting) {
+                    setIsInView(true)
+                    observer.disconnect()
+                }
+            },
+            { rootMargin: '-100px' }
+        )
+        if (ref.current) observer.observe(ref.current)
+        return () => observer.disconnect()
+    }, [])
 
     useEffect(() => {
         async function fetchVillas() {
@@ -103,43 +117,24 @@ export default function FeaturedVillas() {
                 {/* Header */}
                 <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between mb-16 gap-8">
                     <div className="max-w-2xl">
-                        <motion.div
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={isInView ? { opacity: 1, y: 0 } : {}}
-                            transition={{ duration: 0.6 }}
-                            className="flex items-center gap-3 mb-6"
-                        >
+                        <div className={`flex items-center gap-3 mb-6 ${isInView ? 'animate-fade-up' : 'opacity-0'}`}>
                             <div className="flex items-center gap-2 px-3 py-1.5 bg-olive-900 text-white">
                                 <Leaf size={12} />
                                 <span className="text-[10px] tracking-[0.2em] uppercase">Curated Selection</span>
                             </div>
-                        </motion.div>
+                        </div>
 
-                        <motion.h2
-                            initial={{ opacity: 0, y: 30 }}
-                            animate={isInView ? { opacity: 1, y: 0 } : {}}
-                            transition={{ duration: 0.8, delay: 0.1 }}
-                            className="font-display text-4xl md:text-5xl lg:text-6xl text-gray-900 mb-6"
-                        >
+                        <h2 className={`font-display text-4xl md:text-5xl lg:text-6xl text-gray-900 mb-6 ${isInView ? 'animate-fade-up stagger-1' : 'opacity-0'}`}>
                             Selected <span className="italic text-olive-600">Villas</span>
-                        </motion.h2>
+                        </h2>
 
-                        <motion.p
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={isInView ? { opacity: 1, y: 0 } : {}}
-                            transition={{ duration: 0.6, delay: 0.2 }}
-                            className="text-gray-500 max-w-lg leading-relaxed"
-                        >
+                        <p className={`text-gray-500 max-w-lg leading-relaxed ${isInView ? 'animate-fade-up stagger-2' : 'opacity-0'}`}>
                             Each property in our collection represents the pinnacle of
                             Balinese architecture and hospitality excellence.
-                        </motion.p>
+                        </p>
                     </div>
 
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={isInView ? { opacity: 1, y: 0 } : {}}
-                        transition={{ duration: 0.6, delay: 0.3 }}
-                    >
+                    <div className={isInView ? 'animate-fade-up stagger-3' : 'opacity-0'}>
                         <Link
                             href="/villas"
                             className="group inline-flex items-center gap-3 px-6 py-4 border border-gray-200 hover:bg-olive-900 hover:border-olive-900 hover:text-white transition-all duration-300"
@@ -147,7 +142,7 @@ export default function FeaturedVillas() {
                             <span className="text-xs tracking-[0.2em] uppercase">View All Properties</span>
                             <ArrowUpRight size={16} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
                         </Link>
-                    </motion.div>
+                    </div>
                 </div>
 
                 {/* Loading State */}
@@ -182,23 +177,22 @@ export default function FeaturedVillas() {
                             ]
 
                             const isFeatured = index === 0 || index === 3
+                            const staggerClass = index < 6 ? `stagger-${index + 1}` : ''
 
                             return (
-                                <motion.div
+                                <div
                                     key={villa.id}
-                                    initial={{ opacity: 0, y: 30 }}
-                                    animate={isInView ? { opacity: 1, y: 0 } : {}}
-                                    transition={{ duration: 0.6, delay: 0.2 + index * 0.1 }}
-                                    className={`${gridClasses[index]} relative group overflow-hidden bg-gray-100`}
+                                    className={`${gridClasses[index]} relative group overflow-hidden bg-gray-100 ${isInView ? `animate-fade-up ${staggerClass}` : 'opacity-0'}`}
                                 >
                                     <Link href={`/villas/${villa.id}`} className="block h-full">
                                         <div className={`relative ${aspectClasses[index]} w-full h-full`}>
-                                            <Image
+                                            <OptimizedImage
                                                 src={villa.images[0]}
                                                 alt={villa.name}
                                                 fill
                                                 sizes={index === 0 ? "50vw" : "(max-width: 768px) 50vw, 25vw"}
                                                 className="object-cover transition-transform duration-[1.5s] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-105"
+                                                priority={index < 2}
                                             />
 
                                             {/* Featured Badge */}
@@ -233,19 +227,14 @@ export default function FeaturedVillas() {
                                             </div>
                                         </div>
                                     </Link>
-                                </motion.div>
+                                </div>
                             )
                         })}
                     </div>
                 )}
 
                 {/* Bottom Stats */}
-                <motion.div
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={isInView ? { opacity: 1, y: 0 } : {}}
-                    transition={{ duration: 0.8, delay: 0.8 }}
-                    className="mt-20"
-                >
+                <div className={`mt-20 ${isInView ? 'animate-fade-up stagger-6' : 'opacity-0'}`}>
                     <div className="h-px bg-gradient-to-r from-transparent via-olive-400/50 to-transparent mb-12" />
 
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
@@ -266,7 +255,7 @@ export default function FeaturedVillas() {
                             <p className="text-gray-400 text-xs tracking-[0.15em] uppercase">Happy Guests</p>
                         </div>
                     </div>
-                </motion.div>
+                </div>
             </div>
         </section>
     )

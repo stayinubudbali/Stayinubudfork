@@ -1,7 +1,6 @@
 'use client'
 
-import { useRef } from 'react'
-import { motion, useScroll, useTransform, useInView } from 'framer-motion'
+import { useRef, useEffect, useState } from 'react'
 import { Shield, Sparkles, Heart, Clock, Leaf, Users, Star } from 'lucide-react'
 
 const features = [
@@ -57,103 +56,65 @@ const features = [
 ]
 
 const stats = [
-    { value: 5000, suffix: '+', label: 'Happy Guests' },
-    { value: 4.9, suffix: '', label: 'Average Rating', decimals: 1 },
-    { value: 50, suffix: '+', label: 'Luxury Villas' },
-    { value: 10, suffix: '+', label: 'Years Experience' },
+    { value: '5000+', label: 'Happy Guests' },
+    { value: '4.9', label: 'Average Rating' },
+    { value: '50+', label: 'Luxury Villas' },
+    { value: '10+', label: 'Years Experience' },
 ]
-
-// Text reveal component
-function TextReveal({ children, delay = 0 }: { children: React.ReactNode, delay?: number }) {
-    const ref = useRef(null)
-    const isInView = useInView(ref, { once: true, margin: "-50px" })
-
-    return (
-        <div className="overflow-hidden" ref={ref}>
-            <motion.div
-                initial={{ y: '100%' }}
-                animate={isInView ? { y: 0 } : {}}
-                transition={{ duration: 0.6, delay, ease: [0.16, 1, 0.3, 1] }}
-            >
-                {children}
-            </motion.div>
-        </div>
-    )
-}
-
-// Scroll reveal component
-function ScrollReveal({ children, delay = 0 }: { children: React.ReactNode, delay?: number }) {
-    const ref = useRef(null)
-    const isInView = useInView(ref, { once: true, margin: "-80px" })
-
-    return (
-        <motion.div
-            ref={ref}
-            initial={{ opacity: 0, y: 60 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8, delay, ease: [0.16, 1, 0.3, 1] }}
-        >
-            {children}
-        </motion.div>
-    )
-}
 
 export default function Features() {
     const containerRef = useRef<HTMLElement>(null)
+    const [isInView, setIsInView] = useState(false)
 
-    const { scrollYProgress } = useScroll({
-        target: containerRef,
-        offset: ["start end", "end start"]
-    })
-
-    const backgroundY = useTransform(scrollYProgress, [0, 1], ['0%', '20%'])
-    const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0.3, 1, 1, 0.3])
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (entry.isIntersecting) {
+                    setIsInView(true)
+                }
+            },
+            { rootMargin: '-100px' }
+        )
+        if (containerRef.current) observer.observe(containerRef.current)
+        return () => observer.disconnect()
+    }, [])
 
     return (
         <section ref={containerRef} className="relative py-32 md:py-40 bg-white overflow-hidden">
-            {/* Parallax Background Pattern */}
-            <motion.div
-                style={{ y: backgroundY }}
-                className="absolute inset-0 pointer-events-none"
-            >
+            {/* Background Pattern */}
+            <div className="absolute inset-0 pointer-events-none">
                 <div className="absolute top-20 left-10 w-72 h-72 bg-olive-100/30 rounded-full blur-3xl" />
                 <div className="absolute bottom-20 right-10 w-96 h-96 bg-olive-100/40 rounded-full blur-3xl" />
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-olive-50/30 rounded-full blur-3xl" />
-            </motion.div>
+            </div>
 
-            <motion.div style={{ opacity }} className="relative z-10">
+            <div className="relative z-10">
                 <div className="max-w-[1400px] mx-auto px-6 md:px-12">
                     {/* Header */}
                     <div className="text-center mb-20 md:mb-24">
-                        <ScrollReveal>
-                            <p className="text-olive-600 text-xs tracking-[0.3em] uppercase mb-4 flex items-center justify-center gap-2">
-                                <Star size={12} className="fill-olive-600" />
-                                Why Choose Us
-                                <Star size={12} className="fill-olive-600" />
-                            </p>
-                        </ScrollReveal>
+                        <p className={`text-olive-600 text-xs tracking-[0.3em] uppercase mb-4 flex items-center justify-center gap-2 ${isInView ? 'animate-fade-up' : 'opacity-0'}`}>
+                            <Star size={12} className="fill-olive-600" />
+                            Why Choose Us
+                            <Star size={12} className="fill-olive-600" />
+                        </p>
 
-                        <TextReveal delay={0.1}>
-                            <h2 className="font-display text-4xl md:text-5xl lg:text-6xl text-gray-900 mb-6">
-                                The StayinUBUD <span className="italic text-olive-600">Difference</span>
-                            </h2>
-                        </TextReveal>
+                        <h2 className={`font-display text-4xl md:text-5xl lg:text-6xl text-gray-900 mb-6 ${isInView ? 'animate-fade-up stagger-1' : 'opacity-0'}`}>
+                            The StayinUBUD <span className="italic text-olive-600">Difference</span>
+                        </h2>
 
-                        <ScrollReveal delay={0.2}>
-                            <p className="text-gray-500 text-lg max-w-2xl mx-auto leading-relaxed">
-                                Experience unparalleled service and attention to detail that transforms your Bali stay into an unforgettable journey.
-                            </p>
-                        </ScrollReveal>
+                        <p className={`text-gray-500 text-lg max-w-2xl mx-auto leading-relaxed ${isInView ? 'animate-fade-up stagger-2' : 'opacity-0'}`}>
+                            Experience unparalleled service and attention to detail that transforms your Bali stay into an unforgettable journey.
+                        </p>
                     </div>
 
                     {/* Features Grid */}
                     <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-                        {features.map((feature, index) => (
-                            <ScrollReveal key={index} delay={0.1 * index}>
-                                <motion.div
-                                    whileHover={{ y: -8, scale: 1.02 }}
-                                    transition={{ duration: 0.3 }}
-                                    className="group relative p-8 md:p-10 bg-white border border-gray-100 hover:border-olive-200 hover:shadow-xl transition-all duration-500"
+                        {features.map((feature, index) => {
+                            const staggerClass = index < 6 ? `stagger-${index + 1}` : ''
+                            return (
+                                <div
+                                    key={index}
+                                    className={`group relative p-8 md:p-10 bg-white border border-gray-100 hover:border-olive-200 hover:shadow-xl hover:-translate-y-2 transition-all duration-500 ${isInView ? `animate-fade-up ${staggerClass}` : 'opacity-0'}`}
                                 >
                                     {/* Number */}
                                     <span className="absolute top-6 right-6 text-6xl font-display text-gray-100 group-hover:text-olive-100 transition-colors">
@@ -161,12 +122,9 @@ export default function Features() {
                                     </span>
 
                                     {/* Icon */}
-                                    <motion.div
-                                        whileHover={{ rotate: 5, scale: 1.1 }}
-                                        className="relative w-14 h-14 flex items-center justify-center bg-olive-100 text-olive-600 mb-6 group-hover:bg-olive-600 group-hover:text-white transition-all duration-300"
-                                    >
+                                    <div className="relative w-14 h-14 flex items-center justify-center bg-olive-100 text-olive-600 mb-6 group-hover:bg-olive-600 group-hover:text-white transition-all duration-300">
                                         <feature.icon size={24} />
-                                    </motion.div>
+                                    </div>
 
                                     {/* Content */}
                                     <h3 className="font-display text-xl text-gray-900 mb-3 group-hover:text-olive-900 transition-colors">
@@ -176,7 +134,7 @@ export default function Features() {
                                         {feature.description}
                                     </p>
 
-                                    {/* Static numbers - lightweight */}
+                                    {/* Stats */}
                                     <div className="flex items-end gap-2 pt-4 border-t border-gray-100">
                                         <span className="font-display text-3xl text-olive-600 group-hover:text-olive-900 transition-colors">
                                             {feature.statPrefix}{feature.stat}{feature.statSuffix}
@@ -185,38 +143,31 @@ export default function Features() {
                                     </div>
 
                                     {/* Hover accent line */}
-                                    <motion.div
-                                        className="absolute bottom-0 left-0 h-1 bg-olive-600"
-                                        initial={{ width: 0 }}
-                                        whileHover={{ width: '100%' }}
-                                        transition={{ duration: 0.3 }}
-                                    />
-                                </motion.div>
-                            </ScrollReveal>
-                        ))}
+                                    <div className="absolute bottom-0 left-0 h-1 bg-olive-600 w-0 group-hover:w-full transition-all duration-300" />
+                                </div>
+                            )
+                        })}
                     </div>
 
-                    {/* Bottom Stats Bar - Static Numbers */}
-                    <ScrollReveal delay={0.4}>
-                        <div className="mt-20 md:mt-24 py-12 px-8 md:px-16 bg-olive-900 grid grid-cols-2 md:grid-cols-4 gap-8">
-                            {stats.map((stat, index) => (
-                                <motion.div
+                    {/* Bottom Stats Bar */}
+                    <div className={`mt-20 md:mt-24 py-12 px-8 md:px-16 bg-olive-900 grid grid-cols-2 md:grid-cols-4 gap-8 ${isInView ? 'animate-fade-up stagger-6' : 'opacity-0'}`}>
+                        {stats.map((stat, index) => {
+                            const staggerClass = `stagger-${index + 1}`
+                            return (
+                                <div
                                     key={index}
-                                    initial={{ opacity: 0, y: 20 }}
-                                    whileInView={{ opacity: 1, y: 0 }}
-                                    transition={{ delay: 0.1 * index }}
-                                    viewport={{ once: true }}
+                                    className={`text-center ${isInView ? `animate-fade-up ${staggerClass}` : 'opacity-0'}`}
                                 >
-                                    <span className="font-display text-4xl md:text-5xl text-white">
-                                        {stat.value}{stat.suffix}
+                                    <span className="font-display text-4xl md:text-5xl text-white block">
+                                        {stat.value}
                                     </span>
                                     <p className="text-olive-300 text-sm tracking-wider uppercase mt-2">{stat.label}</p>
-                                </motion.div>
-                            ))}
-                        </div>
-                    </ScrollReveal>
+                                </div>
+                            )
+                        })}
+                    </div>
                 </div>
-            </motion.div>
+            </div>
         </section>
     )
 }

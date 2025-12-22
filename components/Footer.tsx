@@ -1,6 +1,5 @@
 'use client'
 
-import { motion, useInView } from 'framer-motion'
 import { useRef, useEffect, useState } from 'react'
 import Link from 'next/link'
 import { ArrowUpRight, MapPin, Phone, Mail, Instagram, Leaf, Facebook, Youtube } from 'lucide-react'
@@ -32,9 +31,22 @@ const defaultSettings: FooterSettings = {
 }
 
 export default function Footer() {
-    const ref = useRef(null)
-    const isInView = useInView(ref, { once: true, margin: "-50px" })
+    const ref = useRef<HTMLElement>(null)
+    const [isInView, setIsInView] = useState(false)
     const [settings, setSettings] = useState<FooterSettings>(defaultSettings)
+
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (entry.isIntersecting) {
+                    setIsInView(true)
+                }
+            },
+            { rootMargin: '-50px' }
+        )
+        if (ref.current) observer.observe(ref.current)
+        return () => observer.disconnect()
+    }, [])
 
     useEffect(() => {
         fetchSettings()
@@ -49,15 +61,15 @@ export default function Footer() {
 
             if (data && data.length > 0) {
                 const newSettings = { ...defaultSettings }
-                data.forEach((row) => {
-                    if (row.key in newSettings) {
-                        (newSettings as any)[row.key] = row.value
-                    }
+                data.forEach(item => {
+                    if (item.key === 'contact') newSettings.contact = item.value as FooterSettings['contact']
+                    if (item.key === 'social') newSettings.social = item.value as FooterSettings['social']
+                    if (item.key === 'footer') newSettings.footer = item.value as FooterSettings['footer']
                 })
                 setSettings(newSettings)
             }
         } catch (error) {
-            console.error('Error fetching footer settings:', error)
+            console.error('Error fetching settings:', error)
         }
     }
 
@@ -86,12 +98,7 @@ export default function Footer() {
                 <div className="border-b border-white/10">
                     <div className="max-w-[1400px] mx-auto px-6 md:px-12 py-16 md:py-20">
                         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8">
-                            <motion.div
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={isInView ? { opacity: 1, y: 0 } : {}}
-                                transition={{ duration: 0.6 }}
-                                className="max-w-xl"
-                            >
+                            <div className={`max-w-xl ${isInView ? 'animate-fade-up' : 'opacity-0'}`}>
                                 <p className="text-olive-400 text-xs tracking-[0.3em] uppercase mb-4">Stay Updated</p>
                                 <h3 className="font-display text-3xl md:text-4xl mb-4">
                                     Get Exclusive <span className="italic">Offers</span>
@@ -99,13 +106,10 @@ export default function Footer() {
                                 <p className="text-white/50">
                                     Subscribe to receive curated villa recommendations and special member-only rates.
                                 </p>
-                            </motion.div>
+                            </div>
 
-                            <motion.form
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={isInView ? { opacity: 1, y: 0 } : {}}
-                                transition={{ duration: 0.6, delay: 0.1 }}
-                                className="flex flex-col sm:flex-row gap-3 w-full lg:w-auto"
+                            <form
+                                className={`flex flex-col sm:flex-row gap-3 w-full lg:w-auto ${isInView ? 'animate-fade-up stagger-1' : 'opacity-0'}`}
                                 onSubmit={(e) => e.preventDefault()}
                             >
                                 <input
@@ -119,7 +123,7 @@ export default function Footer() {
                                 >
                                     Subscribe
                                 </button>
-                            </motion.form>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -129,12 +133,7 @@ export default function Footer() {
             <div className="max-w-[1400px] mx-auto px-6 md:px-12 py-16 md:py-24">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 lg:gap-16">
                     {/* Brand */}
-                    <motion.div
-                        initial={{ opacity: 0, y: 30 }}
-                        animate={isInView ? { opacity: 1, y: 0 } : {}}
-                        transition={{ duration: 0.8 }}
-                        className="lg:col-span-5"
-                    >
+                    <div className={`lg:col-span-5 ${isInView ? 'animate-fade-up' : 'opacity-0'}`}>
                         <Link href="/" className="inline-block mb-6">
                             <span className="font-display text-3xl md:text-4xl">
                                 Stayin<span className="text-olive-400">UBUD</span>
@@ -150,15 +149,10 @@ export default function Footer() {
                             <Leaf size={16} className="text-olive-400" />
                             <span className="text-white/60 text-xs">Eco-Friendly Luxury</span>
                         </div>
-                    </motion.div>
+                    </div>
 
                     {/* Explore Links */}
-                    <motion.div
-                        initial={{ opacity: 0, y: 30 }}
-                        animate={isInView ? { opacity: 1, y: 0 } : {}}
-                        transition={{ duration: 0.8, delay: 0.1 }}
-                        className="lg:col-span-2"
-                    >
+                    <div className={`lg:col-span-2 ${isInView ? 'animate-fade-up stagger-1' : 'opacity-0'}`}>
                         <p className="text-white/30 text-xs tracking-[0.2em] uppercase mb-6">
                             Explore
                         </p>
@@ -175,15 +169,10 @@ export default function Footer() {
                                 </li>
                             ))}
                         </ul>
-                    </motion.div>
+                    </div>
 
                     {/* Legal Links */}
-                    <motion.div
-                        initial={{ opacity: 0, y: 30 }}
-                        animate={isInView ? { opacity: 1, y: 0 } : {}}
-                        transition={{ duration: 0.8, delay: 0.2 }}
-                        className="lg:col-span-2"
-                    >
+                    <div className={`lg:col-span-2 ${isInView ? 'animate-fade-up stagger-2' : 'opacity-0'}`}>
                         <p className="text-white/30 text-xs tracking-[0.2em] uppercase mb-6">
                             Legal
                         </p>
@@ -199,15 +188,10 @@ export default function Footer() {
                                 </li>
                             ))}
                         </ul>
-                    </motion.div>
+                    </div>
 
                     {/* Contact Info */}
-                    <motion.div
-                        initial={{ opacity: 0, y: 30 }}
-                        animate={isInView ? { opacity: 1, y: 0 } : {}}
-                        transition={{ duration: 0.8, delay: 0.3 }}
-                        className="lg:col-span-3"
-                    >
+                    <div className={`lg:col-span-3 ${isInView ? 'animate-fade-up stagger-3' : 'opacity-0'}`}>
                         <p className="text-white/30 text-xs tracking-[0.2em] uppercase mb-6">
                             Contact Us
                         </p>
@@ -244,6 +228,7 @@ export default function Footer() {
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="w-10 h-10 flex items-center justify-center border border-white/10 text-white/40 hover:text-olive-400 hover:border-olive-400/50 transition-all"
+                                    aria-label="Instagram"
                                 >
                                     <Instagram size={18} />
                                 </a>
@@ -254,6 +239,7 @@ export default function Footer() {
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="w-10 h-10 flex items-center justify-center border border-white/10 text-white/40 hover:text-olive-400 hover:border-olive-400/50 transition-all"
+                                    aria-label="Facebook"
                                 >
                                     <Facebook size={18} />
                                 </a>
@@ -264,6 +250,7 @@ export default function Footer() {
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="w-10 h-10 flex items-center justify-center border border-white/10 text-white/40 hover:text-olive-400 hover:border-olive-400/50 transition-all"
+                                    aria-label="YouTube"
                                 >
                                     <Youtube size={18} />
                                 </a>
@@ -274,12 +261,13 @@ export default function Footer() {
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="w-10 h-10 flex items-center justify-center border border-white/10 text-white/40 hover:text-olive-400 hover:border-olive-400/50 transition-all"
+                                    aria-label="Instagram"
                                 >
                                     <Instagram size={18} />
                                 </a>
                             )}
                         </div>
-                    </motion.div>
+                    </div>
                 </div>
             </div>
 

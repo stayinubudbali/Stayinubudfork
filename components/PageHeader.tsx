@@ -1,7 +1,6 @@
 'use client'
 
-import { useRef } from 'react'
-import { motion, useScroll, useTransform } from 'framer-motion'
+import { useRef, useEffect, useState } from 'react'
 import Link from 'next/link'
 import { ChevronRight } from 'lucide-react'
 
@@ -28,14 +27,20 @@ export default function PageHeader({
     height = 'medium'
 }: PageHeaderProps) {
     const ref = useRef<HTMLElement>(null)
-    const { scrollYProgress } = useScroll({
-        target: ref,
-        offset: ["start start", "end start"]
-    })
+    const [scrollY, setScrollY] = useState(0)
 
-    const backgroundY = useTransform(scrollYProgress, [0, 1], ['0%', '30%'])
-    const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0])
-    const scale = useTransform(scrollYProgress, [0, 1], [1, 1.1])
+    useEffect(() => {
+        const handleScroll = () => {
+            if (ref.current) {
+                const rect = ref.current.getBoundingClientRect()
+                if (rect.bottom > 0) {
+                    setScrollY(window.scrollY)
+                }
+            }
+        }
+        window.addEventListener('scroll', handleScroll, { passive: true })
+        return () => window.removeEventListener('scroll', handleScroll)
+    }, [])
 
     const heightClasses = {
         small: 'h-[50vh] min-h-[400px]',
@@ -43,34 +48,32 @@ export default function PageHeader({
         large: 'h-[80vh] min-h-[600px]'
     }
 
+    const parallaxY = scrollY * 0.3
+    const opacity = Math.max(0, 1 - scrollY / 500)
+
     return (
         <header ref={ref} className={`relative ${heightClasses[height]} overflow-hidden bg-primary`}>
-            {/* Parallax Background */}
-            <motion.div
-                style={{ y: backgroundY, scale }}
-                className="absolute inset-0 w-full h-[120%] -top-[10%]"
+            {/* Parallax Background - CSS transform for GPU acceleration */}
+            <div
+                className="absolute inset-0 w-full h-[120%] -top-[10%] will-change-transform"
+                style={{ transform: `translateY(${parallaxY}px) scale(${1 + scrollY * 0.0001})` }}
             >
                 <div
                     className="absolute inset-0 bg-cover bg-center"
                     style={{ backgroundImage: `url(${backgroundImage})` }}
                 />
                 <div className="absolute inset-0 bg-primary/50" />
-            </motion.div>
+            </div>
 
             {/* Content */}
-            <motion.div
-                style={{ opacity }}
+            <div
                 className="relative z-10 h-full flex flex-col justify-end px-6 md:px-12 pb-16 md:pb-24"
+                style={{ opacity }}
             >
                 <div className="max-w-[1400px] mx-auto w-full">
                     {/* Breadcrumbs */}
                     {breadcrumbs.length > 0 && (
-                        <motion.nav
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.6, delay: 0.2 }}
-                            className="flex items-center gap-2 text-sm text-white/60 mb-8"
-                        >
+                        <nav className="flex items-center gap-2 text-sm text-white/60 mb-8 animate-fade-up stagger-1">
                             <Link href="/" className="hover:text-white transition-colors">
                                 Home
                             </Link>
@@ -86,48 +89,29 @@ export default function PageHeader({
                                     )}
                                 </span>
                             ))}
-                        </motion.nav>
+                        </nav>
                     )}
 
                     {/* Title */}
                     <div className="overflow-hidden">
-                        <motion.h1
-                            initial={{ y: 100 }}
-                            animate={{ y: 0 }}
-                            transition={{ duration: 0.8, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-                            className="font-display text-display-xl text-white mb-6"
-                        >
+                        <h1 className="font-display text-display-xl text-white mb-6 animate-fade-up stagger-2">
                             {title}
-                        </motion.h1>
+                        </h1>
                     </div>
 
                     {/* Subtitle */}
                     {subtitle && (
-                        <motion.p
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.6, delay: 0.5 }}
-                            className="text-white/70 text-lg md:text-xl max-w-2xl"
-                        >
+                        <p className="text-white/70 text-lg md:text-xl max-w-2xl animate-fade-up stagger-3">
                             {subtitle}
-                        </motion.p>
+                        </p>
                     )}
                 </div>
-            </motion.div>
+            </div>
 
-            {/* Scroll Line */}
-            <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 1, delay: 1 }}
-                className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20"
-            >
-                <motion.div
-                    animate={{ y: [0, 8, 0] }}
-                    transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-                    className="w-px h-12 bg-gradient-to-b from-white/0 via-white/50 to-white/0"
-                />
-            </motion.div>
+            {/* Scroll Indicator */}
+            <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 animate-fade-in stagger-5">
+                <div className="w-px h-12 bg-gradient-to-b from-white/0 via-white/50 to-white/0 animate-bounce" />
+            </div>
         </header>
     )
 }

@@ -1,7 +1,6 @@
 'use client'
 
 import Link from 'next/link'
-import { motion } from 'framer-motion'
 import { Villa } from '@/types'
 import { formatCurrency } from '@/lib/utils'
 import { ArrowUpRight, Bed, Users, Leaf } from 'lucide-react'
@@ -14,14 +13,11 @@ interface VillaCardProps {
 }
 
 export default function VillaCard({ villa, index = 0, featured = false }: VillaCardProps) {
+    // CSS stagger classes
+    const staggerClass = index < 6 ? `stagger-${index + 1}` : ''
+
     return (
-        <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: index * 0.1 }}
-            className="group relative"
-        >
+        <div className={`group relative animate-fade-up ${staggerClass}`}>
             <Link href={`/villas/${villa.id}`} className="block">
                 {/* Image Container */}
                 <div className="relative aspect-[4/5] overflow-hidden bg-gray-100 mb-6">
@@ -31,7 +27,7 @@ export default function VillaCard({ villa, index = 0, featured = false }: VillaC
                         fill
                         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                         className="object-cover transition-transform duration-[1.5s] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-105"
-                        priority={index < 3} // Preload first 3 cards
+                        priority={index < 3}
                     />
 
                     {/* Featured Badge */}
@@ -58,12 +54,10 @@ export default function VillaCard({ villa, index = 0, featured = false }: VillaC
 
                 {/* Content */}
                 <div className="space-y-3">
-                    {/* Title */}
                     <h3 className="font-display text-xl md:text-2xl text-gray-900 group-hover:text-olive-600 transition-colors">
                         {villa.name}
                     </h3>
 
-                    {/* Details */}
                     <div className="flex items-center gap-4 text-gray-400 text-sm">
                         <span className="flex items-center gap-1.5">
                             <Bed size={14} />
@@ -75,7 +69,6 @@ export default function VillaCard({ villa, index = 0, featured = false }: VillaC
                         </span>
                     </div>
 
-                    {/* Price */}
                     <div className="pt-3 border-t border-gray-100 flex items-center justify-between">
                         <div>
                             <p className="text-gray-400 text-xs uppercase tracking-wider">From</p>
@@ -85,6 +78,6 @@ export default function VillaCard({ villa, index = 0, featured = false }: VillaC
                     </div>
                 </div>
             </Link>
-        </motion.div>
+        </div>
     )
 }
