@@ -30,11 +30,24 @@ export default function Navbar() {
 
     useEffect(() => {
         const handleScroll = () => {
-            setIsScrolled(window.scrollY > 80)
+            const scrollPosition = window.scrollY
+
+            // Add hysteresis to prevent flickering
+            // When scrolling down, need to pass 80px threshold
+            // When scrolling up, need to go below 60px to revert
+            if (scrollPosition > 80 && !isScrolled) {
+                setIsScrolled(true)
+            } else if (scrollPosition < 60 && isScrolled) {
+                setIsScrolled(false)
+            }
         }
+
+        // Initial check
+        handleScroll()
+
         window.addEventListener('scroll', handleScroll, { passive: true })
         return () => window.removeEventListener('scroll', handleScroll)
-    }, [])
+    }, [isScrolled])
 
     useEffect(() => {
         document.body.style.overflow = isMobileMenuOpen ? 'hidden' : 'unset'
@@ -78,14 +91,17 @@ export default function Navbar() {
             <motion.nav
                 initial={{ y: -100, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
-                transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-                className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]
+                transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], type: 'tween' }}
+                style={{ position: 'fixed', top: 0, left: 0, right: 0, willChange: 'auto' }}
+                className={`z-[100] transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]
                     ${isTransparent
                         ? 'bg-transparent py-4'
                         : 'bg-white/95 backdrop-blur-md py-3 border-b border-gray-100 shadow-sm'
                     }
                 `}
             >
+
+
 
                 <div className="max-w-[1400px] mx-auto px-6 md:px-12">
                     <div className="flex items-center justify-between">
