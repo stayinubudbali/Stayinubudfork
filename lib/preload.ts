@@ -28,10 +28,10 @@ export function usePreloadImages(images: string[]) {
 export function usePrefetchOnHover(href: string) {
     const prefetch = () => {
         if (typeof window !== 'undefined' && 'connection' in navigator) {
-            // @ts-ignore
-            const connection = navigator.connection
+            // Type assertion for navigator.connection
+            const connection = (navigator as any).connection
             // Only prefetch on fast connections
-            if (connection.effectiveType === '4g' || connection.effectiveType === '3g') {
+            if (connection?.effectiveType === '4g' || connection?.effectiveType === '3g') {
                 const link = document.createElement('link')
                 link.rel = 'prefetch'
                 link.href = href
