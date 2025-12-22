@@ -2,7 +2,7 @@ import { MetadataRoute } from 'next'
 import { createClient } from '@/lib/supabase/server'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-    const supabase = createClient()
+    const supabase = await createClient()
     const baseUrl = 'https://www.stayinubud.com'
 
     // Fetch all villas
@@ -39,18 +39,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
             priority: 0.8,
         },
         {
-            url: `${baseUrl}/journal`,
-            lastModified: new Date(),
-            changeFrequency: 'weekly' as const,
-            priority: 0.7,
-        },
-        {
-            url: `${baseUrl}/story`,
-            lastModified: new Date(),
-            changeFrequency: 'monthly' as const,
-            priority: 0.6,
-        },
-        {
             url: `${baseUrl}/contact`,
             lastModified: new Date(),
             changeFrequency: 'monthly' as const,
@@ -72,7 +60,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         priority: 0.8,
     }))
 
-    // Blog post pages
+    // Blog post pages (if blog_posts table exists)
     const blogPages = (posts || []).map((post) => ({
         url: `${baseUrl}/journal/${post.id}`,
         lastModified: new Date(post.updated_at),
