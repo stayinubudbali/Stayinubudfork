@@ -5,11 +5,23 @@ import PageHeader from '@/components/PageHeader'
 import WhatsAppButton from '@/components/WhatsAppButton'
 import BackToTop from '@/components/BackToTop'
 import ContactContent from '@/components/contact/ContactContent'
+import { createMetadata } from '@/lib/seo'
 
-export const metadata: Metadata = {
-    title: 'Contact Us - StayinUBUD | Get in Touch',
-    description: 'Have questions about our villas or need help with your booking? Contact StayinUBUD and let us help plan your perfect Balinese escape.',
-}
+export const metadata: Metadata = createMetadata({
+    title: 'Contact Us - Get in Touch for Villa Bookings & Inquiries',
+    description: 'Contact StayinUBUD for villa bookings, inquiries, or assistance. Reach us via email, phone, or WhatsApp. Located in Ubud, Bali. We\'re here to help plan your perfect Balinese escape.',
+    keywords: [
+        'contact stayinubud',
+        'ubud villa booking',
+        'bali villa inquiry',
+        'stayinubud location',
+        'villa rental contact',
+        'ubud accommodation contact',
+        'luxury villa reservations',
+    ],
+    path: '/contact',
+})
+
 
 export default function ContactPage() {
     return (

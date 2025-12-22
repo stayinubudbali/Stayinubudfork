@@ -1,11 +1,26 @@
 import { Metadata } from 'next'
 import { createClient } from '@/lib/supabase/server'
 import ExperiencesPageClient from './ExperiencesPageClient'
+import { createMetadata } from '@/lib/seo'
 
-export const metadata: Metadata = {
-    title: 'Experiences - StayinUBUD',
-    description: 'Discover curated experiences in Ubud, Bali. From yoga sessions to temple ceremonies, immerse yourself in authentic Balinese culture.',
-}
+export const metadata: Metadata = createMetadata({
+    title: 'Ubud Experiences - Yoga, Spa, Culture & Adventure Activities',
+    description: 'Discover authentic Balinese experiences in Ubud. Enjoy yoga sessions, traditional spa treatments, rice field treks, cooking classes, temple ceremonies, and cultural workshops. Book your perfect Ubud experience today.',
+    keywords: [
+        'ubud experiences',
+        'yoga ubud',
+        'bali spa treatments',
+        'ubud activities',
+        'balinese cooking class',
+        'rice terrace trek',
+        'ubud temple ceremony',
+        'wellness retreat ubud',
+        'ubud cultural activities',
+        'bali adventure tours',
+    ],
+    path: '/experiences',
+})
+
 
 export default async function ExperiencesPage() {
     const supabase = await createClient()

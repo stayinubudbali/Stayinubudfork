@@ -1,8 +1,27 @@
 import type { Metadata, Viewport } from "next";
+import { Playfair_Display, Inter } from 'next/font/google'
 import "./globals.css";
 import AnalyticsTracker from "@/components/AnalyticsTracker";
 import Providers from "@/components/Providers";
 import ServiceWorkerRegister from "@/components/ServiceWorkerRegister";
+import { createMetadata, getOrganizationSchema, getLocalBusinessSchema } from '@/lib/seo'
+
+// Optimized font loading with next/font
+const playfair = Playfair_Display({
+  subsets: ['latin'],
+  variable: '--font-display',
+  display: 'swap',
+  preload: true,
+  fallback: ['Georgia', 'serif'],
+})
+
+const inter = Inter({
+  subsets: ['latin'],
+  variable: '--font-body',
+  display: 'swap',
+  preload: true,
+  fallback: ['system-ui', 'sans-serif'],
+})
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -11,58 +30,45 @@ export const viewport: Viewport = {
   themeColor: "#4A5D23",
 };
 
-export const metadata: Metadata = {
-  title: "StayinUBUD - Luxury Villa Rentals in Ubud, Bali",
-  description: "Experience architectural excellence and serene luxury in the heart of Bali's cultural paradise. Curated villa collection with private pools and stunning views.",
-  keywords: "Ubud villas, Bali accommodation, luxury villas, rice field view, private pool, Ubud rental, architectural design",
-  authors: [{ name: "StayinUBUD" }],
-  manifest: "/manifest.json",
-  appleWebApp: {
-    capable: true,
-    statusBarStyle: "black-translucent",
-    title: "StayinUBUD",
-  },
-  formatDetection: {
-    telephone: true,
-    email: true,
-    address: true,
-  },
-  openGraph: {
-    title: "StayinUBUD - Luxury Villa Rentals in Ubud, Bali",
-    description: "Experience architectural excellence and serene luxury in the heart of Bali's cultural paradise.",
-    type: "website",
-    locale: "en_US",
-    siteName: "StayinUBUD",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "StayinUBUD - Luxury Villa Rentals",
-    description: "Experience architectural excellence and serene luxury in Ubud, Bali.",
-  },
-  icons: {
-    icon: [
-      { url: "/favicon.ico", sizes: "32x32" },
-      { url: "/icons/icon-32x32.png", sizes: "32x32", type: "image/png" },
-      { url: "/icons/icon-192x192.png", sizes: "192x192", type: "image/png" },
-    ],
-    shortcut: "/favicon.ico",
-    apple: [
-      { url: "/icons/icon-152x152.png", sizes: "152x152", type: "image/png" },
-      { url: "/icons/icon-180x180.png", sizes: "180x180", type: "image/png" },
-    ],
-  },
-};
+export const metadata: Metadata = createMetadata({
+  title: 'Luxury Villa Rentals in Ubud, Bali',
+  description: 'Discover premium luxury villas in the heart of Ubud, Bali. Experience authentic Balinese hospitality, stunning rice terrace views, and world-class amenities. Book your perfect sanctuary today.',
+  keywords: [
+    'luxury villas ubud',
+    'ubud accommodation',
+    'bali villas',
+    'ubud hotels',
+    'luxury stay ubud',
+    'private villas bali',
+    'ubud resort',
+    'indonesia luxury villas',
+    'rice terrace view villas',
+    'private pool villas ubud',
+  ],
+});
 
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const organizationSchema = getOrganizationSchema()
+  const localBusinessSchema = getLocalBusinessSchema()
+
   return (
-    <html lang="en">
+    <html lang="en" className={`${playfair.variable} ${inter.variable}`}>
       <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        {/* Structured Data - Organization */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
+        />
+
+        {/* Structured Data - Local Business */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }}
+        />
 
         {/* PWA Meta Tags */}
         <meta name="application-name" content="StayinUBUD" />
@@ -76,12 +82,14 @@ export default function RootLayout({
         <link rel="apple-touch-icon" sizes="152x152" href="/icons/icon-152x152.png" />
         <link rel="apple-touch-icon" sizes="180x180" href="/icons/icon-180x180.png" />
 
-        {/* Splash Screens for iOS */}
-        <link rel="apple-touch-startup-image" href="/splash/splash-640x1136.png" media="(device-width: 320px) and (device-height: 568px)" />
-        <link rel="apple-touch-startup-image" href="/splash/splash-750x1334.png" media="(device-width: 375px) and (device-height: 667px)" />
-        <link rel="apple-touch-startup-image" href="/splash/splash-1242x2208.png" media="(device-width: 414px) and (device-height: 736px)" />
+        {/* Preconnect to external domains */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+
+        {/* DNS Prefetch for better performance */}
+        <link rel="dns-prefetch" href="https://www.google-analytics.com" />
       </head>
-      <body className="antialiased bg-cream font-body text-primary">
+      <body className="antialiased bg-cream text-primary">
         <Providers>
           <ServiceWorkerRegister />
           <AnalyticsTracker />

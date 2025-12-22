@@ -9,11 +9,26 @@ import Footer from '@/components/Footer'
 import WhatsAppButton from '@/components/WhatsAppButton'
 import BackToTop from '@/components/BackToTop'
 import PromoBanner from '@/components/PromoBanner'
+import { createMetadata } from '@/lib/seo'
 
-export const metadata: Metadata = {
-  title: 'StayinUBUD - Luxury Villa Rentals in Ubud, Bali',
-  description: 'Experience luxury in the heart of Ubud with our premium villa rentals. Private pools, stunning rice field views, and authentic Balinese hospitality.',
-}
+export const metadata: Metadata = createMetadata({
+  title: 'Luxury Villa Rentals in Ubud, Bali',
+  description: 'Discover premium luxury villas in the heart of Ubud, Bali. Experience authentic Balinese hospitality, stunning rice terrace views, private infinity pools, and world-class amenities. Your perfect sanctuary awaits.',
+  keywords: [
+    'luxury villas ubud',
+    'ubud villa rentals',
+    'bali luxury accommodation',
+    'ubud private villas',
+    'rice terrace view villas',
+    'private pool villas ubud',
+    'ubud resort',
+    'luxury stay ubud bali',
+    'ubud honeymoon villas',
+    'infinity pool villas ubud',
+  ],
+  path: '/',
+})
+
 
 export default function HomePage() {
   return (
