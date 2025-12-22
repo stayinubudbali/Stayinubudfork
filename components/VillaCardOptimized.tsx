@@ -1,11 +1,11 @@
-'use client'
-
+import { memo } from 'react'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { Villa } from '@/types'
 import { formatCurrency } from '@/lib/utils'
 import { ArrowUpRight, Bed, Users, Leaf } from 'lucide-react'
 import OptimizedImage from '@/components/OptimizedImage'
+import { usePrefetchOnHover } from '@/lib/preload'
 
 interface VillaCardProps {
     villa: Villa
@@ -13,7 +13,13 @@ interface VillaCardProps {
     featured?: boolean
 }
 
-export default function VillaCard({ villa, index = 0, featured = false }: VillaCardProps) {
+/**
+ * Optimized VillaCard with React.memo to prevent unnecessary re-renders
+ * Only re-renders when villa data changes
+ */
+const VillaCardOptimized = memo(function VillaCard({ villa, index = 0, featured = false }: VillaCardProps) {
+    const prefetchProps = usePrefetchOnHover(`/villas/${villa.id}`)
+
     return (
         <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -22,7 +28,11 @@ export default function VillaCard({ villa, index = 0, featured = false }: VillaC
             transition={{ duration: 0.6, delay: index * 0.1 }}
             className="group relative"
         >
-            <Link href={`/villas/${villa.id}`} className="block">
+            <Link
+                href={`/villas/${villa.id}`}
+                className="block"
+                {...prefetchProps} // Prefetch on hover
+            >
                 {/* Image Container */}
                 <div className="relative aspect-[4/5] overflow-hidden bg-gray-100 mb-6">
                     <OptimizedImage
@@ -59,32 +69,46 @@ export default function VillaCard({ villa, index = 0, featured = false }: VillaC
                 {/* Content */}
                 <div className="space-y-3">
                     {/* Title */}
-                    <h3 className="font-display text-xl md:text-2xl text-gray-900 group-hover:text-olive-600 transition-colors">
+                    <h3 className="font-display text-xl text-gray-900 group-hover:text-olive-600 transition-colors">
                         {villa.name}
                     </h3>
 
-                    {/* Details */}
-                    <div className="flex items-center gap-4 text-gray-400 text-sm">
-                        <span className="flex items-center gap-1.5">
+                    {/* Location */}
+                    <p className="text-sm text-gray-500">{villa.location}</p>
+
+                    {/* Features */}
+                    <div className="flex items-center gap-4 text-xs text-gray-400">
+                        <span className="flex items-center gap-1">
                             <Bed size={14} />
-                            {villa.bedrooms} Bedrooms
+                            {villa.bedrooms} Beds
                         </span>
-                        <span className="flex items-center gap-1.5">
+                        <span className="flex items-center gap-1">
                             <Users size={14} />
                             {villa.max_guests} Guests
                         </span>
                     </div>
 
                     {/* Price */}
-                    <div className="pt-3 border-t border-gray-100 flex items-center justify-between">
-                        <div>
-                            <p className="text-gray-400 text-xs uppercase tracking-wider">From</p>
-                            <p className="font-display text-lg text-gray-900">{formatCurrency(villa.price_per_night)}</p>
-                        </div>
-                        <p className="text-gray-400 text-xs">per night</p>
+                    <div className="pt-3 border-t border-gray-100">
+                        <p className="text-lg font-display text-olive-600">
+                            {formatCurrency(villa.price_per_night)}
+                            <span className="text-sm text-gray-400 font-body ml-1">/ night</span>
+                        </p>
                     </div>
                 </div>
             </Link>
         </motion.div>
     )
-}
+}, (prevProps, nextProps) => {
+    // Custom comparison function
+    // Only re-render if villa data actually changed
+    return (
+        prevProps.villa.id === nextProps.villa.id &&
+        prevProps.villa.name === nextProps.villa.name &&
+        prevProps.villa.price_per_night === nextProps.villa.price_per_night &&
+        prevProps.index === nextProps.index &&
+        prevProps.featured === nextProps.featured
+    )
+})
+
+export default VillaCardOptimized

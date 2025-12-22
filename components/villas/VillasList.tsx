@@ -6,6 +6,7 @@ import { createClient } from '@/lib/supabase/client'
 import { Villa } from '@/types'
 import VillaCard from '@/components/VillaCard'
 import { SlidersHorizontal, X } from 'lucide-react'
+import { VillaCardSkeleton } from '@/components/Skeleton'
 
 export default function VillasList() {
     const supabase = createClient()
@@ -65,11 +66,7 @@ export default function VillasList() {
             <div className="max-w-[1400px] mx-auto px-6 md:px-12">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {[...Array(6)].map((_, i) => (
-                        <div key={i} className="space-y-4">
-                            <div className="aspect-[4/5] bg-light animate-pulse" />
-                            <div className="h-6 bg-light animate-pulse w-3/4" />
-                            <div className="h-4 bg-light animate-pulse w-1/2" />
-                        </div>
+                        <VillaCardSkeleton key={i} />
                     ))}
                 </div>
             </div>

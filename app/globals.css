@@ -26,6 +26,13 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Smooth scrolling only for users who don't prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
 body {
   background: var(--cream);
   color: var(--primary);
@@ -33,6 +40,10 @@ body {
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  /* Enable GPU acceleration for smoother animations */
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
 }
 
 /* Subtle Grain Texture */
@@ -44,13 +55,6 @@ body::before {
   pointer-events: none;
   opacity: 0.02;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-}
-
-/* Smooth scrolling */
-@media (prefers-reduced-motion: no-preference) {
-  html {
-    scroll-behavior: smooth;
-  }
 }
 
 /* Custom Scrollbar - Olive Theme */
@@ -170,6 +174,21 @@ body::before {
 
 .image-zoom-container:hover .image-zoom {
   transform: scale(1.05);
+}
+
+/* Shimmer animation for skeletons */
+@keyframes shimmer {
+  0% {
+    background-position: 0% 0%;
+  }
+
+  100% {
+    background-position: 100% 0%;
+  }
+}
+
+.animate-shimmer {
+  animation: shimmer 1.5s linear infinite;
 }
 
 /* ============================================
