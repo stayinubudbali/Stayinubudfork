@@ -6,6 +6,7 @@ import WhatsAppButton from '@/components/WhatsAppButton'
 import BackToTop from '@/components/BackToTop'
 import ContactContent from '@/components/contact/ContactContent'
 import { createMetadata } from '@/lib/seo'
+import { createClient } from '@/lib/supabase/server'
 
 export const metadata: Metadata = createMetadata({
     title: 'Contact Us - Get in Touch for Villa Bookings & Inquiries',
@@ -23,7 +24,17 @@ export const metadata: Metadata = createMetadata({
 })
 
 
-export default function ContactPage() {
+export default async function ContactPage() {
+    const supabase = await createClient()
+
+    // Fetch villas with coordinates for the map
+    const { data: villas } = await supabase
+        .from('villas')
+        .select('*')
+        .not('latitude', 'is', null)
+        .not('longitude', 'is', null)
+        .order('name')
+
     return (
         <main className="min-h-screen bg-cream">
             <Navbar />
@@ -34,7 +45,7 @@ export default function ContactPage() {
                 breadcrumbs={[{ label: 'Contact' }]}
                 height="small"
             />
-            <ContactContent />
+            <ContactContent villas={villas || []} />
             <Footer />
             <WhatsAppButton />
             <BackToTop />
