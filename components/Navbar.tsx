@@ -230,21 +230,21 @@ export default function Navbar() {
                             animate={{ x: 0 }}
                             exit={{ x: '100%' }}
                             transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-                            className="fixed top-0 right-0 bottom-0 w-full max-w-sm z-[10000] bg-white lg:hidden"
+                            className="fixed top-0 right-0 bottom-0 w-full max-w-sm z-[10000] bg-[#5D8736] lg:hidden"
                         >
                             <div className="h-full flex flex-col p-8">
                                 {/* Header */}
                                 <div className="flex items-center justify-between mb-12">
                                     <Image
-                                        src="/images/logo.png"
+                                        src="/images/logo-white.png"
                                         alt="StayinUBUD"
                                         width={100}
                                         height={60}
-                                        className="h-12 w-auto object-contain"
+                                        className="h-12 w-auto object-contain brightness-0 invert"
                                     />
                                     <button
                                         onClick={() => setIsMobileMenuOpen(false)}
-                                        className="p-2 text-gray-900"
+                                        className="p-2 text-white hover:text-white/80 transition-colors"
                                         aria-label="Close menu"
                                     >
                                         <X size={24} strokeWidth={1.5} />
@@ -263,8 +263,8 @@ export default function Navbar() {
                                             <Link
                                                 href={item.href}
                                                 onClick={() => setIsMobileMenuOpen(false)}
-                                                className={`block py-4 text-3xl font-display border-b border-gray-100 transition-colors
-                                                    ${isActive(item.href) ? 'text-olive-600' : 'text-gray-900 hover:text-olive-600'}
+                                                className={`block py-4 text-3xl font-display border-b border-white/20 transition-colors
+                                                    ${isActive(item.href) ? 'text-white' : 'text-white/80 hover:text-white'}
                                                 `}
                                             >
                                                 {item.label}
@@ -274,24 +274,24 @@ export default function Navbar() {
                                 </div>
 
                                 {/* Bottom CTA */}
-                                <div className="pt-8 border-t border-gray-100 space-y-4">
+                                <div className="pt-8 border-t border-white/20 space-y-4">
                                     <Link
                                         href="/villas"
                                         onClick={() => setIsMobileMenuOpen(false)}
-                                        className="block w-full py-4 bg-olive-900 text-white text-center text-sm tracking-[0.15em] uppercase hover:bg-olive-600 transition-colors"
+                                        className="block w-full py-4 bg-white text-[#5D8736] text-center text-sm tracking-[0.15em] uppercase font-medium hover:bg-white/90 transition-colors"
                                     >
                                         Book Your Stay
                                     </Link>
                                     <a
                                         href={`tel:${contact.phone.replace(/\s/g, '')}`}
-                                        className="flex items-center justify-center gap-2 text-gray-500"
+                                        className="flex items-center justify-center gap-2 text-white/70 hover:text-white transition-colors"
                                     >
                                         <Phone size={16} />
                                         <span>{contact.phone}</span>
                                     </a>
                                     <a
                                         href={`mailto:${contact.email}`}
-                                        className="flex items-center justify-center gap-2 text-gray-500"
+                                        className="flex items-center justify-center gap-2 text-white/70 hover:text-white transition-colors"
                                     >
                                         <Mail size={16} />
                                         <span>{contact.email}</span>
