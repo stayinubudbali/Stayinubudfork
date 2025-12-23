@@ -238,9 +238,9 @@ export default function Navbar() {
                                     <Image
                                         src="/images/logo.png"
                                         alt="StayinUBUD"
-                                        width={100}
-                                        height={60}
-                                        className="h-12 w-auto object-contain brightness-0 invert"
+                                        width={140}
+                                        height={80}
+                                        className="h-16 w-auto object-contain"
                                     />
                                     <button
                                         onClick={() => setIsMobileMenuOpen(false)}
