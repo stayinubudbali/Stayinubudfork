@@ -1,0 +1,36 @@
+name = "stayinubud"
+type = "javascript"
+main = "./.next/standalone/server.js"
+
+compatibility_date = "2024-12-25"
+compatibility_flags = ["nodejs_compat"]
+
+# Build configuration
+[build]
+command = "npm run build"
+cwd = "./"
+
+[build.upload]
+format = "service-worker"
+
+# Environment variables (configure in Cloudflare Dashboard)
+[env.production]
+name = "stayinubud-prod"
+route = "stayinubud.pages.dev/*"
+
+[env.staging]
+name = "stayinubud-staging"
+route = "stayinubud-staging.pages.dev/*"
+
+# KV Namespace bindings (optional, for caching)
+[[kv_namespaces]]
+binding = "KV_CACHE"
+id = "your_kv_id"
+
+# Observability
+[observability]
+enabled = true
+
+# Analytics engine (optional)
+[[analytics_engine_datasets]]
+dataset = "stayinubud_analytics"

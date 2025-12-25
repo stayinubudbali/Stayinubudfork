@@ -28,36 +28,37 @@ const nextConfig = {
         optimizePackageImports: ['lucide-react', 'framer-motion', 'date-fns'],
     },
 
-    // Security headers
-    async headers() {
-        return [
-            {
-                source: '/:path*',
-                headers: [
-                    {
-                        key: 'X-DNS-Prefetch-Control',
-                        value: 'on'
-                    },
-                    {
-                        key: 'Strict-Transport-Security',
-                        value: 'max-age=63072000; includeSubDomains; preload'
-                    },
-                    {
-                        key: 'X-Frame-Options',
-                        value: 'SAMEORIGIN'
-                    },
-                    {
-                        key: 'X-Content-Type-Options',
-                        value: 'nosniff'
-                    },
-                    {
-                        key: 'Referrer-Policy',
-                        value: 'origin-when-cross-origin'
-                    },
-                ],
-            },
-        ]
-    },
+    // Note: Security headers are configured in public/_headers for Cloudflare Pages compatibility
+    // For Vercel deployment, use headers() function below:
+    // async headers() {
+    //     return [
+    //         {
+    //             source: '/:path*',
+    //             headers: [
+    //                 {
+    //                     key: 'X-DNS-Prefetch-Control',
+    //                     value: 'on'
+    //                 },
+    //                 {
+    //                     key: 'Strict-Transport-Security',
+    //                     value: 'max-age=63072000; includeSubDomains; preload'
+    //                 },
+    //                 {
+    //                     key: 'X-Frame-Options',
+    //                     value: 'SAMEORIGIN'
+    //                 },
+    //                 {
+    //                     key: 'X-Content-Type-Options',
+    //                     value: 'nosniff'
+    //                 },
+    //                 {
+    //                     key: 'Referrer-Policy',
+    //                     value: 'origin-when-cross-origin'
+    //                 },
+    //             ],
+    //         },
+    //     ]
+    // },
 };
 
 module.exports = nextConfig;
