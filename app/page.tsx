@@ -1,5 +1,3 @@
-export const runtime = 'edge';
-
 import { Metadata } from 'next'
 import Hero from '@/components/home/Hero'
 import Experience from '@/components/home/Experience'

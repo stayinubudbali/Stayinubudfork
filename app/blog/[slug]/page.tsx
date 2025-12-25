@@ -1,6 +1,3 @@
-export const runtime = 'edge';
-
-
 import { createClient } from '@/lib/supabase/server'
 import { notFound } from 'next/navigation'
 import Navbar from '@/components/Navbar'
