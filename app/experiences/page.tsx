@@ -1,3 +1,5 @@
+export const runtime = 'edge';
+
 import { Metadata } from 'next'
 import { createClient } from '@/lib/supabase/server'
 import ExperiencesPageClient from './ExperiencesPageClient'
