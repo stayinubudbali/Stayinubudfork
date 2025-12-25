@@ -2,6 +2,7 @@
 
 ## Prerequisites Checklist
 
+
 Before deploying, ensure you have:
 - [x] Supabase account created
 - [x] GitHub account
